@@ -1,0 +1,8 @@
+.vscode
+out
+.idea
+*.iml
+*.class
+authCode.txt
+
+
