@@ -4,6 +4,7 @@ public class Pharmacist {
     private String ID;
     private String name;
 
+    //Constructor
     public Pharmacist(){}
 
     public Pharmacist(String ID, String name) {
@@ -11,6 +12,8 @@ public class Pharmacist {
         this.name = name;
     }
 
+
+    //Setter and getter
     public String getID() {
         return ID;
     }
