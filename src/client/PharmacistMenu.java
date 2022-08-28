@@ -10,5 +10,7 @@ public class PharmacistMenu {
         System.out.println("[4] Next Customer");
         System.out.println("[5] Summary Report");
 
+        System.out.println("Enter your option: ");
+
     }
 }
