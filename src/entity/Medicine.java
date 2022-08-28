@@ -10,6 +10,6 @@ public class Medicine {
 
     public Medicine(){}
 
-    
+
 
 }
