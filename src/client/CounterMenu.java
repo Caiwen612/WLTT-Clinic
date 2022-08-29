@@ -1,10 +1,10 @@
 package client;
 
 import entity.Patient;
-import ADT.ArrayQueue;
-import  ADT.ArrayList;
-import ADT.ListInterface;
-import ADT.QueueInterface;
+import adt.ArrayQueue;
+import  adt.ArrayList;
+import adt.ListInterface;
+import adt.QueueInterface;
 
 public class CounterMenu {
     private ListInterface<Patient> patientList = new ArrayList<Patient>();
