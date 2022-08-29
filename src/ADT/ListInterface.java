@@ -1,4 +1,4 @@
-package ADT;
+package adt;
 
 /**
  * ListInterface.java An interface for the ADT list. Entries in the list have

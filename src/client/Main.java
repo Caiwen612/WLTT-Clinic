@@ -1,10 +1,9 @@
 package client;
 
+import adt.ArrayList;
 import entity.Dosage;
 import entity.Medicine;
-import entity.Pharmacist;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -70,11 +69,11 @@ public class Main {
 
     public static void medicineStockManagement(){
         int i = 1;
-        System.out.println("Medicine List");
-        System.out.println("ID Name DosageForm   Quantity");
+        System.out.println("Medicine List\n\n");
+        System.out.printf("%4s %10s %12s %8s %10s\n", "No", "Name", "Dosage Form", "Dose", "Quantity");
         for (Medicine medicine: medicineStock
              ) {
-            System.out.println(i + " " + medicine.getId() + " " + medicine.getName() + );
+            System.out.printf("%4s %10s %12s %8s %10s\n", medicine.getId(), medicine.getName(), medicineStock.);
         }
 
     }
