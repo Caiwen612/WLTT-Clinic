@@ -1,11 +1,22 @@
 package client;
 
+import entity.Patient;
+import ADT.ArrayQueue;
+import  ADT.ArrayList;
+import ADT.ListInterface;
+import ADT.QueueInterface;
+
 public class CounterMenu {
+    private ListInterface<Patient> patientList = new ArrayList<Patient>();
+    private QueueInterface<String> waitingList = new ArrayQueue<String>();
+
     public static void menu(){
         System.out.println("Counter: ");
         System.out.println("[1] Search for Patient");
         System.out.println("[2] Add New Patient");
         System.out.println("[3] Queue Number");
+
+
     }
 
 

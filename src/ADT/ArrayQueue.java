@@ -24,12 +24,6 @@ public class ArrayQueue<T> implements QueueInterface<T> {
             array[backIndex] = newEntry;
         }
     }
-    public void random(T newEntry) {
-        /*if (!isArrayFull()) {
-            backIndex++;
-            array[backIndex] = newEntry;
-        }*/
-    }
 
     public T getFront() {
         T front = null;
