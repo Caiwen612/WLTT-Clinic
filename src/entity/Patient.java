@@ -7,14 +7,21 @@ public class Patient {
     private String address;
     private String DOB;
     //patient history (collection)
+    public Patient(){
 
-    /*public Patient(String name, String icNo, String phoneNo, String address, String DOB ){
+    }
+
+    public Patient(String name, String icNo, String phoneNo, String address, String DOB ){
         this.patientName = name;
         this.icNo = icNo;
         this.phoneNo = phoneNo;
         this.address = address;
         this.DOB = DOB;
-    }*/
+    }
+
+    public Patient(String patientIC) {
+        this.icNo = icNo;
+    }
 
     public String getAddress() {
         return address;
