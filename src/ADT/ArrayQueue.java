@@ -2,10 +2,6 @@ package ADT;
 
 import java.util.Iterator;
 
-/**
- *   ArrayQueue.java A class that implements the * ADT array by using an
- *   expandable linear array with a fixed front.
- */
 public class ArrayQueue<T> implements QueueInterface<T> {
 
     private T[] array;
@@ -27,6 +23,12 @@ public class ArrayQueue<T> implements QueueInterface<T> {
             backIndex++;
             array[backIndex] = newEntry;
         }
+    }
+    public void random(T newEntry) {
+        /*if (!isArrayFull()) {
+            backIndex++;
+            array[backIndex] = newEntry;
+        }*/
     }
 
     public T getFront() {

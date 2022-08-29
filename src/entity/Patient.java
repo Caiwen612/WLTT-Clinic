@@ -6,6 +6,7 @@ public class Patient {
     private String phoneNo;
     private String address;
     private String DOB;
+    //patient history
 
     /*public Patient(String name, String icNo, String phoneNo, String address, String DOB ){
         this.patientName = name;
