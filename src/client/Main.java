@@ -1,10 +1,9 @@
 package client;
 
+import adt.ArrayList;
 import entity.Dosage;
 import entity.Medicine;
-import entity.Pharmacist;
-import ADT.ArrayList;
-//import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class Main {
