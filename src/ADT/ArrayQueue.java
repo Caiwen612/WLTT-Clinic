@@ -1,8 +1,8 @@
-package ADT;
+package adt;
 
 import java.util.Iterator;
 
-public class ArrayQueue<T> implements QueueInterface<T> {
+public class ArrayQueue<T> implements ADT.QueueInterface<T> {
 
     private T[] array;
     private final static int frontIndex = 0;
