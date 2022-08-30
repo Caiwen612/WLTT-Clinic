@@ -5,13 +5,13 @@ import adt.ArrayQueue;
 import adt.ArrayList;
 import adt.ListInterface;
 import adt.QueueInterface;
+import entity.waitingList;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class CounterMenu {
-    private static ListInterface<Patient> patientList = new ArrayList<Patient>();
-    private static QueueInterface<String> waitingList = new ArrayQueue<String>();
+    private static ListInterface<Patient> patientList = new ArrayList<>();
+    private static QueueInterface<waitingList> waitingQueue = new ArrayQueue<>();
 
     static Scanner input = new Scanner(System.in);
 
@@ -38,7 +38,7 @@ public class CounterMenu {
                 deletePatient(patientList);
                 break;
             case 5:
-                queueNumber(waitingList, patientList);
+                queueNumber(waitingQueue, patientList);
                 break;
         }
 
@@ -54,7 +54,7 @@ public class CounterMenu {
         }
         else{
             System.out.println("Record not found! Want to add patient?");
-            //let them choose then direct to add
+            CounterMenu.addPatient(patientList);
         }
     }
 
@@ -92,26 +92,32 @@ public class CounterMenu {
     }
 
     public static void deletePatient(ListInterface<Patient> pL) {
-        //remove patient by getting the array index and .remove
         boolean exist = false;
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
         exist = pL.contains(new Patient(patientIC));
         if(!exist){
-            //pL.remove( new Patient(patientIC));
+            for (int i =0; i < pL.getNumberOfEntries(); i++){
+                if ( new Patient(patientIC) == pL.getEntry(i)){
+                    pL.remove( i );
+                }
+            }
         }
         else{
             System.out.println("Record not found! Want to add patient?");
-            //let them choose then direct to add
+            CounterMenu.addPatient(patientList);
         }
     }
 
 
-    public static void queueNumber(QueueInterface<String> wL, ListInterface<Patient> pL) {
+    public static void queueNumber(QueueInterface<waitingList> wL, ListInterface<Patient> pL) {
         //random number generator, pair index number with the 2 arrays
         double no1 = Math.random()* (pL.getNumberOfEntries());
         double no2 = Math.random()*3;
 
+        waitingList waitingQueueList = new waitingList(pL.getEntry(no1), no2);
+        
+        waitingQueue.enqueue( waitingQueueList);
 
     }
 
