@@ -119,6 +119,19 @@ public class CounterMenu {
 
         waitingQueue.enqueue( waitingQueueList);
 
+        //display queue
+        System.out.println("Waiting Queue: ");
+        for (int i =0; i < waitingQueue.getSize(); i++){
+            //print the queue
+            //next to display the latest 4 numbers
+        }
+
+        System.out.println("Current Queue Number: ");
+        System.out.println(waitingQueue.getFront());
+
+        System.out.println("Previous Queue Number: ");
+        System.out.println(waitingQueue.getFront());
+
     }
 
 }

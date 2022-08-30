@@ -10,6 +10,7 @@ import java.util.*;
 
 public class DoctorMenu {
     //Declare a set of adt
+    //dequeue here
     static Queue<Patient> room1 = new LinkedList<>();
     static Queue<Patient> room2 = new LinkedList<>();
     static Queue<Patient> room3 = new LinkedList<>();

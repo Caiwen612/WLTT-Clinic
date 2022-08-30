@@ -11,6 +11,7 @@ import entity.Medicine;
 import java.util.Scanner;
 
 public class Main {
+
     public static Scanner input = new Scanner(System.in);
     public static ArrayList<Medicine> medicineStock = new ArrayList<>(10);;
 

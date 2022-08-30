@@ -46,6 +46,12 @@ public class ArrayQueue<T> implements QueueInterface<T> {
         return front;
     }
 
+    public int getSize(){
+        int queueSize = 0;
+        queueSize = array.length;
+        return queueSize;
+    }
+
     public boolean isEmpty() {
         return frontIndex > backIndex;
     }

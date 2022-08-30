@@ -31,4 +31,11 @@ public class waitingList {
         this.roomNo = rN;
     }
 
+    @Override
+    public String toString() {
+        return "waitingList{" +
+                "patientList=" + patientList +
+                ", roomNo=" + roomNo +
+                '}';
+    }
 }
