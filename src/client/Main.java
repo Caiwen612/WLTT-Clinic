@@ -118,8 +118,6 @@ public class Main {
         }
     }
 
-
-
     public static void searchMedicineStock(){
         String keywords = "";
         input.nextLine();
@@ -145,5 +143,11 @@ public class Main {
                 System.out.println("-----------------------------------------------------------");
             }
         }
+    }
+
+
+    //invoice
+    public static void invoice(){
+        
     }
 }
