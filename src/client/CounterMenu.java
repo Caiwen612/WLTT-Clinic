@@ -5,13 +5,14 @@ import adt.ArrayQueue;
 import adt.ArrayList;
 import adt.ListInterface;
 import adt.QueueInterface;
-import entity.waitingList;
+import entity.waitingQueue;
 
 import java.util.Scanner;
 
 public class CounterMenu {
     private static ListInterface<Patient> patientList = new ArrayList<>();
-    private static QueueInterface<waitingList> waitingQueue = new ArrayQueue<>();
+    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
+    static int waitingNo = 100;
 
     static Scanner input = new Scanner(System.in);
 
@@ -20,7 +21,6 @@ public class CounterMenu {
         System.out.println("[1] Search for Patient");
         System.out.println("[2] Add New Patient");
         System.out.println("[3] Edit Existing Patient Details");
-        System.out.println("[3] Queue Number");
         System.out.println("Enter your option: ");
         int option = input.nextInt();
 
@@ -36,9 +36,6 @@ public class CounterMenu {
                 break;
             case 4:
                 deletePatient(patientList);
-                break;
-            case 5:
-                queueNumber(waitingQueue, patientList);
                 break;
         }
 
@@ -56,6 +53,9 @@ public class CounterMenu {
             System.out.println("Record not found! Want to add patient?");
             CounterMenu.addPatient(patientList);
         }
+        System.out.println("Register patient?");
+        waitingNo++;
+        registerPatient(new Patient(patientName), waitingNo);
     }
 
     public static void addPatient(ListInterface<Patient> pL) {
@@ -74,6 +74,9 @@ public class CounterMenu {
         Patient patientNew= new Patient(patientName,patientIC,patientPhoneNo,patientAddress,patientDOB);
         pL.add(patientNew);
         System.out.println("Patient added successfully!");
+        System.out.println("Register patient?");
+        waitingNo++;
+        registerPatient(new Patient(patientName), waitingNo);
     }
 
     public static void editPatient(ListInterface<Patient> pL) {
@@ -96,42 +99,39 @@ public class CounterMenu {
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
         exist = pL.contains(new Patient(patientIC));
-        if(!exist){
-            for (int i =0; i < pL.getNumberOfEntries(); i++){
-                if ( new Patient(patientIC) == pL.getEntry(i)){
-                    pL.remove( i );
+        if (!exist) {
+            for (int i = 0; i < pL.getNumberOfEntries(); i++) {
+                if (new Patient(patientIC) == pL.getEntry(i)) {
+                    pL.remove(i);
                 }
             }
-        }
-        else{
+        } else {
             System.out.println("Record not found! Want to add patient?");
             CounterMenu.addPatient(patientList);
         }
     }
 
+    public static void registerPatient(Patient registerPatientName, int waitingNo){
+        boolean roomFree1= false, roomFree2= false;
 
-    public static void queueNumber(QueueInterface<waitingList> wL, ListInterface<Patient> pL) {
-        //random number generator, pair index number with the 2 arrays
-        double no1 = Math.random()* (pL.getNumberOfEntries());
-        double no2 = Math.random()*3;
+        String n = input.next();
 
-        waitingList waitingQueueList = new waitingList(pL.getEntry((int)no1), (int) no2);
+        double roomNo = 0;
 
-        waitingQueue.enqueue( waitingQueueList);
+        //to see which room is free
 
-        //display queue
-        System.out.println("Waiting Queue: ");
-        for (int i =0; i < waitingQueue.getSize(); i++){
-            //print the queue
-            //next to display the latest 4 numbers
+        if (roomFree1 == true){
+            roomNo = 1;
+        }
+        else if(roomFree2 == true){
+            roomNo = 2;
+        }
+        else{
+            roomNo=3;
         }
 
-        System.out.println("Current Queue Number: ");
-        System.out.println(waitingQueue.getFront());
-
-        System.out.println("Previous Queue Number: ");
-        System.out.println(waitingQueue.getFront());
-
+        waitingQueue.enqueue(new waitingQueue(registerPatientName, (int) roomNo, waitingNo));
     }
+
 
 }
