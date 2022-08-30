@@ -12,19 +12,20 @@ import java.util.Scanner;
 public class WaitingList {
     static Scanner input = new Scanner(System.in);
     static String n;
+    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
 
     public static void showQueue() {
-        //display queue
-        System.out.println("Waiting Queue: ");
+        System.out.println("Previous Queue Number: ");
+        System.out.println(waitingQueue.getFront());
 
         System.out.println("Current Queue Number: ");
-        //System.out.println(waitingQueue.getFront());
-
-        System.out.println("Previous Queue Number: ");
-        //System.out.println(waitingQueue.);
+        System.out.println(waitingQueue.dequeue());
 
         System.out.println("In Queue: ");
         //System.out.println(wQ.getSize());
+
+        //display queue
+        System.out.println("Waiting Queue: ");
 
         System.out.println("Press n to call the next number. ");
 

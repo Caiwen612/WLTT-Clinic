@@ -13,6 +13,7 @@ public class CounterMenu {
     private static ListInterface<Patient> patientList = new ArrayList<>();
     private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
     static int waitingNo = 100;
+    static boolean roomFree1= false, roomFree2= false;
 
     static Scanner input = new Scanner(System.in);
 
@@ -112,7 +113,6 @@ public class CounterMenu {
     }
 
     public static void registerPatient(Patient registerPatientName, int waitingNo){
-        boolean roomFree1= false, roomFree2= false;
 
         String n = input.next();
 
