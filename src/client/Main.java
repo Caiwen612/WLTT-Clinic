@@ -4,8 +4,10 @@ import adt.ListInterface;
 import entity.Dosage;
 import entity.Medicine;
 import adt.ArrayList;
-//import java.util.ArrayList;
 import java.util.Locale;
+import adt.ArrayList;
+import entity.Dosage;
+import entity.Medicine;
 import java.util.Scanner;
 
 public class Main {

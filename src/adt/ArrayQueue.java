@@ -2,7 +2,8 @@ package adt;
 
 import java.util.Iterator;
 
-public class ArrayQueue<T> implements adt.QueueInterface<T> {
+
+public class ArrayQueue<T> implements QueueInterface<T> {
 
     private T[] array;
     private final static int frontIndex = 0;
@@ -23,12 +24,6 @@ public class ArrayQueue<T> implements adt.QueueInterface<T> {
             backIndex++;
             array[backIndex] = newEntry;
         }
-    }
-    public void random(T newEntry) {
-        /*if (!isArrayFull()) {
-            backIndex++;
-            array[backIndex] = newEntry;
-        }*/
     }
 
     public T getFront() {
