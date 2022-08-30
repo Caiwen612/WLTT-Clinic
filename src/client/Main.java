@@ -147,7 +147,11 @@ public class Main {
 
 
     //invoice
-    public static void invoice(){
-        
+    public static void payment(){
+        int option = PaymentMenu.menu();
+        switch (option){
+            case 1:
+                
+        }
     }
 }
