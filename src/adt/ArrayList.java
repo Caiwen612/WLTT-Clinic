@@ -2,11 +2,11 @@ package adt;
 
 import java.io.Serializable;
 
-public class ArrayList<T> implements ADT.ListInterface<T>, Serializable {
+public class ArrayList<T> implements adt.ListInterface<T>, Serializable {
 
     private T[] array;
     private int numberOfEntries;
-    private static final int DEFAULT_CAPACITY = 5;
+    private static final int DEFAULT_CAPACITY = 3;
 
     public ArrayList() {
         this(DEFAULT_CAPACITY);
@@ -19,6 +19,14 @@ public class ArrayList<T> implements ADT.ListInterface<T>, Serializable {
 
     @Override
     public boolean add(T newEntry) {
+        /*for (int index = 0; index < numberOfEntries; index++) {
+            if (getEntry(index) == newEntry){
+                return false;
+            }
+        }
+        if (isFull()){
+            this.doubleArrayList();
+        }*/
         array[numberOfEntries] = newEntry;
         numberOfEntries++;
         return true;
@@ -117,6 +125,32 @@ public class ArrayList<T> implements ADT.ListInterface<T>, Serializable {
         return outputStr;
     }
 
+    //Double the array list
+    public ArrayList<T> doubleArrayList(){
+        int length = getNumberOfEntries() * 2;
+        ArrayList<T> temp = new ArrayList<T>(length);
+        for (int index = 1; index <= this.getNumberOfEntries(); index++) {
+            temp.add(this.getEntry(index));
+        }
+         return temp;
+    }
+
+    private boolean isArrayFull(){
+        return numberOfEntries == DEFAULT_CAPACITY;
+    }
+
+    /*//Copy the current arraylist to a temporary arraylist
+    public T copyArrayList(ListInterface<T> anArrayList){
+        T temp = (T) anArrayList;
+        if (numberOfEntries <= anArrayList.getNumberOfEntries()){
+            for (int index = 0; index < numberOfEntries; index++) {
+                anArrayList.add(this.getEntry(index));
+            }
+
+        }
+        return (T) anArrayList;
+    }*/
+
     /**
      * Task: Makes room for a new entry at newPosition. Precondition: 1 <=
      * newPosition <= numberOfEntries + 1; numberOfEntries is array's
@@ -148,4 +182,7 @@ public class ArrayList<T> implements ADT.ListInterface<T>, Serializable {
             array[index] = array[index + 1];
         }
     }
+
+
+
 }
