@@ -115,8 +115,8 @@ public class CounterMenu {
         double no1 = Math.random()* (pL.getNumberOfEntries());
         double no2 = Math.random()*3;
 
-        waitingList waitingQueueList = new waitingList(pL.getEntry(no1), no2);
-        
+        waitingList waitingQueueList = new waitingList(pL.getEntry((int)no1), (int) no2);
+
         waitingQueue.enqueue( waitingQueueList);
 
     }
