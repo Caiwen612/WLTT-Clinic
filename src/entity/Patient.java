@@ -7,6 +7,7 @@ public class Patient {
     private String address;
     private String DOB;
     //patient history (collection)
+
     public Patient(){
 
     }

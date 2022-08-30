@@ -38,7 +38,7 @@ public class CounterMenu {
                 deletePatient(patientList);
                 break;
             case 5:
-                queueNumber(waitingList);
+                queueNumber(waitingList, patientList);
                 break;
         }
 
@@ -93,11 +93,25 @@ public class CounterMenu {
 
     public static void deletePatient(ListInterface<Patient> pL) {
         //remove patient by getting the array index and .remove
+        boolean exist = false;
+        System.out.println("Enter Patient's IC No: ");
+        String patientIC = input.next();
+        exist = pL.contains(new Patient(patientIC));
+        if(!exist){
+            //pL.remove( new Patient(patientIC));
+        }
+        else{
+            System.out.println("Record not found! Want to add patient?");
+            //let them choose then direct to add
+        }
     }
 
 
-    public static void queueNumber(QueueInterface<String> wL) {
+    public static void queueNumber(QueueInterface<String> wL, ListInterface<Patient> pL) {
         //random number generator, pair index number with the 2 arrays
+        double no1 = Math.random()* (pL.getNumberOfEntries());
+        double no2 = Math.random()*3;
+
 
     }
 
