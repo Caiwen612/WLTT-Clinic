@@ -2,6 +2,7 @@ package adt;
 
 import java.util.Iterator;
 
+
 public class ArrayQueue<T> implements QueueInterface<T> {
 
     private T[] array;

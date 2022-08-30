@@ -1,17 +1,17 @@
 package entity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import adt.ArrayList;
+import adt.ListInterface;
 
 public class Medicine {
     private String id;
     private String name;
-    private Dosage[] dosage;
+    private ListInterface<Dosage> dosage;
     private String description;
 
     public Medicine(){}
 
-    public Medicine(String id, String name, Dosage[] dosage, String description) {
+    public Medicine(String id, String name, ListInterface<Dosage> dosage, String description) {
         this.id = id;
         this.name = name;
         this.dosage = dosage;
@@ -36,11 +36,12 @@ public class Medicine {
     public void setName(String name) {
         this.name = name;
     }
-    public Dosage[] getDosage() {
+
+    public ListInterface<Dosage> getDosage() {
         return dosage;
     }
 
-    public void setDosage(Dosage[] dosage) {
+    public void setDosage(ListInterface<Dosage>  dosage) {
         this.dosage = dosage;
     }
 
