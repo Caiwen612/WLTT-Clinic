@@ -1,9 +1,6 @@
 package client;
 
-import entity.Patient;
 import adt.ArrayQueue;
-import adt.ArrayList;
-import adt.ListInterface;
 import adt.QueueInterface;
 import entity.waitingQueue;
 
