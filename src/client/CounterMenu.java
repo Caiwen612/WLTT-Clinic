@@ -56,7 +56,7 @@ public class CounterMenu {
         }
         System.out.println("Register patient?");
         waitingNo++;
-        registerPatient(new Patient(patientName), waitingNo);
+        registerPatient(new Patient(patientIC), waitingNo);
     }
 
     public static void addPatient(ListInterface<Patient> pL) {
@@ -77,7 +77,7 @@ public class CounterMenu {
         System.out.println("Patient added successfully!");
         System.out.println("Register patient?");
         waitingNo++;
-        registerPatient(new Patient(patientName), waitingNo);
+        registerPatient(new Patient(patientIC), waitingNo);
     }
 
     public static void editPatient(ListInterface<Patient> pL) {
@@ -112,7 +112,7 @@ public class CounterMenu {
         }
     }
 
-    public static void registerPatient(Patient registerPatientName, int waitingNo){
+    public static void registerPatient(Patient registerPatientIC, int waitingNo){
 
         String n = input.next();
 
@@ -130,7 +130,7 @@ public class CounterMenu {
             roomNo=3;
         }
 
-        waitingQueue.enqueue(new waitingQueue(registerPatientName, (int) roomNo, waitingNo));
+        waitingQueue.enqueue(new waitingQueue(registerPatientIC, (int) roomNo, waitingNo));
     }
 
 

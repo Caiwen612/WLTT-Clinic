@@ -13,6 +13,7 @@ public class WaitingList {
     static Scanner input = new Scanner(System.in);
     static String n;
     private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
+    //change if needed
     private static Queue<Patient> room1 = new LinkedList<>();
     private static Queue<Patient> room2 = new LinkedList<>();
     private static Queue<Patient> room3 = new LinkedList<>();
@@ -42,7 +43,6 @@ public class WaitingList {
         System.out.println("Press n to call the next number. ");
 
         do {
-
            n = input.next();
         } while (n == "N");
     }
