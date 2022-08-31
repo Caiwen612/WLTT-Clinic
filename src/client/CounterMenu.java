@@ -7,17 +7,33 @@ import adt.ListInterface;
 import adt.QueueInterface;
 import entity.waitingQueue;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class CounterMenu {
-    private static ListInterface<Patient> patientList = new ArrayList<>();
-    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
-    static int waitingNo = 100;
-    static boolean roomFree1= false, roomFree2= false;
+    private ListInterface<Patient> patientList = new ArrayList<>();
+    private QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
+    int waitingNo = 100;
+     boolean roomFree1= false, roomFree2= false;
 
-    static Scanner input = new Scanner(System.in);
+    Scanner input = new Scanner(System.in);
 
-    public static void menu(){
+    public ListInterface<Patient> sortPatientList(ListInterface<Patient>   pL ){
+        String[] sortPatient = new String[  pL .getNumberOfEntries()];
+        for (int i = 0; i <  pL .getNumberOfEntries(); i++) {
+            sortPatient[i] =   pL .getEntry(i).getPatientName();
+        }
+
+        Arrays.sort(sortPatient);
+        pL  = (ListInterface<Patient>) Arrays.asList(sortPatient);
+        return pL;
+
+    }
+
+    //add/search patient only can register
+
+    public void menu(){
+        patientList = sortPatientList(patientList);
         System.out.println("Counter: ");
         System.out.println("[1] Search for Patient");
         System.out.println("[2] Add New Patient");
@@ -42,24 +58,26 @@ public class CounterMenu {
 
     }
 
-    public static void searchPatient(ListInterface<Patient> pL) {
+    public void searchPatient(ListInterface<Patient> pL) {
+        //sorting
         boolean exist = false;
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
         exist = pL.contains(new Patient(patientIC));
         if(!exist){
-            //print details
+            System.out.println(new Patient(patientIC).toString());
+            System.out.println("Register patient?");
+            waitingNo++;
+            registerPatient(new Patient(patientIC), waitingNo);
         }
         else{
             System.out.println("Record not found! Want to add patient?");
-            CounterMenu.addPatient(patientList);
+            addPatient(pL);
         }
-        System.out.println("Register patient?");
-        waitingNo++;
-        registerPatient(new Patient(patientIC), waitingNo);
+
     }
 
-    public static void addPatient(ListInterface<Patient> pL) {
+    public void addPatient(ListInterface<Patient> pL) {
         System.out.println("Enter Patient Details ");
         System.out.println("Name: ");
         String patientName = input.next();
@@ -80,11 +98,11 @@ public class CounterMenu {
         registerPatient(new Patient(patientIC), waitingNo);
     }
 
-    public static void editPatient(ListInterface<Patient> pL) {
+    public void editPatient(ListInterface<Patient> pL) {
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
         pL.contains(new Patient(patientIC));
-        //System.out.println(Patient.toString());
+        System.out.println(new Patient(patientIC).toString());
         System.out.println("Want to edit patient details?");
         //yes or yes
         System.out.println("Which details do u wanna edit?");
@@ -95,7 +113,7 @@ public class CounterMenu {
         System.out.println("Patient details edited successfully!");
     }
 
-    public static void deletePatient(ListInterface<Patient> pL) {
+    public void deletePatient(ListInterface<Patient> pL) {
         boolean exist = false;
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
@@ -108,11 +126,11 @@ public class CounterMenu {
             }
         } else {
             System.out.println("Record not found! Want to add patient?");
-            CounterMenu.addPatient(patientList);
+            addPatient(pL);
         }
     }
 
-    public static void registerPatient(Patient registerPatientIC, int waitingNo){
+    public void registerPatient(Patient registerPatientIC, int waitingNo){
 
         String n = input.next();
 
