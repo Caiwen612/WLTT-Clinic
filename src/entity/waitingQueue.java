@@ -45,7 +45,6 @@ public class waitingQueue {
     public String toString() {
         return "waitingList{" +
                 "waitingNo=" + waitingNo +
-                ", patientName=" + patientName +
                 ", roomNo=" + roomNo +
                 '}';
     }
