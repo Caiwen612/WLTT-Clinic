@@ -6,20 +6,25 @@ import entity.Patient;
 import entity.waitingQueue;
 
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class WaitingList {
-    Scanner input = new Scanner(System.in);
-     String n;
-    private  QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
+    private static Scanner input = new Scanner(System.in);
+    private static String n;
+    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
 
     //change if needed
-    private Queue<Patient> room1 = new LinkedList<>();
-    private Queue<Patient> room2 = new LinkedList<>();
-    private Queue<Patient> room3 = new LinkedList<>();
+    private static Queue<Patient> room1 = new LinkedList<>();
+    private static Queue<Patient> room2 = new LinkedList<>();
+    private static Queue<Patient> room3 = new LinkedList<>();
 
-    public void showQueue() {
+    public static void main(String[] args) {
+        showQueue();
+    }
+
+    public static void showQueue() {
         //clear screen
         do {
 
@@ -47,7 +52,7 @@ public class WaitingList {
             n = input.next();
 
             System.out.println("Press n to call the next number. ");
-        } while (n == "N");
+        } while (Objects.equals(n, "N"));
     }
 
 }
