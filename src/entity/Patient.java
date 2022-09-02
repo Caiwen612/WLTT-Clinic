@@ -21,7 +21,7 @@ public class Patient {
     }
 
     public Patient(String patientIC) {
-        this.icNo = icNo;
+        this.icNo =  patientIC;
     }
 
     public String getAddress() {
@@ -60,7 +60,7 @@ public class Patient {
         this.phoneNo = phoneNo;
     }
 
-    public void setIcNo(String icNo) {
+    public  void setIcNo(String icNo) {
         this.icNo = icNo;
     }
 

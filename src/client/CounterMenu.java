@@ -10,8 +10,8 @@ import entity.waitingQueue;
 import java.util.Scanner;
 
 public class CounterMenu {
-    private static ListInterface<Patient> patientList = new ArrayList<>();
-    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
+    private static ListInterface<Patient> patientList = new ArrayList<>(1000);
+    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>(100);
     private static int waitingNo = 100;
     private static boolean roomFree1= false;
     private static boolean roomFree2= false;
@@ -70,7 +70,7 @@ public class CounterMenu {
         boolean exist = false;
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
-        exist = pL.contains(new Patient(patientIC));
+        exist = pL.toString().contains(new Patient(patientIC).getIcNo());
         if(!exist){
             System.out.println(new Patient(patientIC).toString());
             System.out.println("Register patient?");
@@ -126,7 +126,7 @@ public class CounterMenu {
         String patientIC = input.next();
         exist = pL.contains(new Patient(patientIC));
         if (!exist) {
-            for (int i = 0; i < pL.getNumberOfEntries(); i++) {
+            for (int i = 0; i < pL.getNumberOfEntries()+1; i++) {
                 if (new Patient(patientIC) == pL.getEntry(i)) {
                     pL.remove(i);
                 }
