@@ -8,7 +8,7 @@ public class ArrayQueue<T> implements QueueInterface<T> {
     private T[] array;
     private final static int frontIndex = 0;
     private int backIndex;
-    private static final int DEFAULT_CAPACITY = 50;
+    private static final int DEFAULT_CAPACITY = 1000;
 
     public ArrayQueue() {
         this(DEFAULT_CAPACITY);
@@ -48,7 +48,14 @@ public class ArrayQueue<T> implements QueueInterface<T> {
 
     public int getSize(){
         int queueSize = 0;
-        queueSize = array.length;
+        for (int i = 0; i < array.length; i++){
+            if (array[i] != null){
+                queueSize++;
+            }
+            else{
+                break;
+            }
+        }
         return queueSize;
     }
 

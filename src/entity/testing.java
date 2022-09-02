@@ -5,17 +5,21 @@ import adt.ArrayQueue;
 import adt.ListInterface;
 import adt.QueueInterface;
 
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class testing {
     private static  ListInterface<Patient> patientList = new ArrayList<>(1000);
 
     public static void main(String[] args){
-        patientList.add(new Patient("yeet"));
+        showQueue();
+        /*patientList.add(new Patient("yeet"));
         patientList.add(new Patient("yeet1"));
         patientList.add(new Patient("yeet2"));
         patientList.add(new Patient("yeet3"));
-        //patientList.remove(2);
+
 
         System.out.println(patientList.toString().contains(new Patient("shitz").getIcNo()));
 
@@ -23,8 +27,42 @@ public class testing {
         for (int i = 0; i < patientList.getNumberOfEntries() +1; i++) {
             System.out.println(patientList.getEntry(i));
 
-        }
+        }*/
+    }
+    private static Scanner input = new Scanner(System.in);
+    private static String n;
+    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>();
+
+    public static void showQueue() {
+        waitingQueue.enqueue(new waitingQueue(new Patient("yeet"), 1, 1));
+        waitingQueue.enqueue(new waitingQueue(new Patient("yeet1"), 2, 2));
+        waitingQueue.enqueue(new waitingQueue(new Patient("yeet2"), 1, 3));
+        waitingQueue.enqueue(new waitingQueue(new Patient("yeet3"), 3, 4));
+
+        do {
+
+            System.out.println("Previous Queue Number: ");
+            System.out.println(waitingQueue.getFront().toString());
+
+            System.out.println("Current Queue Number: ");
+            waitingQueue.dequeue();
+            System.out.println(waitingQueue.getFront().toString());
+
+            //how many ppl waiting
+            System.out.println("In Queue: ");
+            System.out.println(waitingQueue.getSize());
+
+            System.out.println("Press n to call the next number. ");
+
+            n = input.next();
+
+        } while (Objects.equals(n, "n"));
     }
 
-    }
+}
+
+
+
+
+
 
