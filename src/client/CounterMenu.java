@@ -10,7 +10,7 @@ import entity.waitingQueue;
 import java.util.Scanner;
 
 public class CounterMenu {
-    private static ListInterface<Patient> patientList = new ArrayList<>(1000);
+    private static ListInterface<Patient> patientList = new ArrayList<>(100);
     private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>(100);
     private static int waitingNo = 100;
     private static boolean roomFree1= false;
@@ -33,6 +33,7 @@ public class CounterMenu {
     //add/search patient only can register
 
     public static void main(String[] args){
+        waitingQueue.enqueue(new waitingQueue(null, 0, 0));
 //        if((patientList.isEmpty())){
 //            patientList = sortPatientList(patientList);
 //        }
@@ -41,6 +42,8 @@ public class CounterMenu {
         System.out.println("[1] Search for Patient");
         System.out.println("[2] Add New Patient");
         System.out.println("[3] Edit Existing Patient Details");
+        System.out.println("[4] Delete Existing Patient Details");
+        System.out.println("[5] Queue Number");
         System.out.println("Enter your option: ");
         int option = input.nextInt();
 
@@ -60,6 +63,9 @@ public class CounterMenu {
                 break;
             case 4:
                 deletePatient(patientList);
+                break;
+            case 5:
+                WaitingList.showQueue();
                 break;
         }
 
@@ -139,6 +145,7 @@ public class CounterMenu {
 
     public static void registerPatient(Patient registerPatientIC, int waitingNo){
 
+
         String n = input.next();
 
         double roomNo = 0;
@@ -153,6 +160,10 @@ public class CounterMenu {
         }
         else{
             roomNo=3;
+        }
+
+        if (waitingQueue.isEmpty()){
+            waitingQueue.enqueue(new waitingQueue(null, 0, 0));
         }
 
         waitingQueue.enqueue(new waitingQueue(registerPatientIC, (int) roomNo, waitingNo));

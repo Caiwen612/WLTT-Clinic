@@ -25,34 +25,55 @@ public class WaitingList {
     }
 
     public static void showQueue() {
-        //clear screen
+        /*waitingQueue.enqueue(new waitingQueue(new Patient("yeet"), 1, 1));
+        waitingQueue.enqueue(new waitingQueue(new Patient("yeet1"), 2, 2));
+        waitingQueue.enqueue(new waitingQueue(new Patient("yeet2"), 1, 3));
+        waitingQueue.enqueue(new waitingQueue(new Patient("yeet3"), 3, 4));
+        */
+
         do {
+            if (waitingQueue.isEmpty()) {
+                System.out.println("No one in queue yet!");
+                break;
 
-            System.out.println("Previous Queue Number: ");
-            System.out.println(waitingQueue.getFront());
+            } else {
+                //clear screen
+                System.out.println("Previous Queue Number: ");
+                if (waitingQueue.getFront().getPatientList() == null) {
+                    System.out.println("waitingNo= " + 0 + ", roomNo= " + 0);
+                } else {
+                    System.out.println(waitingQueue.getFront());
+                }
 
-            System.out.println("Current Queue Number: ");
-            waitingQueue.dequeue();
-            System.out.println(waitingQueue.getFront());
+                System.out.println("Current Queue Number: ");
+                waitingQueue.dequeue();
+                if (waitingQueue.getFront() == null) {
+                    System.out.println("No patients registered in queue");
+                    break;
+                }
+                else {
+                    System.out.println(waitingQueue.getFront());
+                }
 
-            if (waitingQueue.getFront().getRoomNo() == 1){
-                room1.add(waitingQueue.getFront().getPatientList());
+                //add patient details in the room queue before dequeuing
+                if (waitingQueue.getFront().getRoomNo() == 1) {
+                    room1.add(waitingQueue.getFront().getPatientList());
+                } else if (waitingQueue.getFront().getRoomNo() == 2) {
+                    room2.add(waitingQueue.getFront().getPatientList());
+                } else {
+                    room3.add(waitingQueue.getFront().getPatientList());
+                }
+
+                //how many ppl waiting
+                System.out.println("In Queue: ");
+                System.out.println(waitingQueue.getSize());
+                System.out.println();
+                System.out.print("Press n to call the next number: ");
+                n = input.next();
+
             }
-            else if (waitingQueue.getFront().getRoomNo() == 2){
-                room2.add(waitingQueue.getFront().getPatientList());
-            }
-            else {
-                room3.add(waitingQueue.getFront().getPatientList());
-            }
-
-            //how many ppl waiting
-            System.out.println("In Queue: ");
-            System.out.println(waitingQueue.getSize());
-
-            n = input.next();
-
-            System.out.println("Press n to call the next number. ");
-        } while (Objects.equals(n, "N"));
+        }
+            while (Objects.equals(n, "n")) ;
     }
 
 }

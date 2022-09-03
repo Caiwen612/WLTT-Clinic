@@ -44,7 +44,7 @@ public class waitingQueue {
     @Override
     public String toString() {
         return
-                "waitingNo=" + waitingNo +
-                ", roomNo=" + roomNo ;
+                "waitingNo= " + waitingNo +
+                ", roomNo= " + roomNo ;
     }
 }

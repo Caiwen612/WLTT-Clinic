@@ -47,8 +47,8 @@ public class ArrayQueue<T> implements QueueInterface<T> {
     }
 
     public int getSize(){
-        int queueSize = 0;
-        for (int i = 0; i < array.length; i++){
+        int queueSize = frontIndex;
+        for (int i = frontIndex  ; i <backIndex; i++){
             if (array[i] != null){
                 queueSize++;
             }

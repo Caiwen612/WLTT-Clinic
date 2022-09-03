@@ -15,19 +15,7 @@ public class testing {
 
     public static void main(String[] args){
         showQueue();
-        /*patientList.add(new Patient("yeet"));
-        patientList.add(new Patient("yeet1"));
-        patientList.add(new Patient("yeet2"));
-        patientList.add(new Patient("yeet3"));
 
-
-        System.out.println(patientList.toString().contains(new Patient("shitz").getIcNo()));
-
-        System.out.println(patientList.getNumberOfEntries());
-        for (int i = 0; i < patientList.getNumberOfEntries() +1; i++) {
-            System.out.println(patientList.getEntry(i));
-
-        }*/
     }
     private static Scanner input = new Scanner(System.in);
     private static String n;
@@ -47,6 +35,7 @@ public class testing {
             System.out.println("Current Queue Number: ");
             waitingQueue.dequeue();
             System.out.println(waitingQueue.getFront().toString());
+
 
             //how many ppl waiting
             System.out.println("In Queue: ");
