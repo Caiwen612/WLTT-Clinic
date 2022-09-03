@@ -1,6 +1,6 @@
 package entity;
 
-public class Dosage {
+public class Dosage implements Comparable{
     private String dosageForm;
     private String dose;
     private int dosageQuantity;
@@ -55,5 +55,15 @@ public class Dosage {
 
     public void setDosagePrice(double dosagePrice) {
         this.dosagePrice = dosagePrice;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Dosage){
+            return Integer.compare(this.dosageQuantity, ((Dosage) o).dosageQuantity);
+        }
+        else {
+            return 0;
+        }
     }
 }
