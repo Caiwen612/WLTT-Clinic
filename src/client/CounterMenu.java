@@ -102,7 +102,7 @@ public class CounterMenu {
     public static ListInterface<Patient> sort( ListInterface<Patient> pL) {
         Patient array;
         for (int i = 1; i < pL.getNumberOfEntries(); i++) {
-                if (pL.getEntry(i + 1).getPatientName().charAt(0) > pL.getEntry(i).getPatientName().charAt(0)) {
+                if (pL.getEntry(i + 1).getPatientName().charAt(0) < pL.getEntry(i).getPatientName().charAt(0)) {
                     array = pL.getEntry(i);
                     pL.getEntry(i).equals(pL.getEntry(i + 1));
                     pL.getEntry(i + 1).equals(array);
