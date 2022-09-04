@@ -31,6 +31,7 @@ public class CounterMenu {
     }
 
     public static void counterMenu(){
+
         patientList = sort(patientList);
         System.out.println("Counter: ");
         System.out.println("[1] Search for Patient");
@@ -102,7 +103,7 @@ public class CounterMenu {
     public static ListInterface<Patient> sort( ListInterface<Patient> pL) {
         Patient array;
         for (int i = 1; i < pL.getNumberOfEntries(); i++) {
-                if (pL.getEntry(i + 1).getPatientName().charAt(0) < pL.getEntry(i).getPatientName().charAt(0)) {
+                if (pL.getEntry(i + 1).getPatientName().charAt(0) > pL.getEntry(i).getPatientName().charAt(0)) {
                     array = pL.getEntry(i);
                     pL.getEntry(i).equals(pL.getEntry(i + 1));
                     pL.getEntry(i + 1).equals(array);
@@ -237,9 +238,8 @@ public class CounterMenu {
     public static void showQueue(){
         String n;
 
-        for(int i = 1; i< patientList.getNumberOfEntries()+1 ; i++){
+        for(int i = 1; i<patientList.getNumberOfEntries()+1 ; i++){
             System.out.println(patientList.getEntry(i));
-
         }
 
         do {
@@ -286,6 +286,5 @@ public class CounterMenu {
         }
         while (Objects.equals(n, "n")) ;
     }
-
 
 }
