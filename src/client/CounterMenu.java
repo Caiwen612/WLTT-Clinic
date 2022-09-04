@@ -96,6 +96,20 @@ public class CounterMenu {
 
     }
 
+
+    public static  ListInterface<Patient> sort( ListInterface<Patient> pL){
+        Patient array;
+        for (int i = 0 ; i < pL.getNumberOfEntries(); i++){
+           if(pL.getEntry(i+1).getPatientName().charAt(0) < pL.getEntry(i).getPatientName().charAt(0)){
+               array= pL.getEntry(i);
+               pL.getEntry(i)=  pL.getEntry(i+1);
+               pL.getEntry(i+1)= array;
+           }
+        }
+        return pL;
+    }
+
+
     public static void addPatient(ListInterface<Patient> pL) {
         System.out.println("Enter Patient Details ");
         System.out.print("Name: ");
@@ -117,6 +131,7 @@ public class CounterMenu {
 
         if (Objects.equals(y, "Y ")) {
             System.out.println("Patient registered into queue");
+            sort(pL);
             waitingNo++;
             registerPatient(new Patient(patientIC), waitingNo);
         }
