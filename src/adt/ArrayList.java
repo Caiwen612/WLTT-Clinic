@@ -20,6 +20,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
 
     @Override
     public boolean add(T newEntry) {
+
         /*for (int index = 0; index < numberOfEntries; index++) {
             if (getEntry(index) == newEntry){
                 return false;
@@ -28,6 +29,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable {
         if (isFull()){
             this.doubleArrayList();
         }*/
+
         array[numberOfEntries] = newEntry;
         numberOfEntries++;
         return true;

@@ -11,7 +11,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class testing {
-    private static  ListInterface<Patient> patientList = new ArrayList<>(1000);
+    private static  ListInterface<Patient> patientList = new ArrayList<Patient>(1000);
 
     public static void main(String[] args){
         showQueue();
