@@ -31,7 +31,6 @@ public class CounterMenu {
     }
 
     public static void counterMenu(){
-
         patientList = sort(patientList);
         System.out.println("Counter: ");
         System.out.println("[1] Search for Patient");
@@ -74,13 +73,16 @@ public class CounterMenu {
     }
 
     public static void searchPatient() {
-        //sorting
-        boolean exist = false;
+
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
-        exist = patientList.toString().contains(new Patient(patientIC).getIcNo());
-        if (!exist) {
-            System.out.println(new Patient(patientIC));
+
+        if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
+            for (int i = 1; i < patientList.getNumberOfEntries()+1; i++) {
+                if (Objects.equals(new Patient(patientIC).getIcNo(), patientList.getEntry(i).getIcNo())) {
+                    System.out.println(patientList.getEntry(i).toString());
+                }
+            }
             System.out.println("Register patient?");
 
             String y = input.next();
@@ -96,14 +98,14 @@ public class CounterMenu {
             System.out.println("Record not found! Want to add patient?");
             addPatient();
         }
-
-
     }
 
     public static ListInterface<Patient> sort( ListInterface<Patient> pL) {
         Patient array;
         for (int i = 1; i < pL.getNumberOfEntries(); i++) {
-                if (pL.getEntry(i + 1).getPatientName().charAt(0) > pL.getEntry(i).getPatientName().charAt(0)) {
+            System.out.print(pL.getEntry(i+1 ).getPatientName().charAt(0));
+            System.out.print(pL.getEntry(i).getPatientName().charAt(0));
+                if (pL.getEntry(i+1 ).getPatientName().charAt(0) < pL.getEntry(i).getPatientName().charAt(0)) {
                     array = pL.getEntry(i);
                     pL.getEntry(i).equals(pL.getEntry(i + 1));
                     pL.getEntry(i + 1).equals(array);
@@ -127,84 +129,97 @@ public class CounterMenu {
         System.out.print("Date of Birth: ");
         String patientDOB = input.next();
 
-        Patient patientNew= new Patient(patientName,patientIC,patientPhoneNo,patientAddress,patientDOB);
-        patientList.add(patientNew);
-        System.out.println("Patient added successfully!");
-        System.out.println("Register patient?");
-        String y = input.next();
+        System.out.println(patientIC);
 
-        if (Objects.equals(y, "Y")) {
-            System.out.println("Patient registered into queue");
-            waitingNo++;
-            registerPatient(new Patient(patientIC), waitingNo);
+            if (patientList.toString().contains(new Patient(patientIC).getIcNo())) {
+                System.out.println("Patient has been registered before!");
+                counterMenu();
+            } else {
+                Patient patientNew = new Patient(patientName, patientIC, patientPhoneNo, patientAddress, patientDOB);
+                patientList.add(patientNew);
+                System.out.println("Patient added successfully!");
+                System.out.println("Register patient?");
+                String y = input.next();
 
+                if (Objects.equals(y, "Y")) {
+                    System.out.println("Patient registered into queue");
+                    waitingNo++;
+                    registerPatient(new Patient(patientIC), waitingNo);
+
+                } else {
+                    System.out.println("Patient not registered into queue");
+                }
+                counterMenu();
+            }
         }
-        else {
-            System.out.println("Patient not registered into queue");
-        }
-        counterMenu();
-
-    }
 
     public static void editPatient() {
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
-        patientList.contains(new Patient(patientIC));
-        System.out.println(new Patient(patientIC));
-
-        System.out.println("Confirm edit?");
-        String n = input.next();
-        if (n == "Y") {
-            System.out.println("Which details do u wanna edit?");
-            System.out.println("[1] Patient's Name");
-            System.out.println("[2] Patient's Phone No");
-            System.out.println("[3] Patient's Address");
-            System.out.println("[4] Patient's DOB");
-            System.out.println("Enter your option: ");
-
-            int detailsNo = input.nextInt();
-            switch (detailsNo){
-                case 1:
-                    System.out.println("Name: ");
-                    String nameEdit = input.next();
-                    new Patient(patientIC).setPatientName(nameEdit);
-                    break;
-                case 2:
-                    System.out.println("Phone No: ");
-                    String phoneNoEdit = input.next();
-                    new Patient(patientIC).setPhoneNo(phoneNoEdit);
-                    break;
-                case 3:
-                    System.out.println("Address: ");
-                    String addressNoEdit = input.next();
-                    new Patient(patientIC).setAddress(addressNoEdit);
-                    break;
-                case 4:
-                    System.out.println("DOB: ");
-                    String dobNoEdit = input.next();
-                    new Patient(patientIC).setDOB(dobNoEdit);
-                    break;
-
+        if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
+            for (int i = 1; i < patientList.getNumberOfEntries()+1; i++) {
+                if (Objects.equals(new Patient(patientIC).getIcNo(), patientList.getEntry(i).getIcNo())) {
+                    System.out.println(patientList.getEntry(i).toString());
+                }
             }
-            System.out.println("Patient details edited successfully!");
+            System.out.println("Confirm edit?");
+            String n = input.next();
+            if (n == "Y") {
+                System.out.println("Which details do u wanna edit?");
+                System.out.println("[1] Patient's Name");
+                System.out.println("[2] Patient's Phone No");
+                System.out.println("[3] Patient's Address");
+                System.out.println("[4] Patient's DOB");
+                System.out.println("Enter your option: ");
 
+                int detailsNo = input.nextInt();
+                switch (detailsNo) {
+                    case 1:
+                        System.out.println("Name: ");
+                        String nameEdit = input.next();
+                        new Patient(patientIC).setPatientName(nameEdit);
+                        break;
+                    case 2:
+                        System.out.println("Phone No: ");
+                        String phoneNoEdit = input.next();
+                        new Patient(patientIC).setPhoneNo(phoneNoEdit);
+                        break;
+                    case 3:
+                        System.out.println("Address: ");
+                        String addressNoEdit = input.next();
+                        new Patient(patientIC).setAddress(addressNoEdit);
+                        break;
+                    case 4:
+                        System.out.println("DOB: ");
+                        String dobNoEdit = input.next();
+                        new Patient(patientIC).setDOB(dobNoEdit);
+                        break;
+
+                }
+                System.out.println("Patient details edited successfully!");
+
+            } else {
+                System.out.println("Patient details not edited");
+            }
         }
-        else{
-            System.out.println("Patient details not edited");
+        else {
+            System.out.println("Record not found! Want to add patient?");
+            addPatient();
         }
 
-        }
+    }
 
     public static void deletePatient() {
-        boolean exist = false;
         System.out.println("Enter Patient's IC No: ");
         String patientIC = input.next();
-        exist = patientList.contains(new Patient(patientIC));
-        if (!exist) {
-            for (int i = 0; i < patientList.getNumberOfEntries()+1; i++) {
+
+        if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
+            for (int i = 0; i < patientList.getNumberOfEntries(); i++) {
                 if (new Patient(patientIC) == patientList.getEntry(i)) {
                     patientList.remove(i);
                 }
+                System.out.println("Patient Deleted!");
+                counterMenu();
             }
         } else {
             System.out.println("Record not found! Want to add patient?");
@@ -238,7 +253,7 @@ public class CounterMenu {
     public static void showQueue(){
         String n;
 
-        for(int i = 1; i<patientList.getNumberOfEntries()+1 ; i++){
+        for(int i = 1; i<patientList.getNumberOfEntries()+1; i++){
             System.out.println(patientList.getEntry(i));
         }
 
