@@ -4,6 +4,7 @@ import adt.ArrayList;
 import adt.ArrayQueue;
 import adt.ListInterface;
 import adt.QueueInterface;
+import entity.Dosage;
 import entity.Patient;
 import entity.waitingQueue;
 
@@ -21,6 +22,7 @@ public class CounterMenu {
     private static boolean roomFree2 = false;
     private static Queue<Patient> room1 = new LinkedList<>();
     private static Queue<Patient> room2 = new LinkedList<>();
+
     private static Queue<Patient> room3 = new LinkedList<>();
 
     private static Scanner input = new Scanner(System.in);
@@ -31,7 +33,7 @@ public class CounterMenu {
     }
 
     public static void counterMenu(){
-        patientList = sort(patientList);
+        bubbleSort(patientList, patientList.getNumberOfEntries());
         System.out.println("Counter: ");
         System.out.println("[1] Search for Patient");
         System.out.println("[2] Add New Patient");
@@ -100,19 +102,32 @@ public class CounterMenu {
         }
     }
 
-    public static ListInterface<Patient> sort( ListInterface<Patient> pL) {
-        Patient array;
-        for (int i = 1; i < pL.getNumberOfEntries(); i++) {
-            System.out.print(pL.getEntry(i+1 ).getPatientName().charAt(0));
-            System.out.print(pL.getEntry(i).getPatientName().charAt(0));
-                if (pL.getEntry(i+1 ).getPatientName().charAt(0) < pL.getEntry(i).getPatientName().charAt(0)) {
-                    array = pL.getEntry(i);
-                    pL.getEntry(i).equals(pL.getEntry(i + 1));
-                    pL.getEntry(i + 1).equals(array);
+    public static <T extends Comparable<T>> void bubbleSort(ListInterface<Patient> a, int n) {
+        boolean sorted = false;
+        for (int pass = 1; pass <= n && !sorted; pass++) {
+            sorted = true;
+            for (int index = 1; index <= n - pass; index++) {
+                // swap adjacent elements if first is greater than second
+                if (a.getEntry(index).compareTo(a.getEntry(index+1)) > 0){
+                    swap(a, index, index+1);
+                    sorted = false;
                 }
+                /*if (a[index].compareTo(a[index + 1]) > 0) {
+                    swap(a, index, index + 1); // swap adjacent elements
+                    sorted = false;  // array not sorted because a swap was performed
+                }*/
             }
+        }
+    }
 
-        return pL;
+    private static <T> void swap(ListInterface<T> a, int i, int j) {
+        T temp = a.getEntry(i);
+        a.replace(i, a.getEntry(j));
+        a.replace(j, temp);
+
+        /*T temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;*/
     }
 
     public static void addPatient() {

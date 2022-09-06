@@ -1,6 +1,6 @@
 package entity;
 
-public class Patient {
+public class Patient implements Comparable {
     private String patientName;
     private String icNo;
     private String phoneNo;
@@ -73,5 +73,16 @@ public class Patient {
                 ", address='" + address + '\'' +
                 ", DOB='" + DOB + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Patient){
+            return this.patientName.compareTo(((Patient) o).patientName);
+
+        }
+        else {
+            return 0;
+        }
     }
 }
