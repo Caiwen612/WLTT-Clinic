@@ -1,6 +1,6 @@
 package entity;
 
-public class Dosage implements Comparable{
+public class Dosage implements Comparable, Cloneable{
     private String dosageForm;
     private String dose;
     private int dosageQuantity;
@@ -64,6 +64,17 @@ public class Dosage implements Comparable{
         }
         else {
             return 0;
+        }
+    }
+
+    @Override
+    public Dosage clone() {
+        try {
+            Dosage clone = (Dosage) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
         }
     }
 }
