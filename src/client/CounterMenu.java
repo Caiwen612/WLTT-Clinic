@@ -7,16 +7,16 @@ import adt.QueueInterface;
 import entity.Dosage;
 import entity.Patient;
 import entity.waitingQueue;
+import utility.Font;
+import utility.Validation;
+import utility.ValidationException;
 
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class CounterMenu {
+    private static QueueInterface<entity.waitingQueue> waitingQueue = new ArrayQueue<>(100);
     private static ListInterface<Patient> patientList = new ArrayList<>(100);
 
-    private static QueueInterface<waitingQueue> waitingQueue = new ArrayQueue<>(100);
     private static int waitingNo = 100;
     private static boolean roomFree1 = false;
     private static boolean roomFree2 = false;
@@ -28,56 +28,22 @@ public class CounterMenu {
     private static Scanner input = new Scanner(System.in);
 
     //add/search patient only can register
-    public static void main(String[] args) {
-        counterMenu();
-    }
-
-    public static void counterMenu(){
-        bubbleSort(patientList, patientList.getNumberOfEntries());
-        System.out.println("Counter: ");
-        System.out.println("[1] Search for Patient");
-        System.out.println("[2] Add New Patient");
-        System.out.println("[3] Edit Existing Patient Details");
-        System.out.println("[4] Delete Existing Patient Details");
-        System.out.println("[5] Queue Number");
-        System.out.println("Enter your option: ");
-        int option = input.nextInt();
-
-        switch (option) {
-            case 1:
-                if (!(waitingQueue.isEmpty())) {
-                    searchPatient();
-                } else {
-                    System.out.println("Patient List is empty");
-                }
-                break;
-            case 2:
-                addPatient();
-                break;
-            case 3:
-                if (!(waitingQueue.isEmpty())) {
-                    editPatient();
-                } else {
-                    System.out.println("Patient List is empty");
-                }
-                break;
-            case 4:
-                if (!(waitingQueue.isEmpty())) {
-                    deletePatient();
-                } else {
-                    System.out.println("Patient List is empty");
-                }
-                break;
-            case 5:
-                showQueue();
-                break;
-        }
-    }
-
     public static void searchPatient() {
-
-        System.out.println("Enter Patient's IC No: ");
+        boolean validICNO = true;
         String patientIC = input.next();
+        do{
+            try{
+                System.out.print("IC No: ");
+                patientIC = input.next();
+                Validation.validIC(validICNO,patientIC);
+                validICNO = false;
+            } catch (ValidationException e) {
+                System.err.println(e.getMessage());
+            } catch (InputMismatchException e) {
+                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
+                input.nextLine();
+            }
+        }while(validICNO);
 
         if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
             for (int i = 1; i < patientList.getNumberOfEntries()+1; i++) {
@@ -131,12 +97,26 @@ public class CounterMenu {
     }
 
     public static void addPatient() {
-
+        boolean validICNO = true;
+        String patientIC = input.next();
         System.out.println("Enter Patient Details ");
         System.out.print("Name: ");
         String patientName = input.next();
-        System.out.print("IC No: ");
-        String patientIC = input.next();
+
+        do{
+            try{
+                System.out.print("IC No: ");
+                 patientIC = input.next();
+                Validation.validIC(validICNO,patientIC);
+                validICNO = false;
+            } catch (ValidationException e) {
+                System.err.println(e.getMessage());
+            } catch (InputMismatchException e) {
+                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
+                input.nextLine();
+            }
+        }while(validICNO);
+
         System.out.print("Phone No: ");
         String patientPhoneNo = input.next();
         System.out.print("Address: ");
@@ -148,7 +128,7 @@ public class CounterMenu {
 
             if (patientList.toString().contains(new Patient(patientIC).getIcNo())) {
                 System.out.println("Patient has been registered before!");
-                counterMenu();
+                CounterDriver.counterMenu();
             } else {
                 Patient patientNew = new Patient(patientName, patientIC, patientPhoneNo, patientAddress, patientDOB);
                 patientList.add(patientNew);
@@ -164,13 +144,26 @@ public class CounterMenu {
                 } else {
                     System.out.println("Patient not registered into queue");
                 }
-                counterMenu();
+                CounterDriver.counterMenu();
             }
         }
 
     public static void editPatient() {
-        System.out.println("Enter Patient's IC No: ");
+        boolean validICNO = true;
         String patientIC = input.next();
+        do{
+            try{
+                System.out.print("IC No: ");
+                patientIC = input.next();
+                Validation.validIC(validICNO,patientIC);
+                validICNO = false;
+            } catch (ValidationException e) {
+                System.err.println(e.getMessage());
+            } catch (InputMismatchException e) {
+                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
+                input.nextLine();
+            }
+        }while(validICNO);
         if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
             for (int i = 1; i < patientList.getNumberOfEntries()+1; i++) {
                 if (Objects.equals(new Patient(patientIC).getIcNo(), patientList.getEntry(i).getIcNo())) {
@@ -225,16 +218,28 @@ public class CounterMenu {
     }
 
     public static void deletePatient() {
-        System.out.println("Enter Patient's IC No: ");
+        boolean validICNO = true;
         String patientIC = input.next();
-
+        do{
+            try{
+                System.out.print("IC No: ");
+                patientIC = input.next();
+                Validation.validIC(validICNO,patientIC);
+                validICNO = false;
+            } catch (ValidationException e) {
+                System.err.println(e.getMessage());
+            } catch (InputMismatchException e) {
+                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
+                input.nextLine();
+            }
+        }while(validICNO);
         if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
             for (int i = 0; i < patientList.getNumberOfEntries(); i++) {
                 if (new Patient(patientIC) == patientList.getEntry(i)) {
                     patientList.remove(i);
                 }
                 System.out.println("Patient Deleted!");
-                counterMenu();
+                CounterDriver.counterMenu();
             }
         } else {
             System.out.println("Record not found! Want to add patient?");
@@ -315,6 +320,16 @@ public class CounterMenu {
             }
         }
         while (Objects.equals(n, "n")) ;
+    }
+
+
+
+    public static ListInterface<Patient> getpatientList(){
+        return patientList;
+    }
+
+    public static QueueInterface<entity.waitingQueue> getwaitingQueue (){
+        return waitingQueue;
     }
 
 }

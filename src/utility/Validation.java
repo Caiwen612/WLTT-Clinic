@@ -47,4 +47,10 @@ public class Validation {
             throw new ValidationException(Font.useFont(Font.BOLD_RED, "Invalid price range: Lower price must be less than upper price"));
         }
     }
+
+    public static void validIC(boolean valid, String ic) throws ValidationException {
+        if (ic.length()!= 12) {
+            throw new ValidationException(Font.useFont(Font.BOLD_RED, "Please enter a valid IC Number!"));
+        }
+    }
 }
