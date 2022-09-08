@@ -1,9 +1,8 @@
 package entity;
 
-import adt.ArrayList;
 import adt.ListInterface;
 
-public class Medicine {
+public class Medicine implements Cloneable{
     private String id;
     private String name;
     private ListInterface<Dosage> dosage;
@@ -53,4 +52,31 @@ public class Medicine {
         this.description = description;
     }
 
+
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", dosage=" + dosage +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    @Override
+    public Medicine clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (Medicine) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
+
+
+/*    @Override
+    public int compareTo(Object o) {
+        return toString().compareTo(o.toString());
+    }*/
 }
