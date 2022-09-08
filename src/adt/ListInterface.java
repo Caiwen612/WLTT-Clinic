@@ -6,8 +6,9 @@ import java.util.Iterator;
  * ListInterface.java An interface for the ADT list. Entries in the list have
  * positions that begin with 1.
  *
- * @author Frank M. Carrano
- * @version 2.0
+ * @author Wilson Yau Kai Chun
+ * @group RSF2S1G1
+ * @studentId 21WMR02983
  */
 public interface ListInterface<T> {
 
