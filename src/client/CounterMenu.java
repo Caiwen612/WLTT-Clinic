@@ -17,18 +17,19 @@ public class CounterMenu {
     private static QueueInterface<entity.waitingQueue> waitingQueue = new ArrayQueue<>(100);
     private static ListInterface<Patient> patientList = new ArrayList<>(100);
 
-
+    //TAY CHAI BOON
     private static boolean roomFree1 = false;
     private static boolean roomFree2 = false;
     private static Queue<Patient> room1 = new LinkedList<>();
     private static Queue<Patient> room2 = new LinkedList<>();
-
     private static Queue<Patient> room3 = new LinkedList<>();
 
     private static Scanner input = new Scanner(System.in);
+    static String y = input.next();;
 
     //add/search patient only can register
     public static void searchPatient() {
+
         boolean validICNO = true;
         String patientIC = input.next();
         do{
@@ -49,19 +50,23 @@ public class CounterMenu {
                 }
             }
             System.out.println("Register patient?");
-
-            String y = input.next();
-
+            y = input.next();
             if (y == "Y") {
                 System.out.println("Patient registered into queue");
                 CounterDriver.waitingNo++;
-                registerPatient(new Patient(patientIC),   CounterDriver.waitingNo);
+                registerPatient(new Patient(patientIC), CounterDriver.waitingNo);
             } else {
                 System.out.println("Patient not registered into queue");
             }
         } else {
             System.out.println("Record not found! Want to add patient?");
-            addPatient();
+            y = input.next();
+            if (y == "Y") {
+                addPatient();
+            }
+            else{
+                CounterDriver.counterMenu();
+            }
         }
     }
 
@@ -204,7 +209,13 @@ public class CounterMenu {
         }
         else {
             System.out.println("Record not found! Want to add patient?");
-            addPatient();
+            y = input.next();
+            if (y == "Y") {
+                addPatient();
+            }
+            else{
+                CounterDriver.counterMenu();
+            }
         }
 
     }
@@ -232,7 +243,13 @@ public class CounterMenu {
             }
         } else {
             System.out.println("Record not found! Want to add patient?");
-            addPatient();
+            y = input.next();
+            if (y == "Y") {
+                addPatient();
+            }
+            else{
+                CounterDriver.counterMenu();
+            }
         }
     }
 
