@@ -66,13 +66,12 @@ public class Patient implements Comparable {
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "patientName='" + patientName + '\'' +
-                ", icNo='" + icNo + '\'' +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", address='" + address + '\'' +
-                ", DOB='" + DOB + '\'' +
-                '}';
+        return
+                "Name: " + patientName +
+                "\nIC Number: " + icNo +
+                "\nPhone Number: " + phoneNo  +
+                "\nAddress: " + address  +
+                "\nDOB: " + DOB;
     }
 
     @Override

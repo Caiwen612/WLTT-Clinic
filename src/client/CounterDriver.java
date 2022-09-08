@@ -1,19 +1,12 @@
 package client;
 
-import adt.ArrayList;
-import adt.ArrayQueue;
-import adt.ListInterface;
-import adt.QueueInterface;
-import entity.Patient;
-import entity.waitingQueue;
 
 import java.util.Scanner;
 
 public class CounterDriver {
     private static Scanner input = new Scanner(System.in);
 
-
-    private static int waitingNo = 100;
+    static int waitingNo = 100;
     public static void counterMenu(){
 
         CounterMenu.bubbleSort(CounterMenu.getpatientList(), CounterMenu.getpatientList().getNumberOfEntries());

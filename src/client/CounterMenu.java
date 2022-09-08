@@ -17,7 +17,7 @@ public class CounterMenu {
     private static QueueInterface<entity.waitingQueue> waitingQueue = new ArrayQueue<>(100);
     private static ListInterface<Patient> patientList = new ArrayList<>(100);
 
-    private static int waitingNo = 100;
+
     private static boolean roomFree1 = false;
     private static boolean roomFree2 = false;
     private static Queue<Patient> room1 = new LinkedList<>();
@@ -33,15 +33,12 @@ public class CounterMenu {
         String patientIC = input.next();
         do{
             try{
-                System.out.print("IC No: ");
+                System.out.print("IC Number: ");
                 patientIC = input.next();
                 Validation.validIC(validICNO,patientIC);
                 validICNO = false;
             } catch (ValidationException e) {
                 System.err.println(e.getMessage());
-            } catch (InputMismatchException e) {
-                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
-                input.nextLine();
             }
         }while(validICNO);
 
@@ -57,8 +54,8 @@ public class CounterMenu {
 
             if (y == "Y") {
                 System.out.println("Patient registered into queue");
-                waitingNo++;
-                registerPatient(new Patient(patientIC), waitingNo);
+                CounterDriver.waitingNo++;
+                registerPatient(new Patient(patientIC),   CounterDriver.waitingNo);
             } else {
                 System.out.println("Patient not registered into queue");
             }
@@ -105,19 +102,16 @@ public class CounterMenu {
 
         do{
             try{
-                System.out.print("IC No: ");
+                System.out.print("IC Number: ");
                  patientIC = input.next();
                 Validation.validIC(validICNO,patientIC);
                 validICNO = false;
             } catch (ValidationException e) {
                 System.err.println(e.getMessage());
-            } catch (InputMismatchException e) {
-                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
-                input.nextLine();
             }
         }while(validICNO);
 
-        System.out.print("Phone No: ");
+        System.out.print("Phone Number: ");
         String patientPhoneNo = input.next();
         System.out.print("Address: ");
         String patientAddress= input.next();
@@ -138,8 +132,8 @@ public class CounterMenu {
 
                 if (Objects.equals(y, "Y")) {
                     System.out.println("Patient registered into queue");
-                    waitingNo++;
-                    registerPatient(new Patient(patientIC), waitingNo);
+                    CounterDriver.waitingNo++;
+                    registerPatient(new Patient(patientIC),   CounterDriver.waitingNo);
 
                 } else {
                     System.out.println("Patient not registered into queue");
@@ -159,10 +153,8 @@ public class CounterMenu {
                 validICNO = false;
             } catch (ValidationException e) {
                 System.err.println(e.getMessage());
-            } catch (InputMismatchException e) {
-                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
-                input.nextLine();
             }
+
         }while(validICNO);
         if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
             for (int i = 1; i < patientList.getNumberOfEntries()+1; i++) {
@@ -175,7 +167,7 @@ public class CounterMenu {
             if (n == "Y") {
                 System.out.println("Which details do u wanna edit?");
                 System.out.println("[1] Patient's Name");
-                System.out.println("[2] Patient's Phone No");
+                System.out.println("[2] Patient's Phone Number");
                 System.out.println("[3] Patient's Address");
                 System.out.println("[4] Patient's DOB");
                 System.out.println("Enter your option: ");
@@ -188,7 +180,7 @@ public class CounterMenu {
                         new Patient(patientIC).setPatientName(nameEdit);
                         break;
                     case 2:
-                        System.out.println("Phone No: ");
+                        System.out.println("Phone Number: ");
                         String phoneNoEdit = input.next();
                         new Patient(patientIC).setPhoneNo(phoneNoEdit);
                         break;
@@ -222,15 +214,12 @@ public class CounterMenu {
         String patientIC = input.next();
         do{
             try{
-                System.out.print("IC No: ");
+                System.out.print("IC Number: ");
                 patientIC = input.next();
                 Validation.validIC(validICNO,patientIC);
                 validICNO = false;
             } catch (ValidationException e) {
                 System.err.println(e.getMessage());
-            } catch (InputMismatchException e) {
-                System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
-                input.nextLine();
             }
         }while(validICNO);
         if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
@@ -321,8 +310,6 @@ public class CounterMenu {
         }
         while (Objects.equals(n, "n")) ;
     }
-
-
 
     public static ListInterface<Patient> getpatientList(){
         return patientList;
