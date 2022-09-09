@@ -27,14 +27,11 @@ public class PharmacistMenu {
 
         while (option != 0) {
             switch (option) {
-                case 1:
-                    medicineStockManagement();
-                    break;
-                case 2:
-                    medicineManagement();
-                    break;
-                default:
-                    break;
+                case 1 -> medicineStockManagement();
+                case 2 -> medicineManagement();
+                case 5 -> pharmacistOperation.viewSummaryReport();
+                default -> {
+                }
             }
         }
     }
@@ -92,5 +89,6 @@ public class PharmacistMenu {
             }
         }
     }
+
 
 }

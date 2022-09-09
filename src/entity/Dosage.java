@@ -6,6 +6,7 @@ public class Dosage implements Comparable, Cloneable{
     private int dosageQuantity;
     private double dosageCost;
     private double dosagePrice;
+    private MedicineDosageRecord record;
 
     public Dosage(){}
 
@@ -15,6 +16,15 @@ public class Dosage implements Comparable, Cloneable{
         this.dosageQuantity = dosageQuantity;
         this.dosageCost = dosageCost;
         this.dosagePrice = dosagePrice;
+    }
+
+    public Dosage(String dosageForm, String dose, int dosageQuantity, double dosageCost, double dosagePrice, MedicineDosageRecord record) {
+        this.dosageForm = dosageForm;
+        this.dose = dose;
+        this.dosageQuantity = dosageQuantity;
+        this.dosageCost = dosageCost;
+        this.dosagePrice = dosagePrice;
+        this.record = record;
     }
 
     public String getDosageForm() {
@@ -57,6 +67,14 @@ public class Dosage implements Comparable, Cloneable{
         this.dosagePrice = dosagePrice;
     }
 
+    public MedicineDosageRecord getRecord() {
+        return record;
+    }
+
+    public void setRecord(MedicineDosageRecord record) {
+        this.record = record;
+    }
+
     @Override
     public int compareTo(Object o) {
         if (o instanceof Dosage){
@@ -66,6 +84,34 @@ public class Dosage implements Comparable, Cloneable{
             return 0;
         }
     }
+
+    public int compareDosageQuantity(Object o){
+        if (o instanceof Dosage){
+            return Integer.compare(this.dosageQuantity, ((Dosage) o).dosageQuantity);
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public int compareAllocatedQuantity(Object o){
+        if (o instanceof Dosage){
+            return Integer.compare(this.record.getAllocateQuantity(), ((Dosage) o).record.getAllocateQuantity());
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public int compareRestockQuantity(Object o){
+        if (o instanceof Dosage){
+            return Integer.compare(this.record.getRestockQuantity(), ((Dosage) o).record.getRestockQuantity());
+        }
+        else {
+            return 0;
+        }
+    }
+
 
     @Override
     public Dosage clone() {

@@ -2,7 +2,7 @@ package entity;
 
 import adt.ListInterface;
 
-public class Medicine implements Cloneable{
+public class Medicine implements Cloneable, Comparable{
     private String id;
     private String name;
     private ListInterface<Dosage> dosage;
@@ -75,8 +75,20 @@ public class Medicine implements Cloneable{
 
 
 
-/*    @Override
+    @Override
     public int compareTo(Object o) {
         return toString().compareTo(o.toString());
-    }*/
+    }
+
+    public int compareID(Object o){
+        if (o instanceof Medicine)
+            return this.getId().compareTo(((Medicine) o).getId());
+        else return 0;
+    }
+
+    public int compareName(Object o){
+        if (o instanceof Medicine)
+            return this.getName().compareTo(((Medicine) o).getName());
+        else return 0;
+    }
 }

@@ -16,29 +16,42 @@ public class PharmacistOperation {
     private Scanner input = new Scanner(System.in);
 
     public PharmacistOperation(){
-        medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<Dosage>() {
+        medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<>() {
             {
-                add(new Dosage("Oral capsule", "325mg", 40, 5, 20));
-                add(new Dosage("Oral liquid", "160mg/5mL", 30, 3, 15));
-                add(new Dosage("Oral tablet", "500mg", 15, 8, 25));
+                add(new Dosage("Oral capsule", "325mg", 40, 5, 20, new MedicineDosageRecord(20, 10)));
+                add(new Dosage("Oral liquid", "160mg/5mL", 30, 3, 15, new MedicineDosageRecord(20, 40)));
+                add(new Dosage("Oral tablet", "500mg", 15, 8, 25, new MedicineDosageRecord(50, 45)));
             }
         }, "A pain reliever and fever reducer"));
 
-        medicineStock.add(new Medicine("M002", "Oseltamivir", new ArrayList<Dosage>() {
+        medicineStock.add(new Medicine("M002", "Oseltamivir", new ArrayList<>() {
             {
-                add(new Dosage("Oral capsule", "300mg", 20, 5, 15));
-                add(new Dosage("Oral capsule", "450mg", 40, 8, 20));
-                add(new Dosage("Oral capsule", "600mg", 34, 10, 25));
+                add(new Dosage("Oral capsule", "300mg", 20, 5, 15, new MedicineDosageRecord(24, 50)));
+                add(new Dosage("Oral capsule", "450mg", 40, 8, 20, new MedicineDosageRecord(10, 30)));
+                add(new Dosage("Oral capsule", "600mg", 34, 10, 25, new MedicineDosageRecord(5, 0)));
             }
         }, "An antiviral medication that blocks the actions of influenza virus types A and B in the body"));
 
-        medicineStock.add(new Medicine("M003", "Loperamide", new ArrayList<Dosage>() {
+        medicineStock.add(new Medicine("M003", "Loperamide", new ArrayList<>() {
             {
-                add(new Dosage("Oral capsule", "300mg", 18, 4, 15));
-                add(new Dosage("Oral tablet", "450mg", 5, 8, 20));
+                add(new Dosage("Oral capsule", "300mg", 28, 4, 15, new MedicineDosageRecord(15, 30)));
+                add(new Dosage("Oral tablet", "450mg", 15, 8, 20, new MedicineDosageRecord(20, 30)));
             }
         }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileosomy"));
 
+        medicineStock.add(new Medicine("M004", "Atorvastatin", new ArrayList<>() {
+            {
+                add(new Dosage("Oral tablet", "10mg", 60, 5, 15, new MedicineDosageRecord(45, 32)));
+                add(new Dosage("Oral tablet", "20mg", 54, 8, 25, new MedicineDosageRecord(30, 23)));
+            }
+        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+
+        medicineStock.add(new Medicine("M005", "Lisinopril", new ArrayList<>() {
+            {
+                add(new Dosage("Oral tablet", "10mg", 50, 5, 12, new MedicineDosageRecord(45, 40)));
+                add(new Dosage("Oral tablet", "25mg", 74, 10, 25, new MedicineDosageRecord(50, 30)));
+            }
+        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
     }
 
     public void printMedicineStock() {
@@ -71,7 +84,7 @@ public class PharmacistOperation {
     }
 
     public void searchMedicineStock() {
-        String keywords = "";
+        String keywords;
         input.nextLine();
         System.out.print("Enter the keywords: ");
         keywords = input.nextLine();
@@ -97,8 +110,8 @@ public class PharmacistOperation {
         }
     }
 
-    public void sortMedicineStock() {
-        ListInterface<Medicine> temp = new ArrayList<Medicine>();
+    public  void sortMedicineStock() {
+        ListInterface<Medicine> temp = new ArrayList<>();
 
         Iterator<Medicine> medicineIterator = medicineStock.getIterator();
 
@@ -106,24 +119,14 @@ public class PharmacistOperation {
             temp.add(medicineIterator.next().clone());
         }
 
-        /*for (int i = 1; i <= medicineStock.getNumberOfEntries(); i++) {
-            temp.add(medicineStock.getEntry(i).clone());
-            temp.getEntry(i).getDosage().clear();
-            for (int j = 1; j <= medicineStock.getEntry(i).getDosage().getNumberOfEntries(); j++) {
-
-                temp.getEntry(i).getDosage().add(medicineStock.getEntry(i).getDosage().getEntry(j).clone());
-            }
-        }*/
-
         //TODO: STILL CANNOT SORT THE ARRAYLIST WITHOUT CHANGING ANOTHER
         for (int index = 1; index <= temp.getNumberOfEntries(); index++) {
-            SortArrayList.bubbleSort(temp.getEntry(index).getDosage(), temp.getNumberOfEntries());
+            SortArrayList.bubbleSort(temp.getEntry(index).getDosage(), temp.getEntry(index).getDosage().getNumberOfEntries());
         }
         System.out.println(medicineStock.getEntry(1).getName().hashCode());
         System.out.println(temp.getEntry(1).getName().hashCode());
 
         System.out.println("hha");
-        printMedicineStock();
 
     }
 
@@ -213,7 +216,7 @@ public class PharmacistOperation {
     public void addNewMedicine() throws ValidationException {
         char option;
         String mediName, mediFunc;
-        int doseFormQuantity = 0;
+        int doseFormQuantity;
 
         input.nextLine();
         System.out.print("Enter the name of new medicine: ");
@@ -281,7 +284,7 @@ public class PharmacistOperation {
 
         String[] dosageFormArray = new String[]{"Oral capsule", "Oral tablet", "Oral liquid"};
         if (option == 'Y'){
-            ArrayList<Dosage> tempDosage = new ArrayList<Dosage>();
+            ArrayList<Dosage> tempDosage = new ArrayList<>();
             for (int i = 0; i < doseFormQuantity; i++) {
                 tempDosage.add(new Dosage(dosageFormArray[dosageType[i]], dosageForm[i], doseQuantity[i], doseCost[i], dosePrice[i]));
             }
@@ -327,19 +330,19 @@ public class PharmacistOperation {
         System.out.println("Medicine: " + medicineStock.getEntry(medicineNo).getName() + " - " +
                 medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosageForm() + " (" +
                 medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDose() + ")");
-        switch (num){
-            case 1:
+        switch (num) {
+            case 1 -> {
                 System.out.println("Original dosage cost: RM" + medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosageCost());
                 System.out.print("Enter the updated dosage cost: RM");
                 tempCost = input.nextDouble();
-                break;
-            case 2:
+            }
+            case 2 -> {
                 System.out.println("Original dosage price: RM" + medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosagePrice());
                 System.out.print("Enter the updated dosage price: RM");
                 tempPrice = input.nextDouble();
-                break;
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
         System.out.println("Are you sure you want to update the medicine details? ('Y' for yes/'N' for no): ");
@@ -347,15 +350,11 @@ public class PharmacistOperation {
         Validation.validCharYN(option);
 
         if (option == 'Y'){
-            switch (num){
-                case 1:
-                    medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosageCost(tempCost);
-                    break;
-                case 2:
-                    medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosagePrice(tempPrice);
-                    break;
-                default:
-                    break;
+            switch (num) {
+                case 1 -> medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosageCost(tempCost);
+                case 2 -> medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosagePrice(tempPrice);
+                default -> {
+                }
             }
             System.out.println("Update medicine details successfully!!!");
         }
@@ -390,20 +389,16 @@ public class PharmacistOperation {
         System.out.print("Enter your option: ");
         option = input.nextInt();
 
-        switch (option){
-            case 1:
-                System.out.print("Are you sure you want to delete the medicine " +
-                        medicineStock.getEntry(medicineNo).getName() +
-                        "? ('Y' for yes/'N' for no): " );
-                break;
-            case 2:
-                System.out.print("Are you sure you want to delete the medicine " +
-                        medicineStock.getEntry(medicineNo).getName() +
-                        " with the dosage type - " +
-                        medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosageForm() +
-                        " (" + medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDose() + ")" +
-                        "? ('Y' for yes/'N' for no): " );
-                break;
+        switch (option) {
+            case 1 -> System.out.print("Are you sure you want to delete the medicine " +
+                    medicineStock.getEntry(medicineNo).getName() +
+                    "? ('Y' for yes/'N' for no): ");
+            case 2 -> System.out.print("Are you sure you want to delete the medicine " +
+                    medicineStock.getEntry(medicineNo).getName() +
+                    " with the dosage type - " +
+                    medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosageForm() +
+                    " (" + medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDose() + ")" +
+                    "? ('Y' for yes/'N' for no): ");
         }
 
         confirm = input.next().charAt(0);
@@ -433,6 +428,78 @@ public class PharmacistOperation {
         input.nextLine();
         System.out.println("Press Enter key to go back to medicine management menu...");
         input.nextLine();
+    }
+
+    public void viewSummaryReport() throws ValidationException {
+        double totalProfit = 0;
+        System.out.println("=".repeat(118));
+        System.out.printf("%70s\n", "Medicine Summary Report");
+        System.out.println("=".repeat(118));
+        System.out.printf("%58s %13s %9s\n", "On Hand", "Allocated", "Restock");
+        System.out.printf("%-5s %-15s %-15s %10s %10s %11s %11s %10s %10s %11s\n", "ID", "Name", "Dosage Form", "Dose", "Quantity", "Quantity", "Quantity","Cost(RM）", "Price(RM)", "Profit(RM)");
+        System.out.println("-".repeat(118));
+        for (int j = 1; j <= medicineStock.getNumberOfEntries(); j++) {
+            for (int k = 1; k <= medicineStock.getEntry(j).getDosage().getNumberOfEntries(); k++) {
+                double profit = (medicineStock.getEntry(j).getDosage().getEntry(k).getDosagePrice() - medicineStock.getEntry(j).getDosage().getEntry(k).getDosageCost())
+                        * medicineStock.getEntry(j).getDosage().getEntry(k).getRecord().getAllocateQuantity();
+                totalProfit += profit;
+                System.out.printf("%-5s %-15s %-15s %10s %8d %10d %10d %13.2f %10.2f %11.2f\n",
+                        medicineStock.getEntry(j).getId(),
+                        medicineStock.getEntry(j).getName(),
+                        medicineStock.getEntry(j).getDosage().getEntry(k).getDosageForm(),
+                        medicineStock.getEntry(j).getDosage().getEntry(k).getDose(),
+                        medicineStock.getEntry(j).getDosage().getEntry(k).getDosageQuantity(),
+                        medicineStock.getEntry(j).getDosage().getEntry(k).getRecord().getAllocateQuantity(),
+                        medicineStock.getEntry(j).getDosage().getEntry(k).getRecord().getRestockQuantity(),
+                        medicineStock.getEntry(j).getDosage().getEntry(k).getDosageCost(),
+                        medicineStock.getEntry(j).getDosage().getEntry(k).getDosagePrice(),
+                        profit
+                );
+            }
+            System.out.println("-".repeat(118));
+        }
+        System.out.println(Font.useFont(Font.BOLD_BLUE, String.format("%106s %9.2f", "Total Profit(RM): ", totalProfit)));
+        System.out.println("=".repeat(118));
+
+        System.out.println("[1] Sort by medicine ID");
+        System.out.println("[2] Sort by medicine name");
+        System.out.println("[3] Sort by on hand quantity");
+        System.out.println("[4] Sort by allocated quantity");
+        System.out.println("[5] Sort by restock quantity");
+        System.out.println("[0] Exit");
+        System.out.print("Enter your option: ");
+        int option = input.nextInt();
+
+
+        switch (option) {
+            case 1 -> {
+                SortArrayList.sortMedicineID(medicineStock, medicineStock.getNumberOfEntries());
+                viewSummaryReport();
+            }
+            case 2 -> {
+                SortArrayList.sortMedicineName(medicineStock, medicineStock.getNumberOfEntries());
+                viewSummaryReport();
+            }
+            case 3 -> {
+                for (int index = 1; index <= medicineStock.getNumberOfEntries(); index++) {
+                    SortArrayList.sortDosageQuantity(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries());
+                }
+                viewSummaryReport();
+            }
+            case 4 -> {
+                for (int index = 1; index <= medicineStock.getNumberOfEntries(); index++) {
+                    SortArrayList.sortAllocatedQuantity(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries());
+                }
+                viewSummaryReport();
+            }
+            case 5 -> {
+                for (int index = 1; index <= medicineStock.getNumberOfEntries(); index++) {
+                    SortArrayList.sortRestockQuantity(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries());
+                }
+                viewSummaryReport();
+            }
+            default -> PharmacistMenu.menu();
+        }
     }
 
 }
