@@ -1,5 +1,11 @@
 package adt;
 
+/*
+ * @Author: Lan Ke En
+ * @Group: RSF2S1G1
+ * */
+
+
 import java.util.Iterator;
 
 public interface QueueInterface<T> {
@@ -17,5 +23,4 @@ public interface QueueInterface<T> {
 
     public int getSize();
 
-    public QueueInterface<T>sort();
 }

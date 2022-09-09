@@ -26,6 +26,7 @@ public class Main {
 
         switch (option) {
             case 1:
+                CounterDriver.counterMenu();
                 break;
             case 2:
                 break;
