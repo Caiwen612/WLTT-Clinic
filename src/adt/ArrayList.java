@@ -12,7 +12,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
 
     private T[] array;
     private int numberOfEntries;
-    private static final int DEFAULT_CAPACITY = 3;
+    private static final int DEFAULT_CAPACITY = 10;
 
     public ArrayList() {
         this(DEFAULT_CAPACITY);
@@ -55,16 +55,19 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
     }
 
     @Override
-    public T remove(int givenPosition) {
-        T result = null;
+    public boolean remove(int givenPosition) {
+        boolean isSuccessful = true;
         if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
-            result = array[givenPosition - 1];
+
             if (givenPosition < numberOfEntries) {
                 removeGap(givenPosition);
             }
             numberOfEntries--;
         }
-        return result;
+        else{
+            isSuccessful = false;
+        }
+        return isSuccessful;
     }
 
     @Override
@@ -105,6 +108,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
         for (int index = 0; !found && (index < numberOfEntries); index++) {
             if (anEntry.equals(array[index])) {
                 found = true;
+                break;
             }
         }
         return found;
@@ -167,7 +171,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
     //Double the array list
     public void doubleArrayList(){
         int length = getNumberOfEntries() * 2;
-        ArrayList<T> temp = new ArrayList<T>(length);
+        ArrayList<T> temp = new ArrayList<>(length);
         for (int index = 1; index <= this.getNumberOfEntries(); index++) {
             temp.add(this.getEntry(index));
         }
@@ -175,7 +179,6 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
 
     //Copy the current arraylist to a temporary arraylist
     public T copyArrayList(ListInterface<T> anArrayList){
-        T temp = (T) anArrayList;
         if (numberOfEntries <= anArrayList.getNumberOfEntries()){
             for (int index = 0; index < numberOfEntries; index++) {
                 anArrayList.add(this.getEntry(index));
@@ -192,9 +195,8 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
 
         // move each entry to next higher index, starting at end of
         // array and continuing until the entry at newIndex is moved
-        for (int index = lastIndex; index >= newIndex; index--) {
-            array[index + 1] = array[index];
-        }
+        if (lastIndex + 1 - newIndex >= 0)
+            System.arraycopy(array, newIndex, array, newIndex + 1, lastIndex + 1 - newIndex);
     }
 
     //Remove the gap and shift the next element
@@ -204,9 +206,8 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
         int removedIndex = givenPosition - 1;
         int lastIndex = numberOfEntries - 1;
 
-        for (int index = removedIndex; index < lastIndex; index++) {
-            array[index] = array[index + 1];
-        }
+        if (lastIndex - removedIndex >= 0)
+            System.arraycopy(array, removedIndex + 1, array, removedIndex, lastIndex - removedIndex);
     }
 
 }

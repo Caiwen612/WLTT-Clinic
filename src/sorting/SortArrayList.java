@@ -16,12 +16,6 @@ public class SortArrayList {
         a[j] = temp;*/
     }
 
-    /**
-     * ********************* Bubble Sort ******************************
-     * @param <T>
-     * @param a
-     * @param n
-     */
     public static <T extends Comparable<T>> void bubbleSort(ListInterface<Dosage> a, int n) {
         boolean sorted = false;
         for (int pass = 1; pass <= n && !sorted; pass++) {
@@ -39,4 +33,80 @@ public class SortArrayList {
             }
         }
     }
+    public static <T extends Comparable<T>> void sortMedicineID(ListInterface<Medicine> a, int n) {
+        boolean sorted = false;
+        for (int pass = 1; pass <= n && !sorted; pass++) {
+            sorted = true;
+            for (int index = 1; index <= n - pass; index++) {
+                // swap adjacent elements if first is greater than second
+                if (a.getEntry(index).compareID(a.getEntry(index+1)) > 0){
+                    swap(a, index, index+1);
+                    sorted = false;
+                }
+
+            }
+        }
+    }
+
+    public static <T extends Comparable<T>> void sortMedicineName(ListInterface<Medicine> a, int n) {
+        boolean sorted = false;
+        for (int pass = 1; pass <= n && !sorted; pass++) {
+            sorted = true;
+            for (int index = 1; index <= n - pass; index++) {
+                // swap adjacent elements if first is greater than second
+                if (a.getEntry(index).compareName(a.getEntry(index+1)) > 0){
+                    swap(a, index, index+1);
+                    sorted = false;
+                }
+
+            }
+        }
+    }
+
+
+    public static <T extends Comparable<T>> void sortDosageQuantity(ListInterface<Dosage> a, int n) {
+        boolean sorted = false;
+        for (int pass = 1; pass <= n && !sorted; pass++) {
+            sorted = true;
+            for (int index = 1; index <= n - pass; index++) {
+                // swap adjacent elements if first is greater than second
+                if (a.getEntry(index).compareDosageQuantity(a.getEntry(index+1)) > 0){
+                    swap(a, index, index+1);
+                    sorted = false;
+                }
+
+            }
+        }
+    }
+
+    public static <T extends Comparable<T>> void sortAllocatedQuantity(ListInterface<Dosage> a, int n) {
+        boolean sorted = false;
+        for (int pass = 1; pass <= n && !sorted; pass++) {
+            sorted = true;
+            for (int index = 1; index <= n - pass; index++) {
+                // swap adjacent elements if first is greater than second
+                if (a.getEntry(index).compareAllocatedQuantity(a.getEntry(index+1)) > 0){
+                    swap(a, index, index+1);
+                    sorted = false;
+                }
+
+            }
+        }
+    }
+
+    public static <T extends Comparable<T>> void sortRestockQuantity(ListInterface<Dosage> a, int n) {
+        boolean sorted = false;
+        for (int pass = 1; pass <= n && !sorted; pass++) {
+            sorted = true;
+            for (int index = 1; index <= n - pass; index++) {
+                // swap adjacent elements if first is greater than second
+                if (a.getEntry(index).compareRestockQuantity(a.getEntry(index+1)) > 0){
+                    swap(a, index, index+1);
+                    sorted = false;
+                }
+
+            }
+        }
+    }
+
 }
