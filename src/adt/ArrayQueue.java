@@ -1,5 +1,11 @@
 package adt;
 
+/*
+ * @Author: Lan Ke En
+ * @Group: RSF2S1G1
+ * */
+
+
 import java.util.Iterator;
 
 
@@ -34,6 +40,20 @@ public class ArrayQueue<T> implements QueueInterface<T> {
         return front;
     }
 
+
+    public boolean isEmpty() {
+        return frontIndex > backIndex;
+    }
+
+    public void clear() {
+        if (!isEmpty()) { // deallocates only the used portion
+            for (int index = frontIndex; index <= backIndex; index++) {
+                array[index] = null;
+            }
+            backIndex = -1;
+        }
+    }
+
     public T dequeue() {
         T front = null;
         if (!isEmpty()) {
@@ -59,23 +79,6 @@ public class ArrayQueue<T> implements QueueInterface<T> {
         return queueSize;
     }
 
-    @Override
-    public QueueInterface<T> sort( ) {
-        return null;
-    }
-
-    public boolean isEmpty() {
-        return frontIndex > backIndex;
-    }
-
-    public void clear() {
-        if (!isEmpty()) { // deallocates only the used portion
-            for (int index = frontIndex; index <= backIndex; index++) {
-                array[index] = null;
-            }
-            backIndex = -1;
-        }
-    }
 
     private boolean isArrayFull() {
         return backIndex == array.length - 1;
@@ -84,11 +87,6 @@ public class ArrayQueue<T> implements QueueInterface<T> {
     public Iterator<T> getIterator() {
         return new ArrayQueueIterator();
     }
-
-    public QueueInterface<T> sort(QueueInterface<T> queue){
-
-        return queue;
-    };
 
     private class ArrayQueueIterator implements Iterator<T> {
         private int nextIndex;
