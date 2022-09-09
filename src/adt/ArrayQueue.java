@@ -80,7 +80,7 @@ public class ArrayQueue<T> implements QueueInterface<T> {
     }
 
 
-    private boolean isArrayFull() {
+   public boolean isArrayFull() {
         return backIndex == array.length - 1;
     }
 
