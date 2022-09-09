@@ -2,18 +2,33 @@ package entity;
 
 import adt.ListInterface;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Invoice {
-
+    DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final double SERVICE_TAX = 0.06;
     private String id;
-    private String date;
+    private String date = LocalDate.now().format(dateFormat);
+    private String time = LocalDateTime.now().format(timeFormat);
     private Patient patient;
-    private ListInterface<Medicine> medicine;
+    private double subTotal;
+    private double total;
+    private ListInterface<Medicine> medicine; //Should be prescription list I think
+    private static int numOfInvoice = 0;
 
-    public Invoice(String id, String date, Patient patient, ListInterface<Medicine> medicine) {
+    public Invoice(){
+        numOfInvoice++;
+    };
+
+    public Invoice(String id, String date, String time, Patient patient, ListInterface<Medicine> medicine) {
         this.id = id;
         this.date = date;
+        this.time = time;
         this.patient = patient;
-        this.medicine = medicine;
+        this.medicine = medicine; //Have to change
     }
 
     public String getId() {
@@ -32,12 +47,36 @@ public class Invoice {
         this.date = date;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public Patient getPatient() {
         return patient;
     }
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public ListInterface<Medicine> getMedicine() {
@@ -48,11 +87,16 @@ public class Invoice {
         this.medicine = medicine;
     }
 
+    public static double getServiceTax(){
+        return Invoice.SERVICE_TAX;
+    }
+
     @Override
     public String toString() {
         return "Invoice{" +
                 "id='" + id + '\'' +
                 ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
                 ", patient=" + patient +
                 ", medicine=" + medicine +
                 '}';

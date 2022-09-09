@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class PharmacistOperation {
-    private ListInterface<Medicine> medicineStock = new ArrayList<>(10);
-    private Scanner input = new Scanner(System.in);
+    private static ListInterface<Medicine> medicineStock = new ArrayList<>(10);
+    private static Scanner input = new Scanner(System.in);
 
     public PharmacistOperation(){
         medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<>() {

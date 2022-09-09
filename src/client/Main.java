@@ -34,6 +34,7 @@ public class Main {
                 PharmacistMenu.menu();
                 break;
             case 4:
+                PaymentMenu.menu();
                 break;
             case 5:
 
