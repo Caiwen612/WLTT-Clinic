@@ -50,6 +50,6 @@ public interface QueueInterface<T> {
     public void clear();
 
     public int getSize();
-    
+
 
 }
