@@ -4,6 +4,9 @@ package adt;
  * @Group: RSF2S1G1
  * */
 
+import entity.Dosage;
+import entity.Medicine;
+
 import java.io.Serializable;
 import java.util.Iterator;
 
@@ -166,6 +169,65 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
         }
 
         return outputStr;
+    }
+
+    //Sort array
+    public static <T extends Comparable<T>> void bubbleSort(ListInterface<T> a, int n, int option) {
+        boolean sorted = false;
+        for (int pass = 1; pass <= n && !sorted; pass++) {
+            sorted = true;
+            for (int index = 1; index <= n - pass; index++) {
+                // swap adjacent elements if first is greater than second
+                switch (option){
+                    case 1: //compare medicine ID
+                        if (a.getEntry(index) instanceof Medicine){
+                            if (((Medicine) a.getEntry(index)).compareID(a.getEntry(index + 1)) > 0){
+                                swap(a, index, index+1);
+                                sorted = false;
+                            }
+                        }
+                        break;
+                    case 2://compare medicine Name
+                        if (a.getEntry(index) instanceof Medicine){
+                            if (((Medicine) a.getEntry(index)).compareName(a.getEntry(index + 1)) > 0){
+                                swap(a, index, index+1);
+                                sorted = false;
+                            }
+                        }
+                        break;
+                    case 3://compare on hand quantity
+                        if (a.getEntry(index) instanceof Dosage){
+                            if (((Dosage) a.getEntry(index)).compareDosageQuantity(a.getEntry(index + 1)) > 0){
+                                swap(a, index, index+1);
+                                sorted = false;
+                            }
+                        }
+                        break;
+                    case 4://compare allocated quantity
+                        if (a.getEntry(index) instanceof Dosage){
+                            if (((Dosage) a.getEntry(index)).compareAllocatedQuantity(a.getEntry(index + 1)) > 0){
+                                swap(a, index, index+1);
+                                sorted = false;
+                            }
+                        }
+                        break;
+                    case 5://compare restock quantity
+                        if (a.getEntry(index) instanceof Dosage){
+                            if (((Dosage) a.getEntry(index)).compareRestockQuantity(a.getEntry(index + 1)) > 0){
+                                swap(a, index, index+1);
+                                sorted = false;
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    private static <T> void swap(ListInterface<T> a, int i, int j) {
+        T temp = a.getEntry(i);
+        a.replace(i, a.getEntry(j));
+        a.replace(j, temp);
     }
 
     //Double the array list

@@ -3,7 +3,6 @@ package entity;
 import adt.ArrayList;
 import adt.ListInterface;
 import client.PharmacistMenu;
-import sorting.SortArrayList;
 import utility.Font;
 import utility.Validation;
 import utility.ValidationException;
@@ -110,7 +109,7 @@ public class PharmacistOperation {
         }
     }
 
-    public  void sortMedicineStock() {
+    public  void sortMedicineStock() throws ValidationException {
         ListInterface<Medicine> temp = new ArrayList<>();
 
         Iterator<Medicine> medicineIterator = medicineStock.getIterator();
@@ -121,12 +120,9 @@ public class PharmacistOperation {
 
         //TODO: STILL CANNOT SORT THE ARRAYLIST WITHOUT CHANGING ANOTHER
         for (int index = 1; index <= temp.getNumberOfEntries(); index++) {
-            SortArrayList.bubbleSort(temp.getEntry(index).getDosage(), temp.getEntry(index).getDosage().getNumberOfEntries());
+            ArrayList.bubbleSort(temp.getEntry(index).getDosage(), temp.getEntry(index).getDosage().getNumberOfEntries(), 3);
         }
-        System.out.println(medicineStock.getEntry(1).getName().hashCode());
-        System.out.println(temp.getEntry(1).getName().hashCode());
-
-        System.out.println("hha");
+        PharmacistMenu.medicineStockManagement();
 
     }
 
@@ -473,28 +469,28 @@ public class PharmacistOperation {
 
         switch (option) {
             case 1 -> {
-                SortArrayList.sortMedicineID(medicineStock, medicineStock.getNumberOfEntries());
+                ArrayList.bubbleSort(medicineStock, medicineStock.getNumberOfEntries(), 1);
                 viewSummaryReport();
             }
             case 2 -> {
-                SortArrayList.sortMedicineName(medicineStock, medicineStock.getNumberOfEntries());
+                ArrayList.bubbleSort(medicineStock, medicineStock.getNumberOfEntries(), 2);
                 viewSummaryReport();
             }
             case 3 -> {
                 for (int index = 1; index <= medicineStock.getNumberOfEntries(); index++) {
-                    SortArrayList.sortDosageQuantity(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries());
+                    ArrayList.bubbleSort(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries(), 3);
                 }
                 viewSummaryReport();
             }
             case 4 -> {
                 for (int index = 1; index <= medicineStock.getNumberOfEntries(); index++) {
-                    SortArrayList.sortAllocatedQuantity(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries());
+                    ArrayList.bubbleSort(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries(), 4);
                 }
                 viewSummaryReport();
             }
             case 5 -> {
                 for (int index = 1; index <= medicineStock.getNumberOfEntries(); index++) {
-                    SortArrayList.sortRestockQuantity(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries());
+                    ArrayList.bubbleSort(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries(), 5);
                 }
                 viewSummaryReport();
             }
