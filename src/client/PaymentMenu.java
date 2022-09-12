@@ -13,27 +13,32 @@ import java.util.Scanner;
 public class PaymentMenu {
 
     private static Scanner input = new Scanner(System.in);
-    private static ListInterface<Patient> Patient = new ArrayList<>();
+
     private static ListInterface<TestingPrescription> Prescription = new ArrayList<>();
-    private static ListInterface<Invoice> invoiceList = new ArrayList<>();
-    private static ListInterface<Medicine> Medicine = new ArrayList<>();
     private static PharmacistOperation pharmacy = new PharmacistOperation();
     private static Dosage dosage;
+    private static PharmacistOperation pharmacistOperation = new PharmacistOperation();
+
+    private static ArrayList<Medicine> medicineStock = new ArrayList<>();
+    private static ArrayList<Patient> Patient = new ArrayList<>();
+
+    private static ArrayList<PrescriptionListMedicine> medicineList = new ArrayList<>();
 
     private static StackInterface<Transaction> transactionHistory = new ArrayStack<>();
     private static StackInterface<Transaction> tempStack = new ArrayStack<>();
+    private static StackInterface<Invoice> invoiceList = new ArrayStack<>();
 
     public static void main(String[] args){
 
-        Patient patient1 = new Patient("ALOHA", "010101011111", "0101010101", "010101", "010101");
+        menu();
 
-        printInvoice();
     }
 
     public static void menu(){
 
-        initializePrescriptionList();
         initializeTransactionHistory();
+        initializeMedicine();
+        initializePatient();
 
         System.out.println("[1] Print Invoice");
         System.out.println("[2] Transaction History");
@@ -64,14 +69,14 @@ public class PaymentMenu {
         }
     }
 
-    public static void initializePrescriptionList() {
-
-        Prescription.add(new TestingPrescription(1, 2, 2));
-        Prescription.add(new TestingPrescription(2, 1, 1));
-        Prescription.add(new TestingPrescription(3, 2, 3));
-
-
-    }
+//    public static void initializePrescriptionList() {
+//
+//        Prescription.add(new TestingPrescription(1, 2, 2));
+//        Prescription.add(new TestingPrescription(2, 1, 1));
+//        Prescription.add(new TestingPrescription(3, 2, 3));
+//
+//
+//    }
 
     public static void initializeTransactionHistory(){
 
@@ -82,71 +87,132 @@ public class PaymentMenu {
         System.out.println(transactionHistory.getNumberOfStack());
     }
 
+    public static void initializeMedicine(){
+        medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<>() {
+            {
+                add(new Dosage("Oral capsule", "325mg", 40, 5, 20, new MedicineDosageRecord(20, 10)));
+                add(new Dosage("Oral liquid", "160mg/5mL", 30, 3, 15, new MedicineDosageRecord(20, 40)));
+                add(new Dosage("Oral tablet", "500mg", 15, 8, 25, new MedicineDosageRecord(50, 45)));
+            }
+        }, "A pain reliever and fever reducer"));
+
+        medicineStock.add(new Medicine("M002", "Oseltamivir", new ArrayList<>() {
+            {
+                add(new Dosage("Oral capsule", "300mg", 20, 5, 15, new MedicineDosageRecord(24, 50)));
+                add(new Dosage("Oral capsule", "450mg", 40, 8, 20, new MedicineDosageRecord(10, 30)));
+                add(new Dosage("Oral capsule", "600mg", 34, 10, 25, new MedicineDosageRecord(5, 0)));
+            }
+        }, "An antiviral medication that blocks the actions of influenza virus types A and B in the body"));
+
+        medicineStock.add(new Medicine("M003", "Loperamide", new ArrayList<>() {
+            {
+                add(new Dosage("Oral capsule", "300mg", 28, 4, 15, new MedicineDosageRecord(15, 30)));
+                add(new Dosage("Oral tablet", "450mg", 15, 8, 20, new MedicineDosageRecord(20, 30)));
+            }
+        }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileosomy"));
+
+        medicineStock.add(new Medicine("M004", "Atorvastatin", new ArrayList<>() {
+            {
+                add(new Dosage("Oral tablet", "10mg", 60, 5, 15, new MedicineDosageRecord(45, 32)));
+                add(new Dosage("Oral tablet", "20mg", 54, 8, 25, new MedicineDosageRecord(30, 23)));
+            }
+        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+
+        medicineStock.add(new Medicine("M005", "Lisinopril", new ArrayList<>() {
+            {
+                add(new Dosage("Oral tablet", "10mg", 50, 5, 12, new MedicineDosageRecord(45, 40)));
+                add(new Dosage("Oral tablet", "25mg", 74, 10, 25, new MedicineDosageRecord(50, 30)));
+            }
+        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+    }
+
+    public static void initializePatient() {
+
+        TestingPrescription prescription1 = new TestingPrescription(1, 2);
+        TestingPrescription prescription2 = new TestingPrescription(5, 2);
+        TestingPrescription prescription3 = new TestingPrescription(3, 1);
+
+        Prescription.add(prescription1);
+        Prescription.add(prescription2);
+        Prescription.add(prescription3);
+
+        Patient patient = new Patient("ALOHA", "010101011111", "0101010101", "010101", "010101");
+
+        Patient.add(patient);
+
+    }
+
     public static void printInvoice(){
 
-        double price = 10.81;
+        String id = "I" + String.format("%04d", (invoiceList.getNumberOfStack() + 1));
 
-        if ((price * 100)%100 > 90){
-            System.out.println(            Math.round(price));
+        Patient patient = Patient.getEntry(1); //Should be customerNo
+
+        for (int i = 0; i < Prescription.getNumberOfEntries(); i++){
+            int index = 0;
+            int qty = Prescription.getEntry(i + 1).getQuantity();
+            for (int j = 0; j < medicineStock.getNumberOfEntries(); j++){
+                for (int k = 0; k < medicineStock.getEntry(j + 1).getDosage().getNumberOfEntries(); k++){
+                    index++;
+                    if (Prescription.getEntry(i + 1).getMedicineNo() == index){
+
+                        Medicine medicine = medicineStock.getEntry(j + 1);
+                        Dosage dosage = medicineStock.getEntry(j + 1).getDosage().getEntry(k + 1);
+
+                        medicineList.add(new PrescriptionListMedicine(medicine, dosage, qty));
+
+                    }
+                }
+            }
         }
 
+        Invoice invoice = new Invoice(id, patient, medicineList);
+
+
+        invoiceList.push(invoice);
 
 
         System.out.println("======================================================================================");
         System.out.println("                                      INVOICE                                         ");
         System.out.println("======================================================================================");
 
-        System.out.println("Patient Name : ");
-        System.out.println("Address      : ");
-        System.out.println("Contact No   : ");
-        System.out.println("I/C No       : ");
+        System.out.println("Patient Name : " + Patient.getEntry(1).getPatientName());
+        System.out.println("Address      : " + Patient.getEntry(1).getAddress());
+        System.out.println("Contact No   : " + Patient.getEntry(1).getPhoneNo());
+        System.out.println("I/C No       : " + Patient.getEntry(1).getIcNo());
 
-        System.out.println("\nPrinted Date : ");
-        System.out.println("Invoice ID   : ");
+        System.out.println("\nPrinted Date : " + invoice.getDate());
+        System.out.println("Invoice ID   : " + invoice.getId());
 
-        System.out.printf("\n%-2s %14s %14s %9s %13s %16s %12s\n",
+        System.out.printf("\n%-2s %14s %14s %7s %15s %16s %12s\n",
                 "No", "Medicine Name", "Dosage Form", "Dose", "Quantity", "Unit Price (RM)", "Amount (RM)");
         System.out.println("--------------------------------------------------------------------------------------");
 
 
-        //Testing Purpose
+        double subTotal = 0.0;
 
-/*        for (int i = 1; i < Prescription.getNumberOfEntries(); i++){
-            System.out.printf("%-3d %-16s %-14s %-7s %7d %13.2f %14.2f",
-                    Medicine.getEntry(Prescription.getEntry(i).getMedicineNo()).getName(),
-                    Medicine.getEntry(Prescription.getEntry(i).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(i).getDosageNo()).getDosageForm(),
-                    Medicine.getEntry(Prescription.getEntry(i).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(i).getDosageNo()).getDose(),
-                    Prescription.getEntry(i).getQuantity(),
-                    Medicine.getEntry(Prescription.getEntry(i).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(i).getDosageNo()).getDosagePrice(),
-                    Medicine.getEntry(Prescription.getEntry(i).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(i).getDosageNo()).getDosagePrice() * Prescription.getEntry(i).getQuantity()
-            );
-        }*/
+        for (int i = 0; i < invoiceList.peek().getMedicineList().getNumberOfEntries(); i++){
+            System.out.printf("%-3d %-16s %-14s %-7s %9d %13.2f %14.2f\n", i + 1,
+                    invoiceList.peek().getMedicineList().getEntry(i + 1).getMedicine().getName(),
+                    invoiceList.peek().getMedicineList().getEntry(i + 1).getDosage().getDosageForm(),
+                    invoiceList.peek().getMedicineList().getEntry(i + 1).getDosage().getDose(),
+                    invoiceList.peek().getMedicineList().getEntry(i + 1).getQuantity(),
+                    invoiceList.peek().getMedicineList().getEntry(i + 1).getDosage().getDosagePrice(),
 
-        System.out.printf("%-3d %-16s %-14s %-7s %7d %13.2f %14.2f", 1, "Acetaminophen", "Oral capsule", "160mg/5mL", 2, 10.0, 10.0);
-        System.out.println("\n--------------------------------------------------------------------------------------");
+                    invoiceList.peek().getMedicineList().getEntry(i + 1).getAmount());
 
-        System.out.printf("%74s %7.2f", "Sub Total   : ", 1078.0);
-        System.out.printf("\n%74s %7.2f", "Tax Rate (6%)   : ", 1078.0);
-        System.out.printf("\n%74s %7.2f", "Grand Total   : ", 1078.0);
-
-        int total = 0;
-
-/*        for (int j = 1; j <= medicineStock.getNumberOfEntries(); j++) {
-            System.out.printf(" %-4s %-15s %-15s %10s %6s %10.2f %15.2f\n",j,
-                    medicineStock.getEntry(Prescription.getEntry(j).getMedicineNo()).getName(),
-                    medicineStock.getEntry(Prescription.getEntry(j).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(j).getDosageNo()).getDosageForm(),
-                    medicineStock.getEntry(Prescription.getEntry(j).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(j).getDosageNo()).getDose(),
-                    Prescription.getEntry(j).getQuantity(),
-                    medicineStock.getEntry(Prescription.getEntry(j).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(j).getDosageNo()).getDosagePrice(),
-                    medicineStock.getEntry(Prescription.getEntry(j).getMedicineNo()).getDosage().getEntry(Prescription.getEntry(j).getDosageNo()).getDosagePrice() * Prescription.getEntry(j).getQuantity()
-
-            );
+            subTotal += invoiceList.peek().getMedicineList().getEntry(i + 1).getAmount();
 
             System.out.println("--------------------------------------------------------------------------------------");
 
-//            total += medicineStock.getEntry(prescriptionList.getEntry(j).getMedicineNo()).getDosage().getEntry(prescriptionList.getEntry(j).getDosageNo()).getDosagePrice();
+        }
 
-        }*/
+
+        invoice.setSubTotal(subTotal);
+
+        System.out.printf("%74s %7.2f", "Sub Total   : ", subTotal);
+        System.out.printf("\n%74s %7.2f", "Tax Rate (6%)   : ", invoice.calcServiceRate());
+        System.out.printf("\n%74s %7.2f", "Grand Total   : ", invoice.getTotal());
 
     }
 
@@ -219,7 +285,7 @@ public class PaymentMenu {
 
         System.out.printf("%-8s %-12s %-12s %-12s %-20s %-13s %-15s\n", "Item#", "Date", "Time", "Invoice ID", "Payer Name", "Method", "Amount (RM)");
 
-        System.out.println("-".repeat(95));
+        System.out.println("-----------------------------------------------------------------------------------------------");
 
         while (transactionHistory.isEmpty() == false)
         {
@@ -238,7 +304,7 @@ public class PaymentMenu {
                     transaction.getPayerName(),
                     transaction.getMethod(),
                     transaction.getAmount());
-            System.out.println("-".repeat(95));
+            System.out.println("-----------------------------------------------------------------------------------------------");
 
             tempStack.pop();
 
@@ -248,5 +314,7 @@ public class PaymentMenu {
         }
 
     }
+
+
 
 }

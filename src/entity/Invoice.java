@@ -1,5 +1,6 @@
 package entity;
 
+import adt.ArrayList;
 import adt.ListInterface;
 
 import java.time.LocalDate;
@@ -16,19 +17,28 @@ public class Invoice {
     private Patient patient;
     private double subTotal;
     private double total;
-    private ListInterface<Medicine> medicine; //Should be prescription list I think
+    private ListInterface<PrescriptionListMedicine> medicineList;
     private static int numOfInvoice = 0;
 
     public Invoice(){
         numOfInvoice++;
     };
 
-    public Invoice(String id, String date, String time, Patient patient, ListInterface<Medicine> medicine) {
+    public Invoice(String id, Patient patient, ListInterface<PrescriptionListMedicine> medicineList) {
         this.id = id;
-        this.date = date;
-        this.time = time;
+        this.date =getDate();
+        this.time = getTime();
         this.patient = patient;
-        this.medicine = medicine; //Have to change
+        this.medicineList = medicineList;
+
+    }
+
+    public ListInterface<PrescriptionListMedicine> getMedicineList() {
+        return medicineList;
+    }
+
+    public void setMedicineList(ListInterface<PrescriptionListMedicine> medicineList) {
+        this.medicineList = medicineList;
     }
 
     public String getId() {
@@ -72,23 +82,19 @@ public class Invoice {
     }
 
     public double getTotal() {
-        return total;
+        return getSubTotal() + calcServiceRate();
     }
 
     public void setTotal(double total) {
         this.total = total;
     }
 
-    public ListInterface<Medicine> getMedicine() {
-        return medicine;
-    }
-
-    public void setMedicine(ListInterface<Medicine> medicine) {
-        this.medicine = medicine;
-    }
-
     public static double getServiceTax(){
         return Invoice.SERVICE_TAX;
+    }
+
+    public double calcServiceRate(){
+        return getSubTotal() * Invoice.SERVICE_TAX;
     }
 
     @Override
@@ -98,7 +104,9 @@ public class Invoice {
                 ", date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", patient=" + patient +
-                ", medicine=" + medicine +
+                ", subTotal=" + subTotal +
+                ", total=" + total +
+                ", prescriptionList=" + medicineList +
                 '}';
     }
 }
