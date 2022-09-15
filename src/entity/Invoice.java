@@ -8,61 +8,87 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Invoice {
+
+    //Formatting
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
     private static final double SERVICE_TAX = 0.06;
-    private String id;
-    private String date = LocalDate.now().format(dateFormat);
-    private String time = LocalDateTime.now().format(timeFormat);
+
+    private String invoiceID;
+    private String printDate = LocalDate.now().format(dateFormat);
+    private String printTime = LocalDateTime.now().format(timeFormat);
+    private ListInterface<PrescriptionList> prescriptionList;
     private Patient patient;
     private double subTotal;
     private double total;
-    private ListInterface<PrescriptionListMedicine> medicineList;
+    private double amount;
     private static int numOfInvoice = 0;
 
-    public Invoice(){
-        numOfInvoice++;
-    };
+    public Invoice() {
+    }
 
-    public Invoice(String id, Patient patient, ListInterface<PrescriptionListMedicine> medicineList) {
-        this.id = id;
-        this.date =getDate();
-        this.time = getTime();
+    //Initialize Purpose
+    public Invoice(String printDate, String printTime, ArrayList<PrescriptionList> prescriptionList, Patient patient) {
+        this.invoiceID = "I" + String.format("%04d", (Invoice.numOfInvoice + 1));
+        this.printDate = printDate;
+        this.printTime = printTime;
+        this.prescriptionList = prescriptionList;
         this.patient = patient;
-        this.medicineList = medicineList;
-
+        Invoice.numOfInvoice++;
     }
 
-    public ListInterface<PrescriptionListMedicine> getMedicineList() {
-        return medicineList;
+    public Invoice(ArrayList<PrescriptionList> prescriptionList, Patient patient) {
+        this.invoiceID = "I" + String.format("%04d", (Invoice.numOfInvoice + 1));
+        this.printDate = getPrintDate();
+        this.printTime = getPrintTime();
+        this.prescriptionList = prescriptionList;
+        this.patient = patient;
+        Invoice.numOfInvoice++;
     }
 
-    public void setMedicineList(ListInterface<PrescriptionListMedicine> medicineList) {
-        this.medicineList = medicineList;
+    public Invoice(String printDate, String printTime, ArrayList<PrescriptionList> prescriptionList, Patient patient, double subTotal, double total, double amount) {
+        this.invoiceID = "I" + String.format("%04d", (Invoice.numOfInvoice + 1));
+        this.printDate = getPrintDate();
+        this.printTime = getPrintTime();
+        this.prescriptionList = prescriptionList;
+        this.patient = patient;
+        this.subTotal = subTotal;
+        this.total = total;
+        this.amount = amount;
+        Invoice.numOfInvoice++;
     }
 
-    public String getId() {
-        return id;
+    public String getInvoiceID() {
+        return invoiceID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setInvoiceID(String invoiceID) {
+        this.invoiceID = invoiceID;
     }
 
-    public String getDate() {
-        return date;
+    public String getPrintDate() {
+        return printDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setPrintDate(String printDate) {
+        this.printDate = printDate;
     }
 
-    public String getTime() {
-        return time;
+    public String getPrintTime() {
+        return printTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setPrintTime(String printTime) {
+        this.printTime = printTime;
+    }
+
+    public ListInterface<PrescriptionList> getPrescriptionList() {
+        return prescriptionList;
+    }
+
+    public void setPrescriptionList(ListInterface<PrescriptionList> prescriptionList) {
+        this.prescriptionList = prescriptionList;
     }
 
     public Patient getPatient() {
@@ -82,31 +108,44 @@ public class Invoice {
     }
 
     public double getTotal() {
-        return getSubTotal() + calcServiceRate();
+        return getSubTotal() + calcTaxRate();
     }
 
     public void setTotal(double total) {
         this.total = total;
     }
 
-    public static double getServiceTax(){
-        return Invoice.SERVICE_TAX;
+    public static int getNumOfInvoice() {
+        return numOfInvoice;
     }
 
-    public double calcServiceRate(){
+    public static void setNumOfInvoice(int numOfInvoice) {
+        Invoice.numOfInvoice = numOfInvoice;
+    }
+
+    public double getAmount(int i) {
+        return getPrescriptionList().getEntry(i + 1).getDosage().getDosagePrice() * getPrescriptionList().getEntry(i + 1).getQuantity();
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public double calcTaxRate(){
         return getSubTotal() * Invoice.SERVICE_TAX;
     }
 
     @Override
     public String toString() {
         return "Invoice{" +
-                "id='" + id + '\'' +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
+                "invoiceID='" + invoiceID + '\'' +
+                ", printDate='" + printDate + '\'' +
+                ", printTime='" + printTime + '\'' +
+                ", prescriptionList=" + prescriptionList +
                 ", patient=" + patient +
                 ", subTotal=" + subTotal +
                 ", total=" + total +
-                ", prescriptionList=" + medicineList +
                 '}';
     }
+
 }
