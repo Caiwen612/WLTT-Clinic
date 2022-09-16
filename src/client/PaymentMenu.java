@@ -58,6 +58,7 @@ public class PaymentMenu {
                     break;
                 case 3:
                     //MedicalCertificate();
+                    //Waiting CB
                     break;
                 case 4:
                     payment();
@@ -79,7 +80,7 @@ public class PaymentMenu {
 
             System.out.println("[1] View Latest Transaction");
             System.out.println("[2] Search Transaction");
-//            System.out.println("[3] Group BY MONTH");
+            System.out.println("[3] Sort By Date");
 //            System.out.println("[4] View Ascending");
 //            System.out.println("[5] View Descending");
             System.out.println("[0] Back");
@@ -94,7 +95,9 @@ public class PaymentMenu {
                 case 2:
                     searchTransaction();
                     break;
-                    //case 3: viewOldest to newest
+                case 3: //viewOldest to newest
+                    sortByDate();
+                    break;
             }
         }
         else
@@ -162,9 +165,37 @@ public class PaymentMenu {
     }
 
     public static void sortByDate(){
+        System.out.printf("\n\n%-3s %-8s %-12s %-12s %-12s %-20s %-13s %-15s\n", "No.", "Item#", "Date", "Time", "Invoice ID", "Payer Name", "Method", "Amount (RM)");
+
+        System.out.println("--------------------------------------------------------------------------------------------------");
 
 
+        while (transactionHistory.isEmpty() == false && transactionHistory.peek() != null) {
+            tempStack.push(transactionHistory.peek());
 
+            transactionHistory.pop();
+        }
+
+        int index = 0;
+
+        while (tempStack.isEmpty() == false && tempStack.peek() != null) {
+            index++;
+            Transaction transaction = tempStack.peek();
+            System.out.printf("%-3d %-8s %-12s %-14s %-10s %-20s %-13s %8.2f\n", index,
+                    transaction.getTransactionID(),
+                    transaction.getPayDate(),
+                    transaction.getPayTime(),
+                    transaction.getInvoice().getInvoiceID(),
+                    transaction.getPayment().getPayerName(),
+                    transaction.getMethod(),
+                    transaction.getPayment().getAmountPaid());
+            System.out.println("--------------------------------------------------------------------------------------------------");
+
+            tempStack.pop();
+
+            // To restore contents of the original stack.
+            transactionHistory.push(transaction);
+        }
     }
 
     //Bill List - Patient
@@ -400,7 +431,6 @@ public class PaymentMenu {
         }
 
     }
-
 
 
     //Initialize Data
