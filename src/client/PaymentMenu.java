@@ -79,7 +79,7 @@ public class PaymentMenu {
 
             System.out.println("[1] View Latest Transaction");
             System.out.println("[2] Search Transaction");
-            System.out.println("[3] Group BY MONTH");
+//            System.out.println("[3] Group BY MONTH");
 //            System.out.println("[4] View Ascending");
 //            System.out.println("[5] View Descending");
             System.out.println("[0] Back");
@@ -94,6 +94,7 @@ public class PaymentMenu {
                 case 2:
                     searchTransaction();
                     break;
+                    //case 3: viewOldest to newest
             }
         }
         else
