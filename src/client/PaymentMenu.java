@@ -161,6 +161,12 @@ public class PaymentMenu {
         }
     }
 
+    public static void sortByDate(){
+
+
+
+    }
+
     //Bill List - Patient
     public static void printInvoice(){
 
@@ -395,6 +401,8 @@ public class PaymentMenu {
 
     }
 
+
+
     //Initialize Data
     public static void initializeTransactionHistory(){
 
@@ -420,11 +428,6 @@ public class PaymentMenu {
         Payment payer1 = new Payment("Payer1", 300.00);
         Payment payer2 = new Payment("Payer2", 100.00);
         Payment payer3 = new Payment("Payer3", 200.00);
-
-//        transactionHistory.push(new Transaction(invoice1, payer1, "Credit Card"));
-//        transactionHistory.push(new Transaction(invoice2, payer2, "Credit Card"));
-//        transactionHistory.push(new Transaction(invoice3, payer3, "Credit Card"));
-
 
         transactionHistory.push(new Transaction("01-01-2022", "10:20:59", invoice1, payer1, "Cash"));
         transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
