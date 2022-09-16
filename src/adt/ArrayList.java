@@ -29,7 +29,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
     @Override
     public boolean add(T newEntry) {
         //Validate the duplicated element
-        for (int index = 0; index < numberOfEntries; index++) {
+        for (int index = 1; index <= numberOfEntries; index++) {
             if (getEntry(index) == newEntry){
                 return false;
             }
@@ -75,7 +75,7 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
 
     @Override
     public void clear() {
-        for (int i = 1; i <= numberOfEntries; i++) {
+        for (int i = 0; i < array.length; i++) {
             array[i] = null;
         }
         numberOfEntries = 0;
@@ -115,6 +115,16 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
             }
         }
         return found;
+    }
+
+    @Override
+    public int indexOf(T anEntry) {
+        for (int index = 0; index < array.length; index++) {
+            if (array[index] == anEntry){
+                return (index + 1);
+            }
+        }
+        return -1;
     }
 
     @Override

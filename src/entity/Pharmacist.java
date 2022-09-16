@@ -29,4 +29,12 @@ public class Pharmacist {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Pharmacist{" +
+                "ID='" + ID + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
