@@ -32,8 +32,8 @@ public class Transaction {
 
     public Transaction(String payDate, String payTime, Invoice invoice, Payment payment, String method) {
         this.transactionID = "T" + String.format("%04d", (Transaction.numOfTransaction + 1));
-        this.payDate = getPayDate();
-        this.payTime = getPayTime();
+        this.payDate = payDate;
+        this.payTime = payTime;
         this.invoice = invoice;
         this.payment = payment;
         this.method = method;
