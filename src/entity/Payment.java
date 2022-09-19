@@ -7,6 +7,7 @@ public class Payment {
     private String expDate;
     private String cvv;
     private double amountPaid;
+    private boolean cash;
 
     public Payment() {
     }
@@ -15,6 +16,7 @@ public class Payment {
     public Payment(String payerName, double amountPaid) {
         this.payerName = payerName;
         this.amountPaid = amountPaid;
+        this.cash = true;
     }
 
     //Credit card payer
@@ -24,6 +26,7 @@ public class Payment {
         this.expDate = expDate;
         this.cvv = cvv;
         this.amountPaid = amountPaid;
+        this.cash = false;
     }
 
     public String getPayerName() {
@@ -65,4 +68,23 @@ public class Payment {
     public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
+
+    @Override
+    public String toString() {
+        if (cash){
+            return "Payment{" +
+                    "payerName='" + payerName + '\'' +
+                    '}';
+        }
+        else {
+            return "Payment{" +
+                    "payerName='" + payerName + '\'' +
+                    ", cardID='" + cardID + '\'' +
+                    ", expDate='" + expDate + '\'' +
+                    ", cvv='" + cvv + '\'' +
+                    ", amountPaid=" + amountPaid +
+                    '}';
+        }
+    }
+
 }
