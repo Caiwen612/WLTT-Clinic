@@ -29,12 +29,12 @@ public class Invoice {
     }
 
     //Initialize Purpose
-    public Invoice(String printDate, String printTime, ArrayList<PrescriptionList> prescriptionList, Patient patient) {
+    public Invoice(ArrayList<PrescriptionList> prescriptionList, Patient patient, double subTotal, double total) {
         this.invoiceID = "I" + String.format("%04d", (Invoice.numOfInvoice + 1));
-        this.printDate = printDate;
-        this.printTime = printTime;
         this.prescriptionList = prescriptionList;
         this.patient = patient;
+        this.subTotal = subTotal;
+        this.total = total;
         Invoice.numOfInvoice++;
     }
 
@@ -44,18 +44,6 @@ public class Invoice {
         this.printTime = getPrintTime();
         this.prescriptionList = prescriptionList;
         this.patient = patient;
-        Invoice.numOfInvoice++;
-    }
-
-    public Invoice(String printDate, String printTime, ArrayList<PrescriptionList> prescriptionList, Patient patient, double subTotal, double total, double amount) {
-        this.invoiceID = "I" + String.format("%04d", (Invoice.numOfInvoice + 1));
-        this.printDate = getPrintDate();
-        this.printTime = getPrintTime();
-        this.prescriptionList = prescriptionList;
-        this.patient = patient;
-        this.subTotal = subTotal;
-        this.total = total;
-        this.amount = amount;
         Invoice.numOfInvoice++;
     }
 

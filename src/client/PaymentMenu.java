@@ -20,6 +20,7 @@ public class PaymentMenu {
     private static StackInterface<Transaction> transactionHistory = new ArrayStack<>();
     private static StackInterface<Transaction> tempStack = new ArrayStack<>();
     private static ArrayList<PrescriptionList> prescriptionList = new ArrayList<>();
+
     private static Invoice invoice;
     private static Payment payer;
     private static int patientNo = 1;
@@ -42,7 +43,7 @@ public class PaymentMenu {
             System.out.println("\n\n\n[1] Print Invoice");
             System.out.println("[2] Transaction History");
             System.out.println("[3] Print Medical Certificate");
-            System.out.println("[4] Payment");
+            System.out.println("[4] Proceed Payment");
             System.out.println("[5] Next Customer");
             System.out.println("[0] Back");
 
@@ -78,9 +79,10 @@ public class PaymentMenu {
 
             transactionHistory();
 
-            System.out.println("[1] View Latest Transaction");
+            System.out.println("[1] View Latest Medicine Transaction");
             System.out.println("[2] Search Transaction");
             System.out.println("[3] Sort By Date");
+            System.out.println("[4] Summary Report");
 //            System.out.println("[4] View Ascending");
 //            System.out.println("[5] View Descending");
             System.out.println("[0] Back");
@@ -90,13 +92,16 @@ public class PaymentMenu {
 
             switch (option){
                 case 1:
-                    printNewestTransaction();
+                    latestMedicineTransaction();
                     break;
                 case 2:
                     searchTransaction();
                     break;
                 case 3: //viewOldest to newest
-                    sortByDate();
+                    viewSortByDate();
+                    break;
+                case 4:
+                    viewSummaryReport();
                     break;
             }
         }
@@ -145,26 +150,31 @@ public class PaymentMenu {
         System.out.println("Method        : " + transactionSearched.getMethod());
         System.out.printf("Amount Paid   : RM%.2f\n", transactionSearched.getPayment().getAmountPaid());
 
-        System.out.printf("\n%-2s %14s %14s %7s %15s %16s\n",
-                "No", "Medicine Name", "Dosage Form", "Dose", "Quantity", "Unit Price (RM)");
-        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("\n%-2s %14s %14s %7s %15s %16s %13s\n",
+                "No", "Medicine Name", "Dosage Form", "Dose", "Quantity", "Unit Price (RM)", "Amount (RM)");
+        System.out.println("---------------------------------------------------------------------------------------");
 
-
-        for (int i = 0; i < invoice.getPrescriptionList().getNumberOfEntries(); i++){
-            System.out.printf("%-3d %-16s %-14s %-7s %9d %13.2f\n", i + 1,
+        for (int i = 0; i < transactionSearched.getInvoice().getPrescriptionList().getNumberOfEntries(); i++){// 3, 2
+            System.out.printf("%-3d %-16s %-14s %-7s %9d %13.2f %15.2f\n", i + 1,
                     transactionSearched.getInvoice().getPrescriptionList().getEntry(i + 1).getMedicine().getName(),
                     transactionSearched.getInvoice().getPrescriptionList().getEntry(i + 1).getDosage().getDosageForm(),
                     transactionSearched.getInvoice().getPrescriptionList().getEntry(i + 1).getDosage().getDose(),
                     transactionSearched.getInvoice().getPrescriptionList().getEntry(i + 1).getQuantity(),
-                    transactionSearched.getInvoice().getPrescriptionList().getEntry(i + 1).getDosage().getDosagePrice());
+                    transactionSearched.getInvoice().getPrescriptionList().getEntry(i + 1).getDosage().getDosagePrice(),
+                    transactionSearched.getInvoice().getAmount(i)
+            );
 
-
-            System.out.println("-------------------------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------------------------");
 
         }
+
+        System.out.printf("%75s %7.2f", "Sub Total   : ", transactionSearched.getInvoice().getSubTotal());
+        System.out.printf("\n%75s %7.2f", "Tax Rate (6%)   : ", transactionSearched.getInvoice().calcTaxRate());
+        System.out.printf("\n%75s %7.2f", "Grand Total   : ", transactionSearched.getInvoice().getTotal());
+
     }
 
-    public static void sortByDate(){
+    public static void viewSortByDate(){
         System.out.printf("\n\n%-3s %-8s %-12s %-12s %-12s %-20s %-13s %-15s\n", "No.", "Item#", "Date", "Time", "Invoice ID", "Payer Name", "Method", "Amount (RM)");
 
         System.out.println("--------------------------------------------------------------------------------------------------");
@@ -201,23 +211,6 @@ public class PaymentMenu {
     //Bill List - Patient
     public static void printInvoice(){
 
-//        for (int i = 0; i < Prescription.getNumberOfEntries(); i++){
-//            int index = 0;
-//            int qty = Prescription.getEntry(i + 1).getQuantity();
-//            for (int j = 0; j < medicineStock.getNumberOfEntries(); j++){
-//                for (int k = 0; k < medicineStock.getEntry(j + 1).getDosage().getNumberOfEntries(); k++){
-//                    index++;
-//                    if (Prescription.getEntry(i + 1).getMedicineNo() == index){
-//
-//                        Medicine medicine = medicineStock.getEntry(j + 1);
-//
-//                        prescriptionList.add(new PrescriptionList(medicine, dosage, qty));
-//
-//                    }
-//                }
-//            }
-//        }
-
         if (Patient.getEntry(patientNo) == null){
             System.out.println("\n\n\nThere is no invoice exist currently!!");
         }
@@ -233,7 +226,7 @@ public class PaymentMenu {
             System.out.println("I/C No       : " + Patient.getEntry(patientNo).getIcNo());
 
             System.out.println("\nPrinted Date : " + invoice.getPrintDate());
-            System.out.println("\nPrinted Time : " + invoice.getPrintTime());
+            System.out.println("Printed Time : " + invoice.getPrintTime());
             System.out.println("Invoice ID   : " + invoice.getInvoiceID());
 
             System.out.printf("\n%-2s %14s %14s %7s %15s %16s %12s\n",
@@ -315,7 +308,6 @@ public class PaymentMenu {
             System.out.print("Enter CVV: ");
             cvv = input.next();
         }
-
 
         double amountPay = invoice.getTotal();
 
@@ -401,33 +393,74 @@ public class PaymentMenu {
 
     }
 
-    public static void printNewestTransaction() {
+    public static void latestMedicineTransaction() {
 
-        System.out.println("Transaction ID: " + transactionHistory.peek().getTransactionID());
-        System.out.println("Date          : " + transactionHistory.peek().getPayDate());
-        System.out.println("Time          : " + transactionHistory.peek().getPayTime());
+        System.out.println("\n\nTransaction ID: " + transactionHistory.peek().getTransactionID());
+        System.out.println("Payment Date  : " + transactionHistory.peek().getPayDate());
+        System.out.println("Payment Time  : " + transactionHistory.peek().getPayTime());
         System.out.println("Invoice ID    : " + transactionHistory.peek().getInvoice().getInvoiceID());
         System.out.println("Patient Name  : " + transactionHistory.peek().getInvoice().getPatient().getPatientName());
-        System.out.println("Payer Name    : " + transactionHistory.peek().getPayment().getPayerName());
-        System.out.println("Method        : " + transactionHistory.peek().getMethod());
-        System.out.printf("Amount Paid   : RM%.2f\n", transactionHistory.peek().getPayment().getAmountPaid());
 
-        System.out.printf("\n%-2s %14s %14s %7s %15s %16s\n",
-                "No", "Medicine Name", "Dosage Form", "Dose", "Quantity", "Unit Price (RM)");
-        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("\n%-2s %14s %14s %7s %15s\n",
+                "No", "Medicine Name", "Dosage Form", "Dose", "Quantity");
+        System.out.println("---------------------------------------------------------");
 
 
         for (int i = 0; i < invoice.getPrescriptionList().getNumberOfEntries(); i++){
-            System.out.printf("%-3d %-16s %-14s %-7s %9d %13.2f\n", i + 1,
+            System.out.printf("%-3d %-16s %-14s %-7s %9d\n", i + 1,
                     transactionHistory.peek().getInvoice().getPrescriptionList().getEntry(i + 1).getMedicine().getName(),
                     transactionHistory.peek().getInvoice().getPrescriptionList().getEntry(i + 1).getDosage().getDosageForm(),
                     transactionHistory.peek().getInvoice().getPrescriptionList().getEntry(i + 1).getDosage().getDose(),
-                    transactionHistory.peek().getInvoice().getPrescriptionList().getEntry(i + 1).getQuantity(),
-                    transactionHistory.peek().getInvoice().getPrescriptionList().getEntry(i + 1).getDosage().getDosagePrice());
+                    transactionHistory.peek().getInvoice().getPrescriptionList().getEntry(i + 1).getQuantity());
 
+            System.out.println("---------------------------------------------------------");
 
-            System.out.println("-------------------------------------------------------------------------");
+        }
 
+    }
+
+    public static void viewSummaryReport() {
+
+        int index = 0;
+        double profit = 0;
+        double totalProfit = 0;
+
+        while (transactionHistory.isEmpty() == false && transactionHistory.peek() != null){
+            index ++;
+
+            Transaction transaction = transactionHistory.peek();
+
+            for (int i = 0; i < transaction.getInvoice().getPrescriptionList().getNumberOfEntries(); i++){
+                double qty = transaction.getInvoice().getPrescriptionList().getEntry(i+1).getQuantity();
+                double cost  = transaction.getInvoice().getPrescriptionList().getEntry(i+1).getDosage().getDosageCost();
+
+                profit = cost * qty;
+            }
+
+            System.out.printf("%-3d %-8s %-12s %-20s %-13s %8.2f %8.2f\n", index,
+                    transaction.getTransactionID(),
+                    transaction.getPayDate(),
+                    transaction.getPayment().getPayerName(),
+                    transaction.getMethod(),
+                    transaction.getPayment().getAmountPaid(),
+                    profit
+            );
+
+            totalProfit += profit;
+
+            tempStack.push(transactionHistory.peek());
+            transactionHistory.pop();
+
+        }
+
+        System.out.println("Total Profit = " + totalProfit);
+
+        while (tempStack.isEmpty() == false && tempStack.peek() != null) {
+            Transaction transaction = tempStack.peek();
+            tempStack.pop();
+
+            // To restore contents of the original stack.
+            transactionHistory.push(transaction);
         }
 
     }
@@ -436,34 +469,38 @@ public class PaymentMenu {
     //Initialize Data
     public static void initializeTransactionHistory(){
 
-        Medicine testingMedicine4 = medicineStock.getEntry(1);
-        Dosage testingDosage4 = medicineStock.getEntry(1).getDosage().getEntry(2);
+        //First - Loperamide (Oral tablet)
+        Medicine testingMedicine4 = medicineStock.getEntry(3);
+        Dosage testingDosage4 = medicineStock.getEntry(3).getDosage().getEntry(2);
+        ArrayList<PrescriptionList> tempList1 = new ArrayList<>();
+        tempList1.add(new PrescriptionList(testingMedicine4, testingDosage4, 1));
+        Patient patient1 = new Patient("Patient1", "111111111111", "1111111111", "010101", "010101");
+        Invoice invoice1 = new Invoice(tempList1, patient1, 20, 21.2);
+        Payment payer1 = new Payment("Payer1", 21.2);
+        transactionHistory.push(new Transaction("01-01-2022", "10:20:59", invoice1, payer1, "Cash"));
+
+        //second
         Medicine testingMedicine5 = medicineStock.getEntry(4);
         Dosage testingDosage5 = medicineStock.getEntry(4).getDosage().getEntry(1);
+        ArrayList<PrescriptionList> tempList2 = new ArrayList<>();
+        tempList2.add(new PrescriptionList(testingMedicine5, testingDosage5, 2));
+        Patient patient2 = new Patient("Patient2", "222222222222", "2222222222", "020202", "030303");
+        Invoice invoice2 = new Invoice(tempList2, patient2,30,31.8);
+        Payment payer2 = new Payment("Payer2", 31.8);
+        transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
+
+
+        //THIRD
         Medicine testingMedicine6 = medicineStock.getEntry(5);
         Dosage testingDosage6 = medicineStock.getEntry(5).getDosage().getEntry(2);
 
-        Patient patient1 = new Patient("Patient1", "111111111111", "1111111111", "010101", "010101");
-        Patient patient2 = new Patient("Patient2", "222222222222", "2222222222", "020202", "030303");
+        ArrayList<PrescriptionList> tempList3 = new ArrayList<>();
+
+        tempList3.add(new PrescriptionList(testingMedicine6, testingDosage6, 3));
         Patient patient3 = new Patient("Patient3", "333333333333", "3333333333", "030303", "030303");
-
-        prescriptionList.add(new PrescriptionList(testingMedicine4, testingDosage4, 1));
-        prescriptionList.add(new PrescriptionList(testingMedicine5, testingDosage5, 2));
-        prescriptionList.add(new PrescriptionList(testingMedicine6, testingDosage6, 3));
-
-        Invoice invoice1 = new Invoice(prescriptionList, patient1);
-        Invoice invoice2 = new Invoice(prescriptionList, patient2);
-        Invoice invoice3 = new Invoice(prescriptionList, patient3);
-
-        Payment payer1 = new Payment("Payer1", 300.00);
-        Payment payer2 = new Payment("Payer2", 100.00);
-        Payment payer3 = new Payment("Payer3", 200.00);
-
-        transactionHistory.push(new Transaction("01-01-2022", "10:20:59", invoice1, payer1, "Cash"));
-        transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
+        Invoice invoice3 = new Invoice(tempList3, patient3, 75, 4.5);
+        Payment payer3 = new Payment("Payer3", 79.5);
         transactionHistory.push(new Transaction("21-06-2022", "14:59:11", invoice3, payer3, "Credit Card"));
-
-        prescriptionList.clear();
     }
 
     public static void initializePatient() {
