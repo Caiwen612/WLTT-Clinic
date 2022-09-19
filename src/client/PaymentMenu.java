@@ -15,6 +15,8 @@ public class PaymentMenu {
 
     private static ArrayList<Medicine> medicineStock = new ArrayList<>();
     private static ArrayList<Patient> Patient = new ArrayList<>();
+    private static Transaction[] transactionsArray = new Transaction[100];
+    private static int transactionNum = 0;
 
     //Payment Module
     private static StackInterface<Transaction> transactionHistory = new ArrayStack<>();
@@ -346,12 +348,15 @@ public class PaymentMenu {
     public static void recordTransaction(boolean cash){
 
         if (cash){
-            transactionHistory.push(new Transaction(invoice, payer, "Cash"));
+            transactionsArray[transactionNum] = new Transaction(invoice, payer, "Cash");
         }
         else {
-            transactionHistory.push(new Transaction(invoice, payer, "Credit Card"));
+            transactionsArray[transactionNum] =new Transaction(invoice, payer, "Credit Card");
         }
 
+        transactionHistory.push(transactionsArray[transactionNum]);
+
+        transactionNum++;
         patientNo++;
     }
 
@@ -360,7 +365,11 @@ public class PaymentMenu {
 
         int index = 0;
 
-        System.out.printf("\n\n%-3s %-8s %-12s %-12s %-12s %-20s %-13s %-15s\n","No.", "ID", "Date", "Time", "Invoice ID", "Payer Name", "Method", "Amount (RM)");
+        System.out.println("\n\n==================================================================================================");
+        System.out.println("                                      TRANSACTION HISTORY                                         ");
+        System.out.println("==================================================================================================");
+
+        System.out.printf("\n%-3s %-8s %-12s %-12s %-12s %-20s %-13s %-15s\n","No.", "ID", "Date", "Time", "Invoice ID", "Payer Name", "Method", "Amount (RM)");
 
         System.out.println("---------------------------------------------------------------------------------------------------");
 
@@ -425,19 +434,30 @@ public class PaymentMenu {
         double profit = 0;
         double totalProfit = 0;
 
+        System.out.println("\n\n==========================================================================================");
+        System.out.println("                                    SUMMARY REPORT                                        ");
+        System.out.println("==========================================================================================");
+
+        System.out.printf("\n%-3s %-8s %-14s %-20s %-14s %-14s %-15s\n",
+                "No.", "ID", "Payment Date", "Payer Name", "Method", "Amount (RM)", "Profit (RM)");
+        System.out.println("------------------------------------------------------------------------------------------");
+
         while (transactionHistory.isEmpty() == false && transactionHistory.peek() != null){
             index ++;
 
             Transaction transaction = transactionHistory.peek();
 
             for (int i = 0; i < transaction.getInvoice().getPrescriptionList().getNumberOfEntries(); i++){
+                double price = transaction.getInvoice().getPrescriptionList().getEntry(i+1).getDosage().getDosagePrice();
                 double qty = transaction.getInvoice().getPrescriptionList().getEntry(i+1).getQuantity();
                 double cost  = transaction.getInvoice().getPrescriptionList().getEntry(i+1).getDosage().getDosageCost();
 
-                profit = cost * qty;
+                profit = (price - cost) * qty;
             }
 
-            System.out.printf("%-3d %-8s %-12s %-20s %-13s %8.2f %8.2f\n", index,
+            profit += transaction.getInvoice().calcTaxRate();
+
+            System.out.printf("%-3d %-9s %-13s %-20s %-13s %8.2f %14.2f\n", index,
                     transaction.getTransactionID(),
                     transaction.getPayDate(),
                     transaction.getPayment().getPayerName(),
@@ -446,14 +466,16 @@ public class PaymentMenu {
                     profit
             );
 
+            System.out.println("------------------------------------------------------------------------------------------");
+
             totalProfit += profit;
 
             tempStack.push(transactionHistory.peek());
             transactionHistory.pop();
-
         }
 
-        System.out.println("Total Profit = " + totalProfit);
+
+        System.out.printf("%78s %7.2f", "Total Profit (RM) : ", totalProfit);
 
         while (tempStack.isEmpty() == false && tempStack.peek() != null) {
             Transaction transaction = tempStack.peek();
