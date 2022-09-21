@@ -6,9 +6,7 @@ import adt.QueueInterface;
 import client.CounterManager;
 import client.DoctorOperation;
 import client.PharmacistOperation;
-import entity.Doctor;
-import entity.Medicine;
-import entity.WaitingQueue;
+import entity.*;
 import utility.Font;
 import utility.ValidationException;
 
@@ -247,11 +245,17 @@ public class Driver {
         int option;
 
 
+
         if(currentPatient != null){
             System.out.println("Current patient: " + currentPatient.getPatientName());
         } else {
             System.out.println("Currently no patient yet.");
         }
+        MedicalRecord latestMedicalRecord = null;
+        if(currentPatient != null){
+            latestMedicalRecord = currentPatient.getPatient().getHistory().getEntry(currentPatient.getPatient().getHistory().getNumberOfEntries());
+        }
+
         System.out.println("[1] Check Medicine Stock");
         System.out.println("[2] Medicine Management");
         System.out.println("[3] Record Medicine Allocation");
@@ -271,6 +275,10 @@ public class Driver {
                 medicineManagement();
                 break;
             }
+            case 3 -> {
+                allocateMedicine(currentPatient.getPatient(),latestMedicalRecord);
+                break;
+            }
             case 4 -> {
                 updatePharmacyBoard();
                 break;
@@ -282,6 +290,42 @@ public class Driver {
             case 6 -> menu();
         }
             pharmacistMenu();
+    }
+
+    public static void allocateMedicine(Patient patient,MedicalRecord record){
+        d.displayPatientRecord(patient, record);
+        d.displayMedicalCart(record.getMedicineCart());
+        System.out.println("Press y if u want allocate the medicine: ");
+        Character inputCharacter = Character.toUpperCase(input.next().charAt(0));
+        if(inputCharacter == 'Y'){
+            reduceMedicineStock(patient,record);
+        }
+
+    }
+
+    public static void reduceMedicineStock(Patient patient,MedicalRecord record){
+        ListInterface<Medicine> medicineStock = PharmacistOperation.getMedicineStock();
+        ListInterface<Medicine> patientStock = record.getMedicineCart();
+        for(int i = 1;i <= patientStock.getNumberOfEntries();i++){
+            Medicine medicinePatient = patientStock.getEntry(i);
+            for (int j = 1;i <= medicineStock.getNumberOfEntries();j++){
+                Medicine medicineClinic = medicineStock.getEntry(j);
+                //Check same name of medicine
+                if(medicinePatient.getName().equals(medicineClinic.getName())){
+                    Dosage dosagePatient = medicinePatient.getDosage().getEntry(1);
+                    ListInterface<Dosage> dosageClinicList = medicineStock.getEntry(j).getDosage();
+                    //Check Same name of dosage
+                    for (int k = 1;k <= dosageClinicList.getNumberOfEntries();k++){
+                        Dosage dosageClinic = dosageClinicList.getEntry(k);
+                        if(dosagePatient.getDosageForm().equals(dosageClinic.getDosageForm()) && dosagePatient.getDose().equals(dosageClinic.getDose())){
+                            dosageClinic.reduceStock(dosagePatient.getDosageQuantity());
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     public static void medicineStockManagement() {
@@ -378,7 +422,6 @@ public class Driver {
     }
 
     //TODO: END PAYMENT
-
 
     private static void board(){
         System.out.println("Room 1: " + room1.getFront());//1001
