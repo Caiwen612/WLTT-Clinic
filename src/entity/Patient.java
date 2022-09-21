@@ -11,6 +11,7 @@ public class Patient implements Comparable {
     private String DOB;
     private ListInterface<MedicalRecord> history;
     private Invoice tempInvoice;
+    private boolean paymentStatus;
 
     public Patient(){
         this("","","","","");
@@ -27,6 +28,7 @@ public class Patient implements Comparable {
         this.address = address;
         this.DOB = DOB;
         this.history = new ArrayList<MedicalRecord>(5);
+        this.paymentStatus = false;
     }
 
 
@@ -84,6 +86,14 @@ public class Patient implements Comparable {
 
     public void setHistory(ListInterface<MedicalRecord> history) {
         this.history = history;
+    }
+
+    public boolean isPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     @Override
