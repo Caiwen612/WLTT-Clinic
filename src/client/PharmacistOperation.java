@@ -3,9 +3,7 @@ package client;
 import adt.ArrayList;
 import adt.ListInterface;
 import driver.Driver;
-import entity.Dosage;
-import entity.Medicine;
-import entity.MedicineDosageRecord;
+import entity.*;
 import utility.Font;
 import utility.Validation;
 
@@ -56,6 +54,7 @@ public class PharmacistOperation {
     }
 
     public void printMedicineStock() {
+        Driver.clearScreen();
         int i = 1;
         System.out.println("===========================================================");
         System.out.printf("%36s\n", "Medicine List");
@@ -85,8 +84,8 @@ public class PharmacistOperation {
     }
 
     public void searchMedicineStock() {
+        Driver.clearScreen();
         String keywords;
-        input.nextLine();
         System.out.print("Enter the keywords: ");
         keywords = input.nextLine();
 
@@ -162,6 +161,7 @@ public class PharmacistOperation {
                 quantity + " quantity" +
                 "? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
+
         try{
             Validation.validCharYN(option);
         }catch (Exception ex){
@@ -170,7 +170,7 @@ public class PharmacistOperation {
 
 
 
-        if (option == 'Y'){
+        if (Character.toUpperCase(option) == 'Y'){
             medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosageQuantity(quantity +
                     medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosageQuantity());
 
@@ -183,9 +183,12 @@ public class PharmacistOperation {
         System.out.println("Press Enter key to exit to medicine menu...");
         input.nextLine();
         input.nextLine();
+        Driver.medicineStockManagement();
+
     }
 
     public void printMedicineList() {
+        Driver.clearScreen();
         int i = 1;
         System.out.println("================================================================================");
         System.out.printf("%46s\n", "Medicine List");
@@ -291,7 +294,7 @@ public class PharmacistOperation {
         }
 
         String[] dosageFormArray = new String[]{"Oral capsule", "Oral tablet", "Oral liquid"};
-        if (option == 'Y'){
+        if (Character.toUpperCase(option) == 'Y'){
             ArrayList<Dosage> tempDosage = new ArrayList<>();
             for (int i = 0; i < doseFormQuantity; i++) {
                 tempDosage.add(new Dosage(dosageFormArray[dosageType[i]], dosageForm[i], doseQuantity[i], doseCost[i], dosePrice[i]));
@@ -361,7 +364,7 @@ public class PharmacistOperation {
             System.out.println(ex.getMessage());
         }
 
-        if (option == 'Y'){
+        if (Character.toUpperCase(option) == 'Y'){
             switch (num) {
                 case 1 -> medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosageCost(tempCost);
                 case 2 -> medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosagePrice(tempPrice);
@@ -420,7 +423,7 @@ public class PharmacistOperation {
             System.out.println(ex.getMessage());
         }
 
-        if (confirm == 'Y'){
+        if (Character.toUpperCase(option) == 'Y'){
             switch (option){
                 case 1:
                     medicineStock.remove(medicineNo);
@@ -515,6 +518,41 @@ public class PharmacistOperation {
                 viewSummaryReport();
             }
             default -> Driver.pharmacistMenu();
+        }
+    }
+
+    public static void allocateMedicine(Patient patient, MedicalRecord record){
+        DoctorOperation.displayPatientRecord(patient, record);
+        System.out.println("Press y if u want allocate the medicine: ");
+        Character inputCharacter = Character.toUpperCase(input.next().charAt(0));
+        if(inputCharacter == 'Y'){
+            reduceMedicineStock(patient,record);
+        }
+
+    }
+
+    public static void reduceMedicineStock(Patient patient,MedicalRecord record){
+        ListInterface<Medicine> medicineStock = PharmacistOperation.getMedicineStock();
+        ListInterface<Medicine> patientStock = record.getMedicineCart();
+        for(int i = 1;i <= patientStock.getNumberOfEntries();i++){
+            Medicine medicinePatient = patientStock.getEntry(i);
+            for (int j = 1;i <= medicineStock.getNumberOfEntries();j++){
+                Medicine medicineClinic = medicineStock.getEntry(j);
+                //Check same name of medicine
+                if(medicinePatient.getName().equals(medicineClinic.getName())){
+                    Dosage dosagePatient = medicinePatient.getDosage().getEntry(1);
+                    ListInterface<Dosage> dosageClinicList = medicineStock.getEntry(j).getDosage();
+                    //Check Same name of dosage
+                    for (int k = 1;k <= dosageClinicList.getNumberOfEntries();k++){
+                        Dosage dosageClinic = dosageClinicList.getEntry(k);
+                        if(dosagePatient.getDosageForm().equals(dosageClinic.getDosageForm()) && dosagePatient.getDose().equals(dosageClinic.getDose())){
+                            dosageClinic.reduceStock(dosagePatient.getDosageQuantity());
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 
