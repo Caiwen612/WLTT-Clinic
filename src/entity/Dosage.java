@@ -75,6 +75,10 @@ public class Dosage implements Comparable, Cloneable{
         this.record = record;
     }
 
+    public void reduceStock(int qty){
+        this.dosageQuantity -= qty;
+    }
+
     @Override
     public int compareTo(Object o) {
         if (o instanceof Dosage){
@@ -111,6 +115,7 @@ public class Dosage implements Comparable, Cloneable{
             return 0;
         }
     }
+
 
 
     @Override
