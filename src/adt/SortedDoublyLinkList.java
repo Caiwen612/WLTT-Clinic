@@ -169,6 +169,11 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
 
     @Override
     public boolean contains(T entry) {
+        
+        if(isEmpty()){
+            return false;
+        }
+
         boolean found = false;
         Node tempNode = headNode;
         for(T node: this){
@@ -201,6 +206,9 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
 
     @Override
     public T getEntry(T entry) {
+        if(isEmpty()){
+            return null;
+        }
         T result = null;
         for(T data: this){
             if(data.equals(entry)){
@@ -213,6 +221,13 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
 
     @Override
     public T getEntry(int index){
+        //Check whether the index is valid or not.
+        if(index < 0 && index > numberOfEntry + 1){
+            return null;
+        }
+        if(isEmpty()){
+            return null;
+        }
         Node current = headNode;
         int count = 0;
 
@@ -229,16 +244,25 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
 
     @Override
     public Node getHead() {
+        if(isEmpty()){
+            return null;
+        }
         return headNode;
     }
 
     @Override
     public Node getTail() {
+        if(isEmpty()){
+            return null;
+        }
         return tailNode;
     }
 
     @Override
     public String printAscending(){
+        if(isEmpty()){
+            return null;
+        }
         String outputStr = "";
         Node currentNode = headNode;
         int count = 1;
@@ -251,6 +275,9 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
     }
 
     public String printDescending(){
+        if(isEmpty()){
+            return null;
+        }
         String outputStr = "";
         Node currentNode = tailNode;
         int count = 1;

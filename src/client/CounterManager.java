@@ -4,34 +4,36 @@ import adt.ArrayList;
 import adt.ArrayQueue;
 import adt.ListInterface;
 import adt.QueueInterface;
-import entity.Dosage;
 import entity.Patient;
 import entity.waitingQueue;
-import utility.Font;
 import utility.Validation;
 import utility.ValidationException;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.Scanner;
 
 public class CounterMenu {
-    private static QueueInterface<entity.waitingQueue> waitingQueue = new ArrayQueue<>(100);
     private static ListInterface<Patient> patientList = new ArrayList<>(100);
 
-    //TAY CHAI BOON
+    private static QueueInterface<waitingQueue> waitingQueuePatient = new ArrayQueue<>(100);
+    private static int waitingNo = 100;
     private static boolean roomFree1 = false;
     private static boolean roomFree2 = false;
     private static Queue<Patient> room1 = new LinkedList<>();
     private static Queue<Patient> room2 = new LinkedList<>();
+
     private static Queue<Patient> room3 = new LinkedList<>();
 
-    private static Scanner input = new Scanner(System.in);
-    static String y = input.next();;
+    static Scanner input = new Scanner(System.in);
+    private static String y;
 
     //add/search patient only can register
-    public static void searchPatient() {
 
+    public static void searchPatient() {
         boolean validICNO = true;
-        String patientIC = input.next();
+        String patientIC =" ";
         do{
             try{
                 System.out.print("IC Number: ");
@@ -50,18 +52,20 @@ public class CounterMenu {
                 }
             }
             System.out.println("Register patient?");
-            y = input.next();
-            if (y == "Y") {
+            y = input.next().toUpperCase();
+            if (Objects.equals(y, "Y")) {
                 System.out.println("Patient registered into queue");
-                CounterDriver.waitingNo++;
-                registerPatient(new Patient(patientIC), CounterDriver.waitingNo);
+                waitingNo++;
+                registerPatient(new Patient(patientIC), waitingNo);
+                CounterDriver.counterMenu();
             } else {
                 System.out.println("Patient not registered into queue");
+                CounterDriver.counterMenu();
             }
         } else {
             System.out.println("Record not found! Want to add patient?");
             y = input.next();
-            if (y == "Y") {
+            if (Objects.equals(y, "Y")) {
                 addPatient();
             }
             else{
@@ -80,10 +84,7 @@ public class CounterMenu {
                     swap(a, index, index+1);
                     sorted = false;
                 }
-                /*if (a[index].compareTo(a[index + 1]) > 0) {
-                    swap(a, index, index + 1); // swap adjacent elements
-                    sorted = false;  // array not sorted because a swap was performed
-                }*/
+
             }
         }
     }
@@ -93,14 +94,12 @@ public class CounterMenu {
         a.replace(i, a.getEntry(j));
         a.replace(j, temp);
 
-        /*T temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;*/
     }
 
     public static void addPatient() {
+
         boolean validICNO = true;
-        String patientIC = input.next();
+        String patientIC = "";
         System.out.println("Enter Patient Details ");
         System.out.print("Name: ");
         String patientName = input.next();
@@ -108,7 +107,7 @@ public class CounterMenu {
         do{
             try{
                 System.out.print("IC Number: ");
-                 patientIC = input.next();
+                patientIC = input.next();
                 Validation.validIC(validICNO,patientIC);
                 validICNO = false;
             } catch (ValidationException e) {
@@ -123,36 +122,36 @@ public class CounterMenu {
         System.out.print("Date of Birth: ");
         String patientDOB = input.next();
 
-        System.out.println(patientIC);
 
-            if (patientList.toString().contains(new Patient(patientIC).getIcNo())) {
-                System.out.println("Patient has been registered before!");
-                CounterDriver.counterMenu();
+        if (patientList.toString().contains(new Patient(patientIC).getIcNo())) {
+            System.out.println("Patient has been added before!");
+            CounterDriver.counterMenu();
+        } else {
+            Patient patientNew = new Patient(patientName, patientIC, patientPhoneNo, patientAddress, patientDOB);
+            patientList.add(patientNew);
+            System.out.println("Patient added successfully!");
+            System.out.println("Register patient?");
+            String y = input.next().toUpperCase();
+
+            if (Objects.equals(y, "Y")) {
+                System.out.println("Patient registered into queue");
+                waitingNo++;
+                registerPatient(new Patient(patientIC), waitingNo);
+
             } else {
-                Patient patientNew = new Patient(patientName, patientIC, patientPhoneNo, patientAddress, patientDOB);
-                patientList.add(patientNew);
-                System.out.println("Patient added successfully!");
-                System.out.println("Register patient?");
-                String y = input.next();
-
-                if (Objects.equals(y, "Y")) {
-                    System.out.println("Patient registered into queue");
-                    CounterDriver.waitingNo++;
-                    registerPatient(new Patient(patientIC),   CounterDriver.waitingNo);
-
-                } else {
-                    System.out.println("Patient not registered into queue");
-                }
-                CounterDriver.counterMenu();
+                System.out.println("Patient not registered into queue");
             }
+            CounterDriver.counterMenu();
         }
+    }
 
     public static void editPatient() {
+        int i =0;
         boolean validICNO = true;
-        String patientIC = input.next();
+        String patientIC =" ";
         do{
             try{
-                System.out.print("IC No: ");
+                System.out.print("IC Number: ");
                 patientIC = input.next();
                 Validation.validIC(validICNO,patientIC);
                 validICNO = false;
@@ -162,14 +161,15 @@ public class CounterMenu {
 
         }while(validICNO);
         if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
-            for (int i = 1; i < patientList.getNumberOfEntries()+1; i++) {
+            for (i = 1; i < patientList.getNumberOfEntries()+1; i++) {
                 if (Objects.equals(new Patient(patientIC).getIcNo(), patientList.getEntry(i).getIcNo())) {
                     System.out.println(patientList.getEntry(i).toString());
+                    break;
                 }
             }
             System.out.println("Confirm edit?");
-            String n = input.next();
-            if (n == "Y") {
+            String n = input.next().toUpperCase();
+            if (Objects.equals(n, "Y")) {
                 System.out.println("Which details do u wanna edit?");
                 System.out.println("[1] Patient's Name");
                 System.out.println("[2] Patient's Phone Number");
@@ -182,47 +182,47 @@ public class CounterMenu {
                     case 1:
                         System.out.println("Name: ");
                         String nameEdit = input.next();
-                        new Patient(patientIC).setPatientName(nameEdit);
+                        patientList.getEntry(i).setPatientName(nameEdit);
                         break;
                     case 2:
                         System.out.println("Phone Number: ");
                         String phoneNoEdit = input.next();
-                        new Patient(patientIC).setPhoneNo(phoneNoEdit);
+                        patientList.getEntry(i).setPhoneNo(phoneNoEdit);
                         break;
                     case 3:
                         System.out.println("Address: ");
                         String addressNoEdit = input.next();
-                        new Patient(patientIC).setAddress(addressNoEdit);
+                        patientList.getEntry(i).setAddress(addressNoEdit);
                         break;
                     case 4:
                         System.out.println("DOB: ");
                         String dobNoEdit = input.next();
-                        new Patient(patientIC).setDOB(dobNoEdit);
+                        patientList.getEntry(i).setDOB(dobNoEdit);
                         break;
 
                 }
                 System.out.println("Patient details edited successfully!");
-
+                CounterDriver.counterMenu();
             } else {
                 System.out.println("Patient details not edited");
+                CounterDriver.counterMenu();
             }
         }
         else {
             System.out.println("Record not found! Want to add patient?");
-            y = input.next();
-            if (y == "Y") {
+            y = input.next().toUpperCase();
+            if (Objects.equals(y, "Y")) {
                 addPatient();
             }
             else{
                 CounterDriver.counterMenu();
             }
         }
-
     }
 
     public static void deletePatient() {
         boolean validICNO = true;
-        String patientIC = input.next();
+        String patientIC = " ";
         do{
             try{
                 System.out.print("IC Number: ");
@@ -234,17 +234,46 @@ public class CounterMenu {
             }
         }while(validICNO);
         if ( patientList.toString().contains(new Patient(patientIC).getIcNo())) {
-            for (int i = 0; i < patientList.getNumberOfEntries(); i++) {
-                if (new Patient(patientIC) == patientList.getEntry(i)) {
+            boolean checkPatient =false;
+            int loopSize=-1;
+            for (int i = 1; i < patientList.getNumberOfEntries() + 1; i++) {
+                if (Objects.equals(new Patient(patientIC).getIcNo(), patientList.getEntry(i).getIcNo())) {
                     patientList.remove(i);
                 }
-                System.out.println("Patient Deleted!");
-                CounterDriver.counterMenu();
+                System.out.println("Patient Data Deleted!");
+
             }
+            QueueInterface<waitingQueue> queue = new ArrayQueue<waitingQueue>();
+            while (!checkPatient){
+                queue.enqueue(waitingQueuePatient.getFront());
+                waitingQueuePatient.dequeue();
+                if(waitingQueuePatient.getSize() == loopSize) {
+                    checkPatient =true;
+                    waitingQueuePatient= queue;
+                    System.out.println("Patient data removed from queue!");
+                    CounterDriver.counterMenu();
+                }
+                else if(waitingQueuePatient.getFront()==null){
+                    checkPatient =true;
+                    waitingQueuePatient= queue;
+                    CounterDriver.counterMenu();
+                }
+                else {
+                    loopSize++;
+                    if (!(Objects.equals(waitingQueuePatient.getFront().getPatientList().getIcNo(), new Patient(patientIC).getIcNo()))) {
+                        queue.enqueue(waitingQueuePatient.getFront());
+                        waitingQueuePatient.dequeue();
+
+                    } else {
+                        waitingQueuePatient.dequeue();
+                    }
+                }
+            }
+
         } else {
             System.out.println("Record not found! Want to add patient?");
-            y = input.next();
-            if (y == "Y") {
+            y = input.next().toUpperCase();
+            if (Objects.equals(y, "Y")) {
                 addPatient();
             }
             else{
@@ -268,72 +297,67 @@ public class CounterMenu {
         else{
             roomNo=3;
         }
-
-        if (waitingQueue.isEmpty()){
-            waitingQueue.enqueue(new waitingQueue(null, 0, 0));
+        if( waitingQueuePatient.isEmpty()) {
+            waitingQueuePatient.enqueue(new waitingQueue(null,0,0));
         }
+        waitingQueuePatient.enqueue(new waitingQueue(registerPatientIC, (int) roomNo, waitingNo));
 
-        waitingQueue.enqueue(new waitingQueue(registerPatientIC, (int) roomNo, waitingNo));
     }
 
     public static void showQueue(){
-        String n;
 
+        String n;
         for(int i = 1; i<patientList.getNumberOfEntries()+1; i++){
             System.out.println(patientList.getEntry(i));
         }
 
         do {
-            if (waitingQueue.isEmpty()) {
+            if (waitingQueuePatient.isEmpty()) {
                 System.out.println("No one in queue yet!");
                 break;
 
             } else {
                 //clear screen
                 System.out.println("Previous Queue Number: ");
-                if (waitingQueue.getFront().getPatientList() == null) {
+                if (waitingQueuePatient.getFront()== null) {
                     System.out.println("waitingNo= " + 0 + ", roomNo= " + 0);
                 } else {
-                    System.out.println(waitingQueue.getFront());
+                    System.out.println(waitingQueuePatient.getFront());
                 }
 
                 System.out.println("Current Queue Number: ");
-                waitingQueue.dequeue();
-                if (waitingQueue.getFront() == null) {
+                waitingQueuePatient.dequeue();
+                if (waitingQueuePatient.getFront() == null) {
                     System.out.println("No patients registered in queue");
-                    break;
+                    CounterDriver.counterMenu();
                 }
                 else {
-                    System.out.println(waitingQueue.getFront());
+                    System.out.println(waitingQueuePatient.getFront());
                 }
 
                 //add patient details in the room queue before dequeuing
-                if (waitingQueue.getFront().getRoomNo() == 1) {
-                    room1.add(waitingQueue.getFront().getPatientList());
-                } else if (waitingQueue.getFront().getRoomNo() == 2) {
-                    room2.add(waitingQueue.getFront().getPatientList());
+                if (waitingQueuePatient.getFront().getRoomNo() == 1) {
+                    room1.add(waitingQueuePatient.getFront().getPatientList());
+                } else if (waitingQueuePatient.getFront().getRoomNo() == 2) {
+                    room2.add(waitingQueuePatient.getFront().getPatientList());
                 } else {
-                    room3.add(waitingQueue.getFront().getPatientList());
+                    room3.add(waitingQueuePatient.getFront().getPatientList());
                 }
 
                 //how many ppl waiting
                 System.out.println("In Queue: ");
-                System.out.println(waitingQueue.getSize());
+                System.out.println(waitingQueuePatient.getSize());
                 System.out.println();
                 System.out.print("Press n to call the next number: ");
-                n = input.next();
+                n = input.next().toLowerCase();
 
             }
         }
         while (Objects.equals(n, "n")) ;
     }
 
-    public static ListInterface<Patient> getpatientList(){
+    public static ListInterface <Patient> getPatientList(){
         return patientList;
-    }
-
-    public static QueueInterface<entity.waitingQueue> getwaitingQueue (){
-        return waitingQueue;
     }
 
 }

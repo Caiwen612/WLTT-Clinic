@@ -2,7 +2,7 @@ package entity;
 
 import adt.ArrayList;
 import adt.ListInterface;
-import client.PharmacistMenu;
+import driver.Driver;
 import utility.Font;
 import utility.Validation;
 import utility.ValidationException;
@@ -122,7 +122,7 @@ public class PharmacistOperation {
         for (int index = 1; index <= temp.getNumberOfEntries(); index++) {
             ArrayList.bubbleSort(temp.getEntry(index).getDosage(), temp.getEntry(index).getDosage().getNumberOfEntries(), 3);
         }
-        PharmacistMenu.medicineStockManagement();
+        Driver.medicineStockManagement();
 
     }
 
@@ -223,7 +223,7 @@ public class PharmacistOperation {
                 System.out.println("The medicine already exits.");
                 System.out.println("Press enter to go back to medicine menu...");
                 input.nextLine();
-                PharmacistMenu.medicineManagement();
+                Driver.medicineManagement();
             }
         }
 
@@ -494,7 +494,7 @@ public class PharmacistOperation {
                 }
                 viewSummaryReport();
             }
-            default -> PharmacistMenu.menu();
+            default -> Driver.pharmacistMenu();
         }
     }
 
