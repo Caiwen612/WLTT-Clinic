@@ -10,6 +10,7 @@ public class Patient implements Comparable {
     private String address;
     private String DOB;
     private ListInterface<MedicalRecord> history;
+    private Invoice tempInvoice;
 
     public Patient(){
         this("","","","","");
@@ -49,6 +50,10 @@ public class Patient implements Comparable {
         return phoneNo;
     }
 
+    public Invoice getTempInvoice() {
+        return tempInvoice;
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -67,6 +72,10 @@ public class Patient implements Comparable {
 
     public  void setIcNo(String icNo) {
         this.icNo = icNo;
+    }
+
+    public void setTempInvoice(Invoice tempInvoice) {
+        this.tempInvoice = tempInvoice;
     }
 
     public ListInterface<MedicalRecord> getHistory() {

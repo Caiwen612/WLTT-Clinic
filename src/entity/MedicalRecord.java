@@ -80,4 +80,15 @@ public class MedicalRecord {
                 + "\n\tDate: " + this.date;
         return output;
     }
+
+//    public void printMedicineCart(){
+//        System.out.println("caiwen");
+//        if(medicineCart != null){
+//            System.out.println("ID" + "Name " + "Dosage Form" + "Dose" + "Quantity");
+//            for(int i =1;i <= medicineCart.getNumberOfEntries();i++){
+//                Medicine medicine = medicineCart.getEntry(i);
+//                System.out.println(medicine.getId() + medicine.getName() + medicine.getDosage());
+//            }
+//        }
+//    }
 }

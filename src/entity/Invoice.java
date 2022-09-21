@@ -1,6 +1,5 @@
 package entity;
 
-import adt.ArrayList;
 import adt.ListInterface;
 
 import java.time.LocalDate;
@@ -18,7 +17,7 @@ public class Invoice {
     private String invoiceID;
     private String printDate = LocalDate.now().format(dateFormat);
     private String printTime = LocalDateTime.now().format(timeFormat);
-    private ListInterface<PrescriptionList> prescriptionList;
+    private ListInterface<Medicine> prescriptionList;
     private Patient patient;
     private double subTotal;
     private double total;
@@ -26,10 +25,11 @@ public class Invoice {
     private static int numOfInvoice = 0;
 
     public Invoice() {
+        this(null,null);
     }
 
     //Initialize Purpose
-    public Invoice(ArrayList<PrescriptionList> prescriptionList, Patient patient, double subTotal, double total) {
+    public Invoice(ListInterface<Medicine> prescriptionList, Patient patient, double subTotal, double total) {
         this.invoiceID = "I" + String.format("%04d", (Invoice.numOfInvoice + 1));
         this.prescriptionList = prescriptionList;
         this.patient = patient;
@@ -38,7 +38,7 @@ public class Invoice {
         Invoice.numOfInvoice++;
     }
 
-    public Invoice(ArrayList<PrescriptionList> prescriptionList, Patient patient) {
+    public Invoice(ListInterface<Medicine> prescriptionList, Patient patient) {
         this.invoiceID = "I" + String.format("%04d", (Invoice.numOfInvoice + 1));
         this.printDate = getPrintDate();
         this.printTime = getPrintTime();
@@ -71,11 +71,11 @@ public class Invoice {
         this.printTime = printTime;
     }
 
-    public ListInterface<PrescriptionList> getPrescriptionList() {
+    public ListInterface<Medicine> getPrescriptionList() {
         return prescriptionList;
     }
 
-    public void setPrescriptionList(ListInterface<PrescriptionList> prescriptionList) {
+    public void setPrescriptionList(ListInterface<Medicine> prescriptionList) {
         this.prescriptionList = prescriptionList;
     }
 
@@ -112,7 +112,8 @@ public class Invoice {
     }
 
     public double getAmount(int i) {
-        return getPrescriptionList().getEntry(i + 1).getDosage().getDosagePrice() * getPrescriptionList().getEntry(i + 1).getQuantity();
+        Dosage dosage = getPrescriptionList().getEntry(i).getDosage().getEntry(1);
+        return dosage.getDosagePrice() * dosage.getDosageQuantity();
     }
 
     public void setAmount(double amount) {
