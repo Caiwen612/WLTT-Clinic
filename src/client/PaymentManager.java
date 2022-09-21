@@ -1,9 +1,9 @@
 package client;
 
-import adt.*;
 import adt.ArrayStack;
 import adt.ListInterface;
 import adt.StackInterface;
+import driver.Driver;
 import entity.*;
 
 import java.util.Scanner;
@@ -17,55 +17,54 @@ public class PaymentManager {
     private static StackInterface<Transaction> transactionHistory = new ArrayStack<>();
     private static StackInterface<Transaction> tempStack = new ArrayStack<>();
 
-    public PaymentManager(PharmacistOperation pharmacistOperation){
-        ListInterface<Medicine> medicineStock = pharmacistOperation.getMedicineStock();
+    public PaymentManager(){
+        ListInterface<Medicine> medicineStock = null;
 
         //FIRST - Loperamide (Oral tablet)
-
-
-        Medicine testingMedicine4 = medicineStock.getEntry(3).clone();
-        Dosage testingDosage4 = medicineStock.getEntry(3).getDosage().getEntry(2);
-        ListInterface<Medicine> tempList1 = new ArrayList<>();
-        testingMedicine4.getDosage().clear();
-        testingDosage4.setDosageQuantity(1);
-        testingMedicine4.getDosage().add(testingDosage4);
-        Patient patient1 = new Patient("Patient1", "111111111111", "1111111111", "010101", "010101");
-        Invoice invoice1 = new Invoice(tempList1, patient1, 20, 21.2);
-        Payment payer1 = new Payment("Payer1", 21.2);
-        transactionHistory.push(new Transaction("01-01-2022", "10:20:59", invoice1, payer1, "Cash"));
-
-
-
-        //SECOND - Atorvastatin (Oral tablet)
-        Medicine testingMedicine5 = medicineStock.getEntry(4).clone();
-        Dosage testingDosage5 = medicineStock.getEntry(4).getDosage().getEntry(1);
-        ListInterface<Medicine> tempList2 = new ArrayList<>();
-        testingMedicine5.getDosage().clear();
-        testingDosage5.setDosageQuantity(2);
-        testingMedicine5.getDosage().add(testingDosage5);
-        Patient patient2 = new Patient("Patient2", "222222222222", "2222222222", "020202", "030303");
-        Invoice invoice2 = new Invoice(tempList2, patient2,30,31.8);
-        Payment payer2 = new Payment("Payer2", 31.8);
-        transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
-
-
-        //THIRD - Lisinopril (Oral tablet)
-        Medicine testingMedicine6 = medicineStock.getEntry(5).clone();
-        Dosage testingDosage6 = medicineStock.getEntry(5).getDosage().getEntry(2);
-        ListInterface<Medicine> tempList3 = new ArrayList<>();
-        testingMedicine6.getDosage().clear();
-        testingDosage6.setDosageQuantity(3);
-        testingMedicine6.getDosage().add(testingDosage5);
-        Patient patient3 = new Patient("Patient3", "333333333333", "3333333333", "030303", "030303");
-        Invoice invoice3 = new Invoice(tempList3, patient3, 75, 4.5);
-        Payment payer3 = new Payment("Payer3", 79.5);
-        transactionHistory.push(new Transaction("21-06-2022", "14:59:11", invoice3, payer3, "Credit Card"));
+//
+//        Medicine testingMedicine4 = medicineStock.getEntry(3).clone();
+//        Dosage testingDosage4 = medicineStock.getEntry(3).getDosage().getEntry(2);
+//        ListInterface<Medicine> tempList1 = new ArrayList<>();
+//        testingMedicine4.getDosage().clear();
+//        testingDosage4.setDosageQuantity(1);
+//        testingMedicine4.getDosage().add(testingDosage4);
+//        Patient patient1 = new Patient("Patient1", "111111111111", "1111111111", "010101", "010101");
+//        Invoice invoice1 = new Invoice(tempList1, patient1, 20, 21.2);
+//        Payment payer1 = new Payment("Payer1", 21.2);
+//        transactionHistory.push(new Transaction("01-01-2022", "10:20:59", invoice1, payer1, "Cash"));
+//
+//
+//
+//        //SECOND - Atorvastatin (Oral tablet)
+//        Medicine testingMedicine5 = medicineStock.getEntry(4).clone();
+//        Dosage testingDosage5 = medicineStock.getEntry(4).getDosage().getEntry(1);
+//        ListInterface<Medicine> tempList2 = new ArrayList<>();
+//        testingMedicine5.getDosage().clear();
+//        testingDosage5.setDosageQuantity(2);
+//        testingMedicine5.getDosage().add(testingDosage5);
+//        Patient patient2 = new Patient("Patient2", "222222222222", "2222222222", "020202", "030303");
+//        Invoice invoice2 = new Invoice(tempList2, patient2,30,31.8);
+//        Payment payer2 = new Payment("Payer2", 31.8);
+//        transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
+//
+//
+//        //THIRD - Lisinopril (Oral tablet)
+//        Medicine testingMedicine6 = medicineStock.getEntry(5).clone();
+//        Dosage testingDosage6 = medicineStock.getEntry(5).getDosage().getEntry(2);
+//        ListInterface<Medicine> tempList3 = new ArrayList<>();
+//        testingMedicine6.getDosage().clear();
+//        testingDosage6.setDosageQuantity(3);
+//        testingMedicine6.getDosage().add(testingDosage5);
+//        Patient patient3 = new Patient("Patient3", "333333333333", "3333333333", "030303", "030303");
+//        Invoice invoice3 = new Invoice(tempList3, patient3, 75, 4.5);
+//        Payment payer3 = new Payment("Payer3", 79.5);
+//        transactionHistory.push(new Transaction("21-06-2022", "14:59:11", invoice3, payer3, "Credit Card"));
 
     }
 
     //Bill List - Patient
     public static void printInvoice(Patient patient){
-        Invoice invoice = null;
+        Invoice invoice = patient.getTempInvoice();
         if(patient.getTempInvoice() == null){
             invoice = new Invoice();
             invoice.setPatient(patient);
@@ -115,14 +114,16 @@ public class PaymentManager {
             System.out.printf("%74s %7.2f", "Sub Total   : ", subTotal);
             System.out.printf("\n%74s %7.2f", "Tax Rate (6%)   : ", invoice.calcTaxRate());
             System.out.printf("\n%74s %7.2f", "Grand Total   : ", invoice.getTotal());
+            System.out.println("");
         }
+        Driver.pressAnyKeyToContinueWithPrompt();
     }
 
     public static void paymentProceed(Patient patient) {
 
         printInvoice(patient);
 
-        if (patient != null) {
+        if (patient != null && !patient.isPaymentStatus()) {
             System.out.println("\n\nPay with");
             System.out.println("[1] Credit Card");
             System.out.println("[2] Cash");
@@ -131,7 +132,9 @@ public class PaymentManager {
             int option = input.nextInt();
 
             paymentTransaction(option,patient);
-
+        } else{
+            System.out.println("This patient already make a payment.");
+            Driver.pressAnyKeyToContinueWithPrompt();
         }
 
     }
@@ -201,7 +204,7 @@ public class PaymentManager {
 
     //Record transaction - After Payment Done
     public static void recordTransaction(Patient patient,boolean cash,Payment payer){
-
+        patient.setPaymentStatus(true);
         if (cash){
             transactionsArray[transactionNum] = new Transaction(patient.getTempInvoice(), payer, "Cash");
         }
@@ -211,6 +214,8 @@ public class PaymentManager {
 
         transactionHistory.push(transactionsArray[transactionNum]);
         transactionNum++;
+        System.out.println("Transaction has successful");
+        Driver.pressAnyKeyToContinueWithPrompt();
     }
 
     //Transaction Menu (4 Function)
@@ -245,6 +250,7 @@ public class PaymentManager {
         else
         {
             System.out.println("\n\n\nThere is no transaction history exist currently!!");
+            Driver.pressAnyKeyToContinueWithPrompt();
         }
 
     }
@@ -253,7 +259,7 @@ public class PaymentManager {
     public static void transactionHistory() {
 
         int index = 0;
-
+        Driver.clearScreen();
         System.out.println("\n\n==================================================================================================");
         System.out.println("                                      TRANSACTION HISTORY                                         ");
         System.out.println("==================================================================================================");
@@ -288,6 +294,7 @@ public class PaymentManager {
             // To restore contents of the original stack.
             transactionHistory.push(transaction);
         }
+        Driver.pressAnyKeyToContinueWithPrompt();
 
     }
 
@@ -353,6 +360,7 @@ public class PaymentManager {
         System.out.printf("%75s %7.2f", "Sub Total   : ", transactionSearched.getInvoice().getSubTotal());
         System.out.printf("\n%75s %7.2f", "Tax Rate (6%)   : ", transactionSearched.getInvoice().calcTaxRate());
         System.out.printf("\n%75s %7.2f", "Grand Total   : ", transactionSearched.getInvoice().getTotal());
+        Driver.pressAnyKeyToContinueWithPrompt();
 
     }
 
@@ -389,6 +397,7 @@ public class PaymentManager {
             // To restore contents of the original stack.
             transactionHistory.push(transaction);
         }
+        Driver.pressAnyKeyToContinueWithPrompt();
     }
 
     //View Latest Medicine Transaction (Medicine Only)
@@ -417,6 +426,7 @@ public class PaymentManager {
             System.out.println("---------------------------------------------------------");
 
         }
+        Driver.pressAnyKeyToContinueWithPrompt();
 
     }
 
@@ -477,6 +487,7 @@ public class PaymentManager {
             // To restore contents of the original stack.
             transactionHistory.push(transaction);
         }
+        Driver.pressAnyKeyToContinueWithPrompt();
 
     }
 
