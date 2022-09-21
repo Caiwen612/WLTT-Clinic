@@ -5,11 +5,6 @@ public class Validation {
     // Exception Handling
     //Check Menu option
    public static void validOption(int option, int lowerLimit, int upperLimit) throws ValidationException {
-        int intLength = String.valueOf(option).length();// convert integer to String and get length of the String
-        if (intLength >= 2) {
-            throw new ValidationException(Font.useFont(Font.BOLD_RED, "Please don't key in more than 2 digits."));
-        }
-
         // Check only the integer range be allow.
         if (option < lowerLimit || option > upperLimit) {
             throw new ValidationException(
@@ -48,7 +43,7 @@ public class Validation {
         }
     }
 
-    public static void validIC(boolean valid, String ic) throws ValidationException {
+    public static void validIC(String ic) throws ValidationException {
         if (ic.length()!= 12) {
             throw new ValidationException(Font.useFont(Font.BOLD_RED, "Please enter a valid IC Number!"));
         }
