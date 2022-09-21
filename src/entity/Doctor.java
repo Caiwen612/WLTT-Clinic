@@ -1,25 +1,27 @@
 package entity;
 
+import adt.SortedDoublyLinkList;
+import adt.SortedListInterface;
+
 public class Doctor {
-    private String ID;
-    private String name;
+    private final String ID;
+    private final String name;
+    private SortedListInterface<Appointment> appointmentList;
 
     //Constructor
     public Doctor(){
         this("","");
     }
+
     public Doctor(String id, String name){
         this.ID = id;
         this.name = name;
+        this.appointmentList = new SortedDoublyLinkList<>();
     }
 
-    //Getter
-    public String getID() {
-        return this.ID;
+    public SortedListInterface<Appointment> getAppointmentList() {
+        return appointmentList;
     }
 
-    public String getName() {
-        return this.name;
-    }
 
 }

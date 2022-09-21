@@ -1,28 +1,33 @@
 package entity;
 
+import adt.ArrayList;
+import adt.ListInterface;
+
 public class Patient implements Comparable {
     private String patientName;
     private String icNo;
     private String phoneNo;
     private String address;
     private String DOB;
-    //patient history (collection)
+    private ListInterface<MedicalRecord> history;
 
     public Patient(){
-
+        this("","","","","");
     }
 
-    public Patient(String name, String icNo, String phoneNo, String address, String DOB ){
+    public Patient(String patientIC) {
+        this("",patientIC,"","","");
+    }
+
+    public Patient(String name, String icNo, String phoneNo, String address, String DOB){
         this.patientName = name;
         this.icNo = icNo;
         this.phoneNo = phoneNo;
         this.address = address;
         this.DOB = DOB;
+        this.history = new ArrayList<MedicalRecord>(5);
     }
 
-    public Patient(String patientIC) {
-        this.icNo =  patientIC;
-    }
 
     public String getAddress() {
         return address;
@@ -62,6 +67,14 @@ public class Patient implements Comparable {
 
     public  void setIcNo(String icNo) {
         this.icNo = icNo;
+    }
+
+    public ListInterface<MedicalRecord> getHistory() {
+        return history;
+    }
+
+    public void setHistory(ListInterface<MedicalRecord> history) {
+        this.history = history;
     }
 
     @Override
