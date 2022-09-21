@@ -1,11 +1,13 @@
-package entity;
+package client;
 
 import adt.ArrayList;
 import adt.ListInterface;
 import driver.Driver;
+import entity.Dosage;
+import entity.Medicine;
+import entity.MedicineDosageRecord;
 import utility.Font;
 import utility.Validation;
-import utility.ValidationException;
 
 import java.util.Iterator;
 import java.util.Scanner;
@@ -109,7 +111,7 @@ public class PharmacistOperation {
         }
     }
 
-    public  void sortMedicineStock() throws ValidationException {
+    public  void sortMedicineStock() {
         ListInterface<Medicine> temp = new ArrayList<>();
 
         Iterator<Medicine> medicineIterator = medicineStock.getIterator();
@@ -122,11 +124,12 @@ public class PharmacistOperation {
         for (int index = 1; index <= temp.getNumberOfEntries(); index++) {
             ArrayList.bubbleSort(temp.getEntry(index).getDosage(), temp.getEntry(index).getDosage().getNumberOfEntries(), 3);
         }
+
         Driver.medicineStockManagement();
 
     }
 
-    public void addMedicineStock() throws ValidationException {
+    public void addMedicineStock()  {
         int num, quantity;
         char option;
         printMedicineStock();
@@ -159,7 +162,12 @@ public class PharmacistOperation {
                 quantity + " quantity" +
                 "? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
-        Validation.validCharYN(option);
+        try{
+            Validation.validCharYN(option);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
 
 
         if (option == 'Y'){
@@ -209,7 +217,7 @@ public class PharmacistOperation {
 
     }
 
-    public void addNewMedicine() throws ValidationException {
+    public void addNewMedicine()  {
         char option;
         String mediName, mediFunc;
         int doseFormQuantity;
@@ -276,7 +284,11 @@ public class PharmacistOperation {
         input.nextLine();
         System.out.print("Are you sure you want to add new medicine? ('Y' for yes/'N' for no): " );
         option = input.next().charAt(0);
-        Validation.validCharYN(option);
+        try{
+            Validation.validCharYN(option);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
         String[] dosageFormArray = new String[]{"Oral capsule", "Oral tablet", "Oral liquid"};
         if (option == 'Y'){
@@ -297,7 +309,7 @@ public class PharmacistOperation {
         input.nextLine();
     }
 
-    public void updateCurrentMedicine() throws ValidationException {
+    public void updateCurrentMedicine() {
         int num;
         double tempCost = 0, tempPrice = 0;
         char option;
@@ -343,7 +355,11 @@ public class PharmacistOperation {
 
         System.out.println("Are you sure you want to update the medicine details? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
-        Validation.validCharYN(option);
+        try{
+            Validation.validCharYN(option);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
         if (option == 'Y'){
             switch (num) {
@@ -362,7 +378,7 @@ public class PharmacistOperation {
         input.nextLine();
     }
 
-    public void deleteMedicine() throws ValidationException {
+    public void deleteMedicine()  {
         int num, option;
         char confirm;
         printMedicineList();
@@ -398,7 +414,11 @@ public class PharmacistOperation {
         }
 
         confirm = input.next().charAt(0);
-        Validation.validCharYN(confirm);
+        try{
+            Validation.validCharYN(confirm);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
         if (confirm == 'Y'){
             switch (option){
@@ -426,7 +446,7 @@ public class PharmacistOperation {
         input.nextLine();
     }
 
-    public void viewSummaryReport() throws ValidationException {
+    public void viewSummaryReport()  {
         double totalProfit = 0;
         System.out.println("=".repeat(118));
         System.out.printf("%70s\n", "Medicine Summary Report");
@@ -498,4 +518,8 @@ public class PharmacistOperation {
         }
     }
 
+
+    public static ListInterface<Medicine> getMedicineStock() {
+        return medicineStock;
+    }
 }
