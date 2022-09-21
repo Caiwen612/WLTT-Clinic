@@ -119,6 +119,7 @@ public class DoctorOperation {
     }
 
     public static void addPatientRecord(Patient patient,ListInterface<Medicine> medicineStock)  {
+        Driver.clearScreen();
         input.nextLine();//clear buffer
         System.out.print("Enter medical Problems: ");
         String mProblems = input.nextLine();
@@ -138,11 +139,7 @@ public class DoctorOperation {
             //get the target medicine
             Medicine medicine = findMedicine(medicineStock,option, quantity);
             patientMedicineList.add(medicine);
-            //TODO: Design cart
-            System.out.println("Current medical cart");
-            for(int i=1;i <= patientMedicineList.getNumberOfEntries();i++){
-                System.out.println(patientMedicineList.getEntry(i));
-            }
+            displayMedicalCart(patientMedicineList);
             addMore = validCharYN("Do you wish to add more? ");
         } while (addMore == 'Y');
 
@@ -157,6 +154,7 @@ public class DoctorOperation {
         MedicalRecord record = patient.getHistory().getEntry(patient.getHistory().getNumberOfEntries());
         if(record != null){
             displayPatientRecord(patient,record);
+            displayMedicalCart(record.getMedicineCart());
             System.out.println("[1] Medical Problems");
             System.out.println("[2] Medical Symptoms");
             System.out.println("[3] Medical Diagnosis");
@@ -182,7 +180,7 @@ public class DoctorOperation {
                     record.setMedicalDiagnosis(newData);
                     break;
                 case 4:
-                    displayMedicineCart(patient, record,medicineStock);
+                    operationMedicalCart(patient,record,medicineStock);
                     break;
                 case 5:
                     break;
@@ -200,15 +198,27 @@ public class DoctorOperation {
         System.out.println("|Medical record " + "of patient " + patient.getPatientName() + "|");
         System.out.println("=========================================================");
         System.out.println(record);
-        System.out.println("");
-
-        //displayMedicineCart(patient,record);
-        System.out.println("Medicine Cart");
-        ListInterface<Medicine> medicineCart = record.getMedicineCart();
-        for(int i=1;i <= medicineCart.getNumberOfEntries();i++){
-            System.out.println(medicineCart.getEntry(i));
+        if(record.getMedicineCart() != null){
+            displayMedicalCart(record.getMedicineCart());
         }
 
+        System.out.println("");
+
+
+
+    }
+
+    public static void displayMedicalCart(ListInterface<Medicine> medicineCart){
+        System.out.println("Medicine Cart");
+        System.out.print(Font.UNDERLINE_BLUE);
+        System.out.printf("%-4s %-15s %-15s %10s %10s\n", "No", "Name", "Dosage Form", "Dose", "Quantity");
+        System.out.print(Font.RESET);
+
+        for(int i=1;i <= medicineCart.getNumberOfEntries();i++){
+            Medicine medicine = medicineCart.getEntry(i);
+            Dosage dosage = medicine.getDosage().getEntry(1);
+            System.out.printf("%-4s %-15s %-15s %10s %10s\n",i,medicine.getName(),dosage.getDosageForm(),dosage.getDose(),dosage.getDosageQuantity());
+        }
     }
 
     public static void addAppointment(Patient patient,Doctor doctor) {
@@ -355,6 +365,7 @@ public class DoctorOperation {
 
     //Medicine
     public static void printMedicineStock(ListInterface<Medicine> medicineStock) {
+        Driver.clearScreen();
         int i = 1;
         System.out.println("===========================================================");
         System.out.printf("%36s\n", "Medicine List");
@@ -413,6 +424,7 @@ public class DoctorOperation {
                     patientDosage.setDosageQuantity(quantity);
                     patientListDosage.add(patientDosage);
                     patientMedicine.setDosage(patientListDosage);
+
                 }
 
             }
@@ -420,14 +432,10 @@ public class DoctorOperation {
         return patientMedicine;
     }
 
-    public static void displayMedicineCart(Patient patient,MedicalRecord record,ListInterface<Medicine> medicineStock)  {
+    public static void operationMedicalCart(Patient patient,MedicalRecord record,ListInterface<Medicine> medicineStock)  {
         Driver.clearScreen();
-        System.out.println("Medicine Cart");
-        ListInterface<Medicine> medicineCart = record.getMedicineCart();;
-        for(int i=1;i <= medicineCart.getNumberOfEntries();i++){
-            System.out.println(i + ") " + medicineCart.getEntry(i));
-        }
-
+        ListInterface<Medicine> medicineCart = record.getMedicineCart();
+        displayMedicalCart(medicineCart);
         System.out.println("[1] Add Medicine       ");
         System.out.println("[2] Edit Medicine     ");
         System.out.println("[3] Remove Medicine    ");
@@ -444,7 +452,7 @@ public class DoctorOperation {
                 Medicine medicine = findMedicine(medicineStock,option, quantity);
                 medicineCart.add(medicine);
                 Driver.clearScreen();
-                displayMedicineCart(patient,record,medicineStock);
+                displayMedicalCart(medicineCart);
                 break;
             case 2:
                 //Get the target medicine
@@ -453,7 +461,7 @@ public class DoctorOperation {
                 int newQuantity = validQuantity("Enter new quantity: ",100);
                 medicineCart.getEntry(medicineNo).getDosage().getEntry(1).setDosageQuantity(newQuantity);
                 Driver.clearScreen();
-                displayMedicineCart(patient, record,medicineStock);
+                displayMedicalCart(medicineCart);
                 break;
             case 3:
                 int medicineNo2 = validOption("Enter the no you wish to remove: ",1,medicineCart.getNumberOfEntries());
@@ -462,17 +470,12 @@ public class DoctorOperation {
                 if(confirmRemove == 'Y'){
                     medicineCart.remove(medicineNo2);
                     Driver.clearScreen();
-                    displayMedicineCart(patient, record,medicineStock);
+                    displayMedicalCart(medicineCart);
                 } else{
-                    displayMedicineCart(patient, record,medicineStock);
+                    displayMedicalCart(medicineCart);
                 }
                 break;
-
         }
-
-
-
-
     }
 
 
