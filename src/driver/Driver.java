@@ -5,6 +5,7 @@ import adt.ListInterface;
 import adt.QueueInterface;
 import client.CounterManager;
 import client.DoctorOperation;
+import client.PaymentManager;
 import client.PharmacistOperation;
 import entity.*;
 import utility.Font;
@@ -25,6 +26,7 @@ public class Driver {
     private static CounterManager c = new CounterManager();
     private static PharmacistOperation pharmacistOperation = new PharmacistOperation();
     private static DoctorOperation d = new DoctorOperation();
+    private static PaymentManager p = new PaymentManager(pharmacistOperation);
 
     //Queue for room
     private static QueueInterface<WaitingQueue> room1 = c.getRoom1Queue();
@@ -71,6 +73,9 @@ public class Driver {
                 break;
             case 3:
                 pharmacistMenu();
+                break;
+            case 4:
+                paymentMenu();
                 break;
 
             case 5:
@@ -244,8 +249,6 @@ public class Driver {
         clearScreen();
         int option;
 
-
-
         if(currentPatient != null){
             System.out.println("Current patient: " + currentPatient.getPatientName());
         } else {
@@ -389,22 +392,33 @@ public class Driver {
         if(currentPatient != null){
             System.out.println("Current patient: " + currentPatient.getPatientName());
         } else {
-            System.out.println("Currently no patient yet.");
+            System.out.println("\nCurrently no patient yet.");
         }
-        System.out.println("\n\n\n[1] Print Invoice");
-        System.out.println("[2] Transaction History");
-        System.out.println("[3] Proceed Payment");
+        System.out.println("\n\n\n[1] Print Invoice");//Current patient invoice
+        System.out.println("[2] Transaction History");//Clinic
+        System.out.println("[3] Proceed Payment");//Make payment
         System.out.println("[4] Next Customer");
         System.out.println("[0] Back");
 
         System.out.print("Enter your option: ");
         int option = input.nextInt();
 
+
         switch (option){
             case 1:
-
-
+                p.printInvoice(currentPatient.getPatient());
+                break;
+            case 2:
+                p.transactionMenu();
+                break;
+            case 3:
+                p.paymentProceed(currentPatient.getPatient());
+                break;
+            case 4:
+                updatePaymentBoard();
+                break;
         }
+        paymentMenu();
 //        switch (option) {
 //            case 1:
 //                printInvoice();
