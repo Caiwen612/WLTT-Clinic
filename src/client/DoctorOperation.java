@@ -154,7 +154,6 @@ public class DoctorOperation {
         MedicalRecord record = patient.getHistory().getEntry(patient.getHistory().getNumberOfEntries());
         if(record != null){
             displayPatientRecord(patient,record);
-            displayMedicalCart(record.getMedicineCart());
             System.out.println("[1] Medical Problems");
             System.out.println("[2] Medical Symptoms");
             System.out.println("[3] Medical Diagnosis");
@@ -381,7 +380,7 @@ public class DoctorOperation {
                         medicineStock.getEntry(j).getDosage().getEntry(k).getDosageQuantity());
 
                 if (medicineStock.getEntry(j).getDosage().getEntry(k).getDosageQuantity() <= 20) {
-                    System.out.println(Font.useFont(Font.TEXT_RED, output));
+                    System.out.println(output);
                 } else {
                     System.out.println(output);
                 }
@@ -389,8 +388,6 @@ public class DoctorOperation {
             }
             System.out.println("-----------------------------------------------------------");
         }
-        System.out.println("Red color indicate the number of stock is less than the minimum number.");
-        System.out.println("Please restock it.");
     }
 
     public static Medicine findMedicine(ListInterface<Medicine> medicineStock,int num, int quantity){
