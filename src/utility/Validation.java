@@ -14,7 +14,8 @@ public class Validation {
 
     // Check whether is yes or not
     public static void validCharYN(char yesOrNo) throws ValidationException {
-        if (yesOrNo != 'Y' && yesOrNo != 'N') {
+        Character.toUpperCase(yesOrNo);
+        if (Character.toUpperCase(yesOrNo) != 'Y' && Character.toUpperCase(yesOrNo) != 'N') {
             throw new ValidationException(Font.useFont(Font.BOLD_RED, "Please only key in Y or N."));
         }
     }
