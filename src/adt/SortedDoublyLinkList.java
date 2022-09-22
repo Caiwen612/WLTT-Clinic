@@ -24,7 +24,7 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
 
         //Algorithm 1:Insert into empty
         if(isEmpty()){ //headNode <-- newNode --> tailNode
-            System.out.println("RUN ADD EMPTY");
+            //System.out.println("RUN ADD EMPTY");
             //Default: NULL
             //New Node data come in: 1
             //Null <-- 1 --> Null
@@ -39,7 +39,7 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
         Node currentHeadNode = headNode;
         //Check newNode < headNode , return true
         if(newNode.data.compareTo(currentHeadNode.data) < 0){
-            System.out.println("RUN ADD Beginning");//Change the beginning chain of node
+            //System.out.println("RUN ADD Beginning");//Change the beginning chain of node
             //Default :headNode(NULL) <-- currentHeadNode (3) --> 4 --> Null
             //New node data come in : 1
             //Changed: HeadNode(Null) <-- "newNode(1)" --> currentHeadNode (3) --> 3 --> Null
@@ -55,7 +55,7 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
         Node currentTailNode = tailNode;
         //Check newNode > tailNode, return true
         if(newNode.data.compareTo(tailNode.data) > 0){//if data of new data is larger than tail node
-            System.out.println("Run add behind");
+            //System.out.println("Run add behind");
             //Default: Null <-- 1 <--> 2 <--> currentTailNode(3) -->Null
             //Change the end of node
             //New node data come in : 4
@@ -77,9 +77,9 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
                 //Default: Null <-- 1 <--> 2 <--> 4 --> Null
                 //New node data come in: 3
                 //Changed: Null <-- 1 <--> 2 <--> "3" --> 4
-                System.out.println("RUN ADD CENTER");
-                System.out.println("current = " + current.data);
-                System.out.println("previous = " + current.previous.data);
+//                System.out.println("RUN ADD CENTER");
+//                System.out.println("current = " + current.data);
+//                System.out.println("previous = " + current.previous.data);
                 previous = current.previous;//2
                 previous.next = newNode;//2 -> 3
                 newNode.previous = previous;//2 <- 3
@@ -99,14 +99,13 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
 
         //Algorithm 1:Invalid Delete action in adt
         if(isEmpty()){
-            System.out.println("Empty");
+            //System.out.println("Empty");
             return false;
         }
 
         //Check whether entry contain or not
         if(!this.contains(entry)){
-            System.out.println("Delete unsuccessful");
-            System.out.println("Data not in linklist");
+            System.err.println("Delete unsuccessful because data not found");
             return false;
         }
 
@@ -114,7 +113,7 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
         Node currentHeadNode = headNode;
         //Check first node == newnode
         if(newNode.data.equals(currentHeadNode.data)){
-            System.out.println("Delete at beginning");
+            //System.out.println("Delete at beginning");
             //Default :headNode(NULL) <-- currentHeadNode (3) --> 4 --> Null
             //Change the beginning chain of node
             //Remove data : 3
@@ -129,7 +128,7 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
         //Algorithm 3:Delete at End
         Node currentTailNode = tailNode;
         if(newNode.data.equals(tailNode.data)){
-            System.out.println("Delete at the end");
+            //System.out.println("Delete at the end");
             //Default: Null <-- 1 <--> 2 <--> currentTailNode(3) -->Null
             //Change the end chain of node
             //Remove data: 3
@@ -145,7 +144,7 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
         Node before = null;
         Node after = null;
         while (current != null){
-            System.out.println("Delete at center");
+            //System.out.println("Delete at center");
             //Default: Null <-- 1 <--> 2 <--> 4 --> Null
             //Remove data: 2
             //Changed: Null <-- 1 <--> 4

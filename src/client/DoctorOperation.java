@@ -15,11 +15,15 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Doctor operation - Client class to implement operation on entity and ADT
+ *
+ * @author Tay Chai Boon
+ */
 public class DoctorOperation {
     private static Scanner input = new Scanner(System.in);
     private static ListInterface<Doctor> doctorList = new ArrayList<>(5);
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-
 
     public DoctorOperation(){
         Doctor doctor1 = new Doctor("D1","Caiwen");
@@ -31,34 +35,6 @@ public class DoctorOperation {
         doctorList.add(doctor3);
         sdf.setLenient(false);
 
-
-//            //Done for date
-//            //run at Empty
-//            Appointment a1 = new Appointment(new Patient(),sdf.parse("17-12-2020 11:59am"),"a1");
-//            //Run at beginning
-//            Appointment aa1 = new Appointment(new Patient(),sdf.parse("15-12-2020 11:59am"),"aaa1");
-//            Appointment a2 = new Appointment(new Patient(),sdf.parse("14-12-2020 11:59am"),"a2");
-//            Appointment a3 = new Appointment(new Patient(),sdf.parse("13-12-2020 11:59am"),"a3");
-//            //Run at behind
-//            Appointment a4 = new Appointment(new Patient(),sdf.parse("22-12-2020 11:59am"),"a4");
-//            Appointment a5 = new Appointment(new Patient(),sdf.parse("23-12-2020 11:59am"),"a5");
-//            Appointment a6 = new Appointment(new Patient(),sdf.parse("24-12-2020 11:59am"),"a6");
-//            //Run at center
-//            Appointment a7 = new Appointment(new Patient(),sdf.parse("20-12-2020 11:59am"),"a7");
-//            Appointment a8 = new Appointment(new Patient(),sdf.parse("21-12-2020 11:59am"),"a8");
-//            Appointment a9 = new Appointment(new Patient(),sdf.parse("16-12-2020 11:59am"),"a9");
-//            Appointment a10 = new Appointment(new Patient(),sdf.parse("18-12-2020 11:59am"),"a10");
-//            doctor.getAppointmentList().add(a1);
-//            doctor.getAppointmentList().add(aa1);
-//            doctor.getAppointmentList().add(a2);
-//            doctor.getAppointmentList().add(a3);
-//            doctor.getAppointmentList().add(a4);
-//            doctor.getAppointmentList().add(a5);
-//            doctor.getAppointmentList().add(a6);
-//            doctor.getAppointmentList().add(a7);
-//            doctor.getAppointmentList().add(a8);
-//            doctor.getAppointmentList().add(a9);
-//            doctor.getAppointmentList().add(a10);
         try{
             //Run at Empty
             Appointment a1 = new Appointment(new Patient(),sdf.parse("04-12-2020 11:30"),"a1");//12:00
@@ -115,34 +91,33 @@ public class DoctorOperation {
                 }
             }
         }
-
     }
 
     public static void addPatientRecord(Patient patient,ListInterface<Medicine> medicineStock)  {
         Driver.clearScreen();
         input.nextLine();//clear buffer
+        System.out.print(Font.TEXT_BLUE);
         System.out.print("Enter medical Problems: ");
         String mProblems = input.nextLine();
         System.out.print("Enter medical Symptoms: ");
         String mSymptoms = input.nextLine();
         System.out.print("Enter medical Diagnosis: ");
         String mDiagnosis = input.nextLine();
+        System.out.print(Font.RESET);
 
         //Cart medicine
         ListInterface<Medicine> patientMedicineList = new ArrayList<>();
         char addMore = 0;
         do {
             printMedicineStock(medicineStock);
-            //Todo: BUGGGGGGGGG for  input validation
             int option = validOption("Enter the no: ",1, 100);
-            int quantity = validQuantity("Enter the quantity: ",50);
+            int quantity = validQuantity("Enter the quantity: ",1000);
             //get the target medicine
             Medicine medicine = findMedicine(medicineStock,option, quantity);
             patientMedicineList.add(medicine);
             displayMedicalCart(patientMedicineList);
             addMore = validCharYN("Do you wish to add more? ('Y' for yes/ 'N' for no):");
         } while (addMore == 'Y');
-
 
         //Create a record  and save all the input from user
         MedicalRecord record = new MedicalRecord(mProblems, mSymptoms, mDiagnosis,patientMedicineList);
@@ -151,6 +126,7 @@ public class DoctorOperation {
     }
 
     public static void editPatientRecord(Patient patient,ListInterface<Medicine> medicineStock)  {
+        //Get the latest record
         MedicalRecord record = patient.getHistory().getEntry(patient.getHistory().getNumberOfEntries());
         if(record != null){
             displayPatientRecord(patient,record);
@@ -164,8 +140,10 @@ public class DoctorOperation {
             input.nextLine();
             String newData = null;
             if (index != 5 && index != 4) {
+                System.out.print(Font.TEXT_BLUE);
                 System.out.print("Enter new data: ");
                 newData = input.nextLine();
+                System.out.print(Font.RESET);
             }
 
             switch (index){
@@ -188,7 +166,6 @@ public class DoctorOperation {
             System.out.println("You did not add the record yet.");
             Driver.pressAnyKeyToContinue();
         }
-
     }
 
     public static void displayPatientRecord(Patient patient,MedicalRecord record)  {
@@ -200,11 +177,7 @@ public class DoctorOperation {
         if(record.getMedicineCart() != null){
             displayMedicalCart(record.getMedicineCart());
         }
-
         System.out.println("");
-
-
-
     }
 
     public static void displayMedicalCart(ListInterface<Medicine> medicineCart){
@@ -222,22 +195,24 @@ public class DoctorOperation {
 
     public static void addAppointment(Patient patient,Doctor doctor) {
         input.nextLine();
-        boolean reEnter = false;
+        boolean reEnter = true;
         Date date = null;
         do{
             try{
-                System.out.println("Enter the appointment date (dd-MM-yyyy HH:MM(24HOUR FORMAT): ");
+                System.out.print(Font.TEXT_BLUE);
+                System.out.print("Enter the appointment date (dd-MM-yyyy HH:MM(24HOUR FORMAT): ");
                 String userInput = input.nextLine();
+                System.out.print(Font.RESET);
                 date = sdf.parse(userInput);
-                System.out.println("Date :" + sdf.format(date));
                 reEnter = false;
             }catch (ParseException ex){
                 System.out.println("Invalid date format: " + ex.getMessage());
-                reEnter = true;
             }
         }while (reEnter);
-        System.out.println("Enter the appointment description: ");
+        System.out.print(Font.TEXT_BLUE);
+        System.out.print("Enter the appointment description: ");
         String description = input.nextLine();
+        System.out.print(Font.RESET);
         Appointment appointment = new Appointment(patient,date,description);
         doctor.getAppointmentList().add(appointment);
     }
@@ -257,7 +232,9 @@ public class DoctorOperation {
         switch (option){
             case 1:
                 input.nextLine();
-                System.out.println("Enter the date(dd-mm-yyyy): ");
+                System.out.print(Font.TEXT_BLUE);
+                System.out.print("Enter the date(dd-mm-yyyy): ");
+                System.out.print(Font.RESET);
                 String searchDate = input.nextLine();
                 SortedListInterface appointmentList = doctor.getAppointmentList();
                 boolean found = false;
@@ -318,8 +295,10 @@ public class DoctorOperation {
                         Date date = null;
                         do{
                             try{
-                                System.out.println("Enter the new appointment date (dd-MM-yyyy HH:MM(24HOUR FORMAT): ");
+                                System.out.print(Font.TEXT_BLUE);
+                                System.out.print("Enter the new appointment date (dd-MM-yyyy HH:MM(24HOUR FORMAT): ");
                                 String userInput = input.nextLine();
+                                System.out.print(Font.RESET);
                                 date = sdf.parse(userInput);
                                 reEnter = false;
                             }catch (ParseException ex){
@@ -335,8 +314,10 @@ public class DoctorOperation {
                         break;
                     case 2:
                         input.nextLine();
-                        System.out.println("Enter the new description");
+                        System.out.print(Font.TEXT_BLUE);
+                        System.out.print("Enter the new description");
                         String newDescription = input.nextLine();
+                        System.out.print(Font.RESET);
                         appointment.setAppointmentDescription(newDescription);
                         break;
                 }
@@ -361,8 +342,7 @@ public class DoctorOperation {
         }
     }
 
-
-    //Medicine
+    //Module for medicine
     public static void printMedicineStock(ListInterface<Medicine> medicineStock) {
         Driver.clearScreen();
         int i = 1;
@@ -475,25 +455,25 @@ public class DoctorOperation {
         }
     }
 
-
-
-    //TODO: Validation (Check again)
+    //Validation for input
     public static char validCharYN(String message){
         boolean reEnter = true;
         char inputCharacter = 'Z';
         do{
             try{
+                System.out.print(Font.TEXT_BLUE);
                 System.out.print(message);
                 inputCharacter = Character.toUpperCase(input.next().charAt(0));
+                System.out.print(Font.RESET);
                 Validation.validCharYN(inputCharacter);
                 reEnter = false;
             } catch (ValidationException e){
-                System.out.println(e.getMessage());
+                System.err.println(e.getMessage());
                 input.nextLine();
                 try{
                     Thread.sleep(1000);
                 }catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                    System.err.println(e.getMessage());
                 }
             }
         }while (reEnter);
@@ -506,8 +486,10 @@ public class DoctorOperation {
         int option = 0;
         do{
             try{
+                System.out.print(Font.TEXT_BLUE);
                 System.out.print(message);
                 option = input.nextInt();
+                System.out.print(Font.RESET);
                 Validation.validOption(option,lowerOption,upperOption);
                 reEnter = false;
             } catch (ValidationException e) {
@@ -515,7 +497,7 @@ public class DoctorOperation {
                 try{
                     Thread.sleep(1000);
                 }catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                    System.err.println(e.getMessage());
                 }
             } catch (InputMismatchException e) {
                 System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
@@ -523,7 +505,7 @@ public class DoctorOperation {
                 try{
                     Thread.sleep(1000);
                 }catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                    System.err.println(e.getMessage());
                 }
             }
         }while(reEnter);
@@ -536,8 +518,10 @@ public class DoctorOperation {
         int quantity = 0;
         do {
             try {
+                System.out.print(Font.TEXT_BLUE);
                 System.out.print(message);
                 quantity = input.nextInt();
+                System.out.print(Font.RESET);
                 Validation.validProductQuantity(quantity, currentStock);
                 reEnter = false;
             } catch (ValidationException e) {
@@ -545,7 +529,7 @@ public class DoctorOperation {
                 try{
                     Thread.sleep(1000);
                 }catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                    System.err.println(e.getMessage());
                 }
             } catch (InputMismatchException e) {
                 System.err.println(Font.useFont(Font.BOLD_RED, "Please only key in integer"));
@@ -553,7 +537,7 @@ public class DoctorOperation {
                 try{
                     Thread.sleep(1000);
                 }catch (Exception ex){
-                    System.out.println(ex.getMessage());
+                    System.err.println(e.getMessage());
                 }
             }
         } while (reEnter);
