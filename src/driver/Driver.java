@@ -259,10 +259,10 @@ public class Driver {
             latestMedicalRecord = currentPatient.getPatient().getHistory().getEntry(currentPatient.getPatient().getHistory().getNumberOfEntries());
         }
 
-        System.out.println("[1] Check Medicine Stock");
-        System.out.println("[2] Medicine Management");
-        System.out.println("[3] Record Medicine Allocation");
-        System.out.println("[4] Next Customer");
+        System.out.println("[1] Allocate Medicine");
+        System.out.println("[2] Next Customer");
+        System.out.println("[3] Check Medicine Stock");
+        System.out.println("[4] Medicine Management");
         System.out.println("[5] Summary Report");
         System.out.println("[6] Back");
 
@@ -271,14 +271,6 @@ public class Driver {
 
         switch (option) {
             case 1 -> {
-                medicineStockManagement();
-                break;
-            }
-            case 2 -> {
-                medicineManagement();
-                break;
-            }
-            case 3 -> {
                 if(currentPatient != null){
                     pharmacistOperation.allocateMedicine(currentPatient.getPatient(),latestMedicalRecord);
                 } else{
@@ -287,8 +279,16 @@ public class Driver {
                 }
                 break;
             }
-            case 4 -> {
+            case 2 -> {
                 updatePharmacyBoard();
+                break;
+            }
+            case 3 -> {
+                medicineStockManagement();
+                break;
+            }
+            case 4 -> {
+                medicineManagement();
                 break;
             }
             case 5 -> {
@@ -309,7 +309,7 @@ public class Driver {
             System.out.println("[1] Search");
             System.out.println("[2] Sort");
             System.out.println("[3] Restock");
-            System.out.println("[0] Exit");
+            System.out.println("[4] Exit");
             System.out.print("Enter your option: ");
             option = input.nextInt();
 
@@ -323,7 +323,7 @@ public class Driver {
                 case 3:
                     pharmacistOperation.addMedicineStock();
                     break;
-                case 0:
+                case 4:
                     pharmacistMenu();
                     break;
             }
@@ -337,7 +337,7 @@ public class Driver {
             System.out.println("[1] Add new medicine");
             System.out.println("[2] Update current medicine");
             System.out.println("[3] Delete old medicine");
-            System.out.println("[0] Exit");
+            System.out.println("[4] Exit");
             System.out.print("Enter your option: ");
             option = input.nextInt();
 
@@ -351,7 +351,7 @@ public class Driver {
                 case 3:
                     pharmacistOperation.deleteMedicine();
                     break;
-                case 0:
+                case 4:
                     pharmacistMenu();
                     break;
 
