@@ -5,6 +5,10 @@ import adt.ListInterface;
 
 import java.util.Date;
 
+/** Appointment - An entity class of medical record.
+ *  @author Tay Chai Boon
+ */
+
 public class MedicalRecord {
     private String medicalProblems;
     private String medicalSymptoms;
@@ -12,6 +16,7 @@ public class MedicalRecord {
     private ListInterface<Medicine> medicineCart;
     private final Date date;
 
+    //Constructor
     public MedicalRecord(){
         this("","","",null);
     }
@@ -33,38 +38,38 @@ public class MedicalRecord {
         this.medicineCart = new ArrayList<Medicine>();
     }
 
-
-
+    //Getter
     public String getMedicalProblems() {
         return this.medicalProblems;
-    }
-
-    public void setMedicalProblems(String medicalProblems) {
-        this.medicalProblems = medicalProblems;
     }
 
     public String getMedicalSymptoms() {
         return this.medicalSymptoms;
     }
 
-    public void setMedicalSymptoms(String medicalSymptoms) {
-        this.medicalSymptoms = medicalSymptoms;
-    }
-
     public String getMedicalDiagnosis() {
         return this.medicalDiagnosis;
     }
 
-    public void setMedicalDiagnosis(String medicalDiagnosis) {
-        this.medicalDiagnosis = medicalDiagnosis;
+    public ListInterface<Medicine> getMedicineCart() {
+        return medicineCart;
     }
 
     public Date getDate() {
         return this.date;
     }
 
-    public ListInterface<Medicine> getMedicineCart() {
-        return medicineCart;
+    //Setter
+    public void setMedicalProblems(String medicalProblems) {
+        this.medicalProblems = medicalProblems;
+    }
+
+    public void setMedicalSymptoms(String medicalSymptoms) {
+        this.medicalSymptoms = medicalSymptoms;
+    }
+
+    public void setMedicalDiagnosis(String medicalDiagnosis) {
+        this.medicalDiagnosis = medicalDiagnosis;
     }
 
     public void setMedicineCart(ListInterface<Medicine> medicineCart) {
@@ -80,15 +85,4 @@ public class MedicalRecord {
                 + "\n\tDate: " + this.date;
         return output;
     }
-
-//    public void printMedicineCart(){
-//        System.out.println("caiwen");
-//        if(medicineCart != null){
-//            System.out.println("ID" + "Name " + "Dosage Form" + "Dose" + "Quantity");
-//            for(int i =1;i <= medicineCart.getNumberOfEntries();i++){
-//                Medicine medicine = medicineCart.getEntry(i);
-//                System.out.println(medicine.getId() + medicine.getName() + medicine.getDosage());
-//            }
-//        }
-//    }
 }
