@@ -36,7 +36,7 @@ public class PharmacistOperation {
                 add(new Dosage("Oral capsule", "300mg", 28, 4, 15, new MedicineDosageRecord(15, 30)));
                 add(new Dosage("Oral tablet", "450mg", 15, 8, 20, new MedicineDosageRecord(20, 30)));
             }
-        }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileosomy"));
+        }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileostomy"));
 
         medicineStock.add(new Medicine("M004", "Atorvastatin", new ArrayList<>() {
             {
