@@ -77,6 +77,8 @@ public class Dosage implements Comparable, Cloneable{
 
     public void reduceStock(int qty){
         this.dosageQuantity -= qty;
+        int allocateQty = this.getRecord().getAllocateQuantity() + qty;
+        this.getRecord().setAllocateQuantity(allocateQty);
     }
 
     @Override

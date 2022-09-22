@@ -174,6 +174,8 @@ public class PharmacistOperation {
             medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosageQuantity(quantity +
                     medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosageQuantity());
 
+            medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getRecord().setRestockQuantity(
+                    medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getRecord().getRestockQuantity() + quantity);
             System.out.println("Restock successfully.");
         }
         else{

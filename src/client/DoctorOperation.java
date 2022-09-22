@@ -140,7 +140,7 @@ public class DoctorOperation {
             Medicine medicine = findMedicine(medicineStock,option, quantity);
             patientMedicineList.add(medicine);
             displayMedicalCart(patientMedicineList);
-            addMore = validCharYN("Do you wish to add more? ");
+            addMore = validCharYN("Do you wish to add more? ('Y' for yes/ 'N' for no):");
         } while (addMore == 'Y');
 
 
