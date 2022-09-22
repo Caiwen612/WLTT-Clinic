@@ -1,10 +1,11 @@
 package entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Transaction {
+public class Transaction implements Serializable {
 
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");

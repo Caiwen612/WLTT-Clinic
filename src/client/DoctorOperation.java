@@ -9,6 +9,7 @@ import utility.Font;
 import utility.Validation;
 import utility.ValidationException;
 
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,40 +30,114 @@ public class DoctorOperation {
         Doctor doctor1 = new Doctor("D1","Caiwen");
         Doctor doctor2 = new Doctor("D2","Zhi Yi");
         Doctor doctor3 = new Doctor("D3","Da Fei");
-
-        doctorList.add(doctor1);
-        doctorList.add(doctor2);
-        doctorList.add(doctor3);
         sdf.setLenient(false);
 
-        try{
-            //Run at Empty
-            Appointment a1 = new Appointment(new Patient(),sdf.parse("04-12-2020 11:30"),"a1");//12:00
-            //Run at Beginning
-            Appointment a2 = new Appointment(new Patient(),sdf.parse("04-12-2020 11:00"),"a2");
-            Appointment a3 = new Appointment(new Patient(),sdf.parse("04-12-2020 10:00"),"a3");
-            //Run at Behind
-            Appointment a4 = new Appointment(new Patient(),sdf.parse("05-12-2020 15:00"),"a4");
-            Appointment a5 = new Appointment(new Patient(),sdf.parse("05-12-2020 16:00"),"a5");
-            //Run at Center
-            Appointment a6 = new Appointment(new Patient(),sdf.parse("05-12-2020 13:00"),"a6");
-            Appointment a7 = new Appointment(new Patient(),sdf.parse("05-12-2020 14:00"),"a7");
-            Appointment a8 = new Appointment(new Patient(),sdf.parse("05-12-2020 12:30"),"a8");
-            Appointment a9 = new Appointment(new Patient(),sdf.parse("05-12-2020 14:30"),"a9");
-            Appointment a10 = new Appointment(new Patient(),sdf.parse("05-12-2020 10:30"),"a10");
-            doctor1.getAppointmentList().add(a1);
-            doctor1.getAppointmentList().add(a1);
-            doctor1.getAppointmentList().add(a2);
-            doctor1.getAppointmentList().add(a3);
-            doctor1.getAppointmentList().add(a4);
-            doctor1.getAppointmentList().add(a5);
-            doctor1.getAppointmentList().add(a6);
-            doctor1.getAppointmentList().add(a7);
-            doctor1.getAppointmentList().add(a8);
-            doctor1.getAppointmentList().add(a9);
-            doctor1.getAppointmentList().add(a10);
-        }catch (ParseException ex){
-            System.out.println(ex.getMessage());
+        databaseInit();
+        loadData();
+
+        // for the first time running program
+        if(doctorList.getNumberOfEntries() == 0){
+            doctorList.add(doctor1);
+            doctorList.add(doctor2);
+            doctorList.add(doctor3);
+
+
+            try{
+                //Run at Empty
+                Appointment a1 = new Appointment(new Patient(),sdf.parse("04-12-2020 11:30"),"a1");//12:00
+                //Run at Beginning
+                Appointment a2 = new Appointment(new Patient(),sdf.parse("04-12-2020 11:00"),"a2");
+                Appointment a3 = new Appointment(new Patient(),sdf.parse("04-12-2020 10:00"),"a3");
+                //Run at Behind
+                Appointment a4 = new Appointment(new Patient(),sdf.parse("05-12-2020 15:00"),"a4");
+                Appointment a5 = new Appointment(new Patient(),sdf.parse("05-12-2020 16:00"),"a5");
+                //Run at Center
+                Appointment a6 = new Appointment(new Patient(),sdf.parse("05-12-2020 13:00"),"a6");
+                Appointment a7 = new Appointment(new Patient(),sdf.parse("05-12-2020 14:00"),"a7");
+                Appointment a8 = new Appointment(new Patient(),sdf.parse("05-12-2020 12:30"),"a8");
+                Appointment a9 = new Appointment(new Patient(),sdf.parse("05-12-2020 14:30"),"a9");
+                Appointment a10 = new Appointment(new Patient(),sdf.parse("05-12-2020 10:30"),"a10");
+                doctor1.getAppointmentList().add(a1);
+                doctor1.getAppointmentList().add(a1);
+                doctor1.getAppointmentList().add(a2);
+                doctor1.getAppointmentList().add(a3);
+                doctor1.getAppointmentList().add(a4);
+                doctor1.getAppointmentList().add(a5);
+                doctor1.getAppointmentList().add(a6);
+                doctor1.getAppointmentList().add(a7);
+                doctor1.getAppointmentList().add(a8);
+                doctor1.getAppointmentList().add(a9);
+                doctor1.getAppointmentList().add(a10);
+            }catch (ParseException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    //Create database
+    private static void databaseInit(){
+        try {
+            File file = new File("database/doctor.txt");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Load data from files
+    private static void loadData() {
+        File[] files = new File("database").listFiles();
+        for (File file : files) {
+            System.out.println(file.getName());
+            if (file.exists()) { //If the files exists, load all data into driver program
+                try {
+                    FileInputStream fis = new FileInputStream("database/" + file.getName());
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    switch (file.getName()) {
+                        case "doctor.txt" -> doctorList = (ArrayList<Doctor>) ois.readObject();
+                        default -> System.out.println("Unknown file to load into arraylist " + file.getName());
+                    }
+                    ois.close();
+                    System.out.print(Font.TEXT_YELLOW);
+                    System.out.println("The progress of the programs is loaded from the database.");
+                    System.out.print(Font.RESET);
+                }  catch (EOFException e){
+                    //First time use this systems
+                    System.out.print(Font.TEXT_YELLOW);
+                    System.out.println("The database is empty");
+                    System.out.println("Your progress will store in database.");
+                    System.out.print(Font.RESET);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    //Store data
+    public void storeData() {
+        File[] files = new File("database").listFiles();
+
+        for (File file : files) {
+            if (file.exists()) { //If the files exists, load all data into driver program
+                try {
+                    FileOutputStream fileOutput = new FileOutputStream("database/" + file.getName());
+                    ObjectOutputStream objOutput = new ObjectOutputStream(fileOutput);
+                    switch (file.getName()) {
+                        case "doctor.txt" ->
+                                objOutput.writeObject(doctorList);
+                        default ->
+                                System.out.println("Unknown file stored in database to be serialized in " + file.getName());
+                    }
+                    objOutput.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

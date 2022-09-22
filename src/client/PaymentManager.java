@@ -5,7 +5,9 @@ import adt.ListInterface;
 import adt.StackInterface;
 import driver.Driver;
 import entity.*;
+import utility.Font;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class PaymentManager {
@@ -19,6 +21,9 @@ public class PaymentManager {
 
     public PaymentManager(){
         ListInterface<Medicine> medicineStock = null;
+        databaseInit();
+        loadData();
+
 
         //FIRST - Loperamide (Oral tablet)
 //
@@ -60,6 +65,72 @@ public class PaymentManager {
 //        Payment payer3 = new Payment("Payer3", 79.5);
 //        transactionHistory.push(new Transaction("21-06-2022", "14:59:11", invoice3, payer3, "Credit Card"));
 
+    }
+
+    //Create database
+    private static void databaseInit(){
+        try {
+            File file = new File("database/transaction.txt");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Load data from files
+    private static void loadData() {
+        File[] files = new File("database").listFiles();
+        for (File file : files) {
+            System.out.println(file.getName());
+            if (file.exists()) { //If the files exists, load all data into driver program
+                try {
+                    FileInputStream fis = new FileInputStream("database/" + file.getName());
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    switch (file.getName()) {
+                        case "transaction.txt" -> transactionHistory = (ArrayStack<Transaction>) ois.readObject();
+                        default -> System.out.println("Unknown file to load into arraylist " + file.getName());
+                    }
+                    ois.close();
+                    System.out.print(Font.TEXT_YELLOW);
+                    System.out.println("The progress of the programs is loaded from the database.");
+                    System.out.print(Font.RESET);
+                }  catch (EOFException e){
+                    //First time use this systems
+                    System.out.print(Font.TEXT_YELLOW);
+                    System.out.println("The database is empty");
+                    System.out.println("Your progress will store in database.");
+                    System.out.print(Font.RESET);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //Store data
+    public void storeData() {
+        File[] files = new File("database").listFiles();
+
+        for (File file : files) {
+            if (file.exists()) { //If the files exists, load all data into driver program
+                try {
+                    FileOutputStream fileOutput = new FileOutputStream("database/" + file.getName());
+                    ObjectOutputStream objOutput = new ObjectOutputStream(fileOutput);
+                    switch (file.getName()) {
+                        case "transaction.txt" ->
+                                objOutput.writeObject(transactionHistory);
+                        default ->
+                                System.out.println("Unknown file stored in database to be serialized in " + file.getName());
+                    }
+                    objOutput.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     //Bill List - Patient

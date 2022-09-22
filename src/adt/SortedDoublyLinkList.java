@@ -1,12 +1,13 @@
 package adt;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 /** SortedDoublyLinkList - An implementation for SortedListInterface.
  *  @author Tay Chai Boon
  */
 
-public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedListInterface<T>,Iterable<T>{
+public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedListInterface<T>,Iterable<T>, Serializable {
     private Node headNode;
     private Node tailNode;
     private int numberOfEntry;

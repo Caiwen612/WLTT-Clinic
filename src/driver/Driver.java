@@ -59,8 +59,7 @@ public class Driver {
         System.out.println("[2] Doctor");
         System.out.println("[3] Pharmacy");
         System.out.println("[4] Payment");
-        System.out.println("[5] Next customer");
-        System.out.println("[6] Exit");
+        System.out.println("[5] Exit");
 
         System.out.print("Enter the option: ");
         int option = input.nextInt();
@@ -78,14 +77,16 @@ public class Driver {
             case 4:
                 paymentMenu();
                 break;
-
             case 5:
-                break;
-            case 6:
+                c.storeData();
+                pharmacistOperation.storeData();
+                d.storeData();
+                p.storeData();
+                System.out.print(Font.TEXT_YELLOW);
+                System.out.println("Your progress has been store in database.");
                 endProgram();
                 System.exit(0);
                 break;
-
         }
     }
 

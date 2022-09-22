@@ -7,6 +7,7 @@ import entity.*;
 import utility.Font;
 import utility.Validation;
 
+import java.io.*;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -15,42 +16,113 @@ public class PharmacistOperation {
     private static Scanner input = new Scanner(System.in);
 
     public PharmacistOperation(){
-        medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<>() {
-            {
-                add(new Dosage("Oral capsule", "325mg", 40, 5, 20, new MedicineDosageRecord(20, 10)));
-                add(new Dosage("Oral liquid", "160mg/5mL", 30, 3, 15, new MedicineDosageRecord(20, 40)));
-                add(new Dosage("Oral tablet", "500mg", 15, 8, 25, new MedicineDosageRecord(50, 45)));
-            }
-        }, "A pain reliever and fever reducer"));
+        databaseInit();
+        loadData();
+        if (medicineStock.getNumberOfEntries() == 0) {
+            medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<>() {
+                {
+                    add(new Dosage("Oral capsule", "325mg", 40, 5, 20, new MedicineDosageRecord(20, 10)));
+                    add(new Dosage("Oral liquid", "160mg/5mL", 30, 3, 15, new MedicineDosageRecord(20, 40)));
+                    add(new Dosage("Oral tablet", "500mg", 15, 8, 25, new MedicineDosageRecord(50, 45)));
+                }
+            }, "A pain reliever and fever reducer"));
 
-        medicineStock.add(new Medicine("M002", "Oseltamivir", new ArrayList<>() {
-            {
-                add(new Dosage("Oral capsule", "300mg", 20, 5, 15, new MedicineDosageRecord(24, 50)));
-                add(new Dosage("Oral capsule", "450mg", 40, 8, 20, new MedicineDosageRecord(10, 30)));
-                add(new Dosage("Oral capsule", "600mg", 34, 10, 25, new MedicineDosageRecord(5, 0)));
-            }
-        }, "An antiviral medication that blocks the actions of influenza virus types A and B in the body"));
+            medicineStock.add(new Medicine("M002", "Oseltamivir", new ArrayList<>() {
+                {
+                    add(new Dosage("Oral capsule", "300mg", 20, 5, 15, new MedicineDosageRecord(24, 50)));
+                    add(new Dosage("Oral capsule", "450mg", 40, 8, 20, new MedicineDosageRecord(10, 30)));
+                    add(new Dosage("Oral capsule", "600mg", 34, 10, 25, new MedicineDosageRecord(5, 0)));
+                }
+            }, "An antiviral medication that blocks the actions of influenza virus types A and B in the body"));
 
-        medicineStock.add(new Medicine("M003", "Loperamide", new ArrayList<>() {
-            {
-                add(new Dosage("Oral capsule", "300mg", 28, 4, 15, new MedicineDosageRecord(15, 30)));
-                add(new Dosage("Oral tablet", "450mg", 15, 8, 20, new MedicineDosageRecord(20, 30)));
-            }
-        }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileostomy"));
+            medicineStock.add(new Medicine("M003", "Loperamide", new ArrayList<>() {
+                {
+                    add(new Dosage("Oral capsule", "300mg", 28, 4, 15, new MedicineDosageRecord(15, 30)));
+                    add(new Dosage("Oral tablet", "450mg", 15, 8, 20, new MedicineDosageRecord(20, 30)));
+                }
+            }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileostomy"));
 
-        medicineStock.add(new Medicine("M004", "Atorvastatin", new ArrayList<>() {
-            {
-                add(new Dosage("Oral tablet", "10mg", 60, 5, 15, new MedicineDosageRecord(45, 32)));
-                add(new Dosage("Oral tablet", "20mg", 54, 8, 25, new MedicineDosageRecord(30, 23)));
-            }
-        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+            medicineStock.add(new Medicine("M004", "Atorvastatin", new ArrayList<>() {
+                {
+                    add(new Dosage("Oral tablet", "10mg", 60, 5, 15, new MedicineDosageRecord(45, 32)));
+                    add(new Dosage("Oral tablet", "20mg", 54, 8, 25, new MedicineDosageRecord(30, 23)));
+                }
+            }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
 
-        medicineStock.add(new Medicine("M005", "Lisinopril", new ArrayList<>() {
-            {
-                add(new Dosage("Oral tablet", "10mg", 50, 5, 12, new MedicineDosageRecord(45, 40)));
-                add(new Dosage("Oral tablet", "25mg", 74, 10, 25, new MedicineDosageRecord(50, 30)));
+            medicineStock.add(new Medicine("M005", "Lisinopril", new ArrayList<>() {
+                {
+                    add(new Dosage("Oral tablet", "10mg", 50, 5, 12, new MedicineDosageRecord(45, 40)));
+                    add(new Dosage("Oral tablet", "25mg", 74, 10, 25, new MedicineDosageRecord(50, 30)));
+                }
+            }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+
+        }
+    }
+
+    //Create database
+    private static void databaseInit(){
+        try {
+            File file = new File("database/medicine.txt");
+            if (!file.exists()) {
+                file.createNewFile();
             }
-        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Load data from files
+    private static void loadData() {
+        File[] files = new File("database").listFiles();
+        for (File file : files) {
+            System.out.println(file.getName());
+            if (file.exists()) { //If the files exists, load all data into driver program
+                try {
+                    FileInputStream fis = new FileInputStream("database/" + file.getName());
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+
+                    switch (file.getName()) {
+                        case "medicine.txt" -> medicineStock = (ArrayList<Medicine>) ois.readObject();
+                        default -> System.out.println("Unknown file to load into arraylist " + file.getName());
+                    }
+                    ois.close();
+                    System.out.print(Font.TEXT_YELLOW);
+                    System.out.println("The progress of the programs is loaded from the database.");
+                    System.out.print(Font.RESET);
+                }  catch (EOFException e){
+                    //First time use this systems
+                    System.out.print(Font.TEXT_YELLOW);
+                    System.out.println("The database is empty");
+                    System.out.println("Your progress will store in database.");
+                    System.out.print(Font.RESET);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //Store data
+    public void storeData() {
+        File[] files = new File("database").listFiles();
+
+        for (File file : files) {
+            if (file.exists()) { //If the files exists, load all data into driver program
+                try {
+                    FileOutputStream fileOutput = new FileOutputStream("database/" + file.getName());
+                    ObjectOutputStream objOutput = new ObjectOutputStream(fileOutput);
+                    switch (file.getName()) {
+                        case "medicine.txt" ->
+                                objOutput.writeObject(medicineStock);
+                        default ->
+                                System.out.println("Unknown file stored in database to be serialized in " + file.getName());
+                    }
+                    objOutput.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void printMedicineStock() {

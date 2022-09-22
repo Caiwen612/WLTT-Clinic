@@ -2,11 +2,12 @@ package entity;
 
 import adt.ListInterface;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Invoice {
+public class Invoice implements Serializable {
 
     //Formatting
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");

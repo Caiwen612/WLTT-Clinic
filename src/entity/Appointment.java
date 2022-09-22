@@ -1,5 +1,6 @@
 package entity;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.Objects;
  *  @author Tay Chai Boon
  */
 
-public class Appointment implements Comparable<Appointment> {
+public class Appointment implements Comparable<Appointment>, Serializable {
     //Data member
     private String ID;
     private Patient patient;
