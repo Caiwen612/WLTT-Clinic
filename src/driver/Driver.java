@@ -196,7 +196,7 @@ public class Driver {
         if(currentQueue.getFront() != null){
             currentPatient = currentQueue.getFront();
             if(currentPatient != null){
-                System.out.println("Current patient: " + currentPatient.getPatientName());
+                System.out.println(Font.useFont(Font.BOLD_BLUE, "Current patient: " + currentPatient.getPatientName()));
             }
             System.out.println("[1] Check patient record history");
             System.out.println("[2] Add patient record");
@@ -246,13 +246,16 @@ public class Driver {
     //TODO: Pharmacy @Author Wilson Yau Kai Chun
     public static void pharmacistMenu()  {
         WaitingQueue currentPatient = pharmacyQueue.getFront();
+        Pharmacist pharmacist = new Pharmacist("P001", "Kai Lee");
         clearScreen();
         int option;
 
+        System.out.println(Font.useFont(Font.BOLD_BLUE, "Pharmacist ID: " + pharmacist.getID()
+                + "     Pharmacist Name: " + pharmacist.getName() + "\n" + "-".repeat(50)));
         if(currentPatient != null){
-            System.out.println("Current patient: " + currentPatient.getPatientName());
+            System.out.println(Font.useFont(Font.BOLD_BLUE, "Current patient: " + currentPatient.getPatientName()));
         } else {
-            System.out.println("Currently no patient yet.");
+            System.out.println(Font.useFont(Font.BOLD_RED,"Currently no patient yet."));
         }
         MedicalRecord latestMedicalRecord = null;
         if(currentPatient != null){
@@ -365,9 +368,9 @@ public class Driver {
         clearScreen();
         WaitingQueue currentPatient = paymentQueue.getFront();
         if(currentPatient != null){
-            System.out.println("Current patient: " + currentPatient.getPatientName());
+            System.out.println(Font.useFont(Font.BOLD_BLUE, "Current patient: " + currentPatient.getPatientName()));
         } else {
-            System.out.println("\nCurrently no patient yet.");
+            System.out.println(Font.useFont(Font.BOLD_RED,"Currently no patient yet."));
         }
         System.out.println("[1] Print Invoice");//Current patient invoice
         System.out.println("[2] Transaction History");//Clinic
