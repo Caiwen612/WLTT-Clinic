@@ -98,7 +98,6 @@ public class DoctorOperation {
 
                     switch (file.getName()) {
                         case "doctor.txt" -> doctorList = (ArrayList<Doctor>) ois.readObject();
-                        default -> System.out.println("Unknown file to load into arraylist " + file.getName());
                     }
                     ois.close();
                     System.out.print(Font.TEXT_YELLOW);
@@ -130,8 +129,6 @@ public class DoctorOperation {
                     switch (file.getName()) {
                         case "doctor.txt" ->
                                 objOutput.writeObject(doctorList);
-                        default ->
-                                System.out.println("Unknown file stored in database to be serialized in " + file.getName());
                     }
                     objOutput.close();
                 } catch (Exception e) {

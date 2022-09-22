@@ -110,7 +110,6 @@ public class CounterManager {
                         case "room1Queue.txt" -> room1Queue = (ArrayQueue<WaitingQueue>) ois.readObject();
                         case "room2Queue.txt" -> room2Queue = (ArrayQueue<WaitingQueue>) ois.readObject();
                         case "room3Queue.txt" -> room3Queue = (ArrayQueue<WaitingQueue>) ois.readObject();
-                        default -> System.out.println("Unknown file to load into arraylist " + file.getName());
                     }
                     ois.close();
                     System.out.print(Font.TEXT_YELLOW);
@@ -144,7 +143,6 @@ public class CounterManager {
                         case "room1Queue.txt" -> oos.writeObject(room1Queue);
                         case "room2Queue.txt" -> oos.writeObject(room2Queue);
                         case "room3Queue.txt" -> oos.writeObject(room3Queue);
-                        default -> System.out.println("Unknown file stored in database to be serialize in " + file.getName());
                     }
                     oos.close();
 //                    System.out.println("Your progress has been store in database.");

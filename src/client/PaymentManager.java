@@ -91,7 +91,6 @@ public class PaymentManager {
 
                     switch (file.getName()) {
                         case "transaction.txt" -> transactionHistory = (ArrayStack<Transaction>) ois.readObject();
-                        default -> System.out.println("Unknown file to load into arraylist " + file.getName());
                     }
                     ois.close();
                     System.out.print(Font.TEXT_YELLOW);
@@ -122,8 +121,6 @@ public class PaymentManager {
                     switch (file.getName()) {
                         case "transaction.txt" ->
                                 objOutput.writeObject(transactionHistory);
-                        default ->
-                                System.out.println("Unknown file stored in database to be serialized in " + file.getName());
                     }
                     objOutput.close();
                 } catch (Exception e) {

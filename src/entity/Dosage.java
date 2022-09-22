@@ -2,7 +2,7 @@ package entity;
 
 import java.io.Serializable;
 
-public class Dosage implements Comparable, Cloneable, Serializable {
+public class Dosage implements Serializable,Comparable, Cloneable {
     private String dosageForm;
     private String dose;
     private int dosageQuantity;

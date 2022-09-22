@@ -4,7 +4,8 @@ import adt.ListInterface;
 
 import java.io.Serializable;
 
-public class Medicine implements Cloneable, Comparable, Serializable {
+
+public class Medicine implements Serializable,Cloneable, Comparable  {
     private String id;
     private String name;
     private ListInterface<Dosage> dosage;

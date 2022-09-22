@@ -83,7 +83,6 @@ public class PharmacistOperation {
 
                     switch (file.getName()) {
                         case "medicine.txt" -> medicineStock = (ArrayList<Medicine>) ois.readObject();
-                        default -> System.out.println("Unknown file to load into arraylist " + file.getName());
                     }
                     ois.close();
                     System.out.print(Font.TEXT_YELLOW);
@@ -112,10 +111,7 @@ public class PharmacistOperation {
                     FileOutputStream fileOutput = new FileOutputStream("database/" + file.getName());
                     ObjectOutputStream objOutput = new ObjectOutputStream(fileOutput);
                     switch (file.getName()) {
-                        case "medicine.txt" ->
-                                objOutput.writeObject(medicineStock);
-                        default ->
-                                System.out.println("Unknown file stored in database to be serialized in " + file.getName());
+                        case "medicine.txt" -> objOutput.writeObject(medicineStock);
                     }
                     objOutput.close();
                 } catch (Exception e) {

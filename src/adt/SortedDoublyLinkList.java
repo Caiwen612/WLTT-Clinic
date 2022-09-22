@@ -294,7 +294,7 @@ public class SortedDoublyLinkList<T extends Comparable<T>> implements SortedList
         return new ListIterator<T>(this);
     }
 
-    class Node {
+    class Node implements Serializable {
         private T data;//Store the data
         private Node previous;//store the previous address
         private Node next;//store the next address

@@ -4,9 +4,10 @@
  * @studentId 21WMR02983
  */
 package adt;
+import java.io.Serializable;
 import java.util.Iterator;
 
-public interface ListInterface<T> {
+public interface ListInterface<T> extends Serializable {
     public boolean add(T newEntry);
     public boolean add(int newPosition, T newEntry);
     public boolean remove(int givenPosition);
