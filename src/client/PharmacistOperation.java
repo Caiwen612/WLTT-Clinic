@@ -112,20 +112,14 @@ public class PharmacistOperation {
 
     public  void sortMedicineStock() {
         ListInterface<Medicine> temp = new ArrayList<>();
-
         Iterator<Medicine> medicineIterator = medicineStock.getIterator();
-
         while (medicineIterator.hasNext()){
             temp.add(medicineIterator.next().clone());
         }
-
-        //TODO: STILL CANNOT SORT THE ARRAYLIST WITHOUT CHANGING ANOTHER
         for (int index = 1; index <= temp.getNumberOfEntries(); index++) {
             ArrayList.bubbleSort(temp.getEntry(index).getDosage(), temp.getEntry(index).getDosage().getNumberOfEntries(), 3);
         }
-
         Driver.medicineStockManagement();
-
     }
 
     public void addMedicineStock()  {

@@ -60,6 +60,7 @@ public class Driver {
         System.out.println("[3] Pharmacy");
         System.out.println("[4] Payment");
         System.out.println("[5] Next customer");
+        System.out.println("[6] Exit");
 
         System.out.print("Enter the option: ");
         int option = input.nextInt();
@@ -79,6 +80,11 @@ public class Driver {
                 break;
 
             case 5:
+                break;
+            case 6:
+                endProgram();
+                System.exit(0);
+                break;
 
         }
     }
@@ -263,10 +269,10 @@ public class Driver {
         }
 
         System.out.println("[1] Allocate Medicine");
-        System.out.println("[2] Next Customer");
-        System.out.println("[3] Check Medicine Stock");
+        System.out.println("[2] Next Patient");
+        System.out.println("[3] Medicine Stock Management");
         System.out.println("[4] Medicine Management");
-        System.out.println("[5] Summary Report");
+        System.out.println("[5] View Summary Report");
         System.out.println("[6] Back");
 
         System.out.print("Enter your option: ");

@@ -1,12 +1,11 @@
-package adt;
-
-import java.util.Iterator;
-
 /**
  * @author Wilson Yau Kai Chun
  * @group RSF2S1G1
  * @studentId 21WMR02983
  */
+package adt;
+import java.util.Iterator;
+
 public interface ListInterface<T> {
     public boolean add(T newEntry);
     public boolean add(int newPosition, T newEntry);

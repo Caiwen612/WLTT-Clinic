@@ -6,13 +6,10 @@ package adt;
 
 import entity.Dosage;
 import entity.Medicine;
-
 import java.io.Serializable;
 import java.util.Iterator;
 
-
 public class ArrayList<T> implements ListInterface<T>, Serializable{
-
     private T[] array;
     private int numberOfEntries;
     private static final int DEFAULT_CAPACITY = 10;
@@ -37,23 +34,27 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
         if (isFull()){
             this.doubleArrayList();
         }
-        array[numberOfEntries] = newEntry;
-        numberOfEntries++;
-        return true;
+        if (newEntry != null){
+            array[numberOfEntries] = newEntry;
+            numberOfEntries++;
+            return true;
+        }
+        else{
+            return false;
+        }
+
     }
 
     @Override
     public boolean add(int newPosition, T newEntry) {
         boolean isSuccessful = true;
-
-        if ((newPosition >= 1) && (newPosition <= numberOfEntries + 1)) {
+        if ((newPosition >= 1) && (newPosition <= numberOfEntries + 1 && newEntry!= null)) {
             makeRoom(newPosition);
             array[newPosition - 1] = newEntry;
             numberOfEntries++;
         } else {
             isSuccessful = false;
         }
-
         return isSuccessful;
     }
 
@@ -61,7 +62,6 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
     public boolean remove(int givenPosition) {
         boolean isSuccessful = true;
         if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
-
             if (givenPosition < numberOfEntries) {
                 removeGap(givenPosition);
             }
@@ -80,28 +80,23 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
         }
         numberOfEntries = 0;
     }
-
     @Override
     public boolean replace(int givenPosition, T newEntry) {
         boolean isSuccessful = true;
-
-        if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
+        if ((givenPosition >= 1) && (givenPosition <= numberOfEntries && newEntry != null)) {
             array[givenPosition - 1] = newEntry;
         } else {
             isSuccessful = false;
         }
-
         return isSuccessful;
     }
 
     @Override
     public T getEntry(int givenPosition) {
         T result = null;
-
         if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
             result = array[givenPosition - 1];
         }
-
         return result;
     }
 
@@ -128,24 +123,16 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
     }
 
     @Override
-    public int getNumberOfEntries() {
-        return numberOfEntries;
-    }
+    public int getNumberOfEntries() {return numberOfEntries;}
 
     @Override
-    public boolean isEmpty() {
-        return numberOfEntries == 0;
-    }
+    public boolean isEmpty() {return numberOfEntries == 0;}
 
     @Override
-    public boolean isFull() {
-        return numberOfEntries == array.length;
-    }
+    public boolean isFull() {return numberOfEntries == array.length;}
 
     @Override
-    public Iterator<T> getIterator() {
-        return new ArrayListIterator();
-    }
+    public Iterator<T> getIterator() {return new ArrayListIterator();}
 
     private class ArrayListIterator implements Iterator<T> {
         private int index;
@@ -255,7 +242,6 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
             for (int index = 0; index < numberOfEntries; index++) {
                 anArrayList.add(this.getEntry(index));
             }
-
         }
         return (T) anArrayList;
     }
@@ -264,20 +250,14 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
     private void makeRoom(int newPosition) {
         int newIndex = newPosition - 1;
         int lastIndex = numberOfEntries - 1;
-
-        // move each entry to next higher index, starting at end of
-        // array and continuing until the entry at newIndex is moved
         if (lastIndex + 1 - newIndex >= 0)
             System.arraycopy(array, newIndex, array, newIndex + 1, lastIndex + 1 - newIndex);
     }
 
     //Remove the gap and shift the next element
     private void removeGap(int givenPosition) {
-        // move each entry to next lower position starting at entry after the
-        // one removed and continuing until end of array
         int removedIndex = givenPosition - 1;
         int lastIndex = numberOfEntries - 1;
-
         if (lastIndex - removedIndex >= 0)
             System.arraycopy(array, removedIndex + 1, array, removedIndex, lastIndex - removedIndex);
     }
