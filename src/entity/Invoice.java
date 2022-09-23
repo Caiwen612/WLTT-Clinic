@@ -137,5 +137,4 @@ public class Invoice implements Serializable {
                 ", total=" + total +
                 '}';
     }
-
 }

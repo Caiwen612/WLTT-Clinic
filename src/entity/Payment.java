@@ -9,7 +9,7 @@ public class Payment implements Serializable {
     private String expDate;
     private String cvv;
     private double amountPaid;
-    private boolean cash;
+    private boolean cashMethod;
 
     public Payment() {
     }
@@ -18,7 +18,7 @@ public class Payment implements Serializable {
     public Payment(String payerName, double amountPaid) {
         this.payerName = payerName;
         this.amountPaid = amountPaid;
-        this.cash = true;
+        this.cashMethod = true;
     }
 
     //Credit card payer
@@ -28,7 +28,7 @@ public class Payment implements Serializable {
         this.expDate = expDate;
         this.cvv = cvv;
         this.amountPaid = amountPaid;
-        this.cash = false;
+        this.cashMethod = false;
     }
 
     public String getPayerName() {
@@ -73,7 +73,7 @@ public class Payment implements Serializable {
 
     @Override
     public String toString() {
-        if (cash){
+        if (cashMethod){
             return "Payment{" +
                     "payerName='" + payerName + '\'' +
                     '}';
