@@ -11,6 +11,7 @@ import entity.WaitingQueue;
 import utility.Validation;
 import utility.ValidationException;
 
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ import java.util.Scanner;
 
 public class CounterManager {
     private static ListInterface<Patient> patientList = new ArrayList<>(100);
-    private static QueueInterface<WaitingQueue> waitingQueuePatient = new ArrayQueue<>(100);
+    //private static QueueInterface<WaitingQueue> waitingQueuePatient = new ArrayQueue<>(100);
     private static QueueInterface<WaitingQueue> room1Queue = new ArrayQueue<>(20);
     private static QueueInterface<WaitingQueue> room2Queue = new ArrayQueue<>(20);
     private static QueueInterface<WaitingQueue> room3Queue = new ArrayQueue<>(20);
@@ -61,11 +62,11 @@ public class CounterManager {
         WaitingQueue w4 = new WaitingQueue(p4, 1);
         WaitingQueue w5 = new WaitingQueue(p5, 1);
         //Default data manual add in, Code will do auto
-//        room1Queue.enqueue(w1);
-//        room2Queue.enqueue(w2);
-//        room3Queue.enqueue(w3);
-//        room1Queue.enqueue(w4);
-//        room1Queue.enqueue(w5);
+        room1Queue.enqueue(w1);
+        room2Queue.enqueue(w2);
+        room3Queue.enqueue(w3);
+        room1Queue.enqueue(w4);
+        room1Queue.enqueue(w5);
 
     }
 
@@ -280,51 +281,88 @@ public class CounterManager {
                 System.err.println(e.getMessage());
             }
         } while (validICNO);
+
+        Patient patient = null;
         if (patientList.toString().contains(new Patient(patientIC).getIcNo())) {
-            boolean checkPatient = false;
-            int loopSize = -1;
             for (int i = 1; i < patientList.getNumberOfEntries() + 1; i++) {
                 if (Objects.equals(new Patient(patientIC).getIcNo(), patientList.getEntry(i).getIcNo())) {
+                    patient = patientList.getEntry(i);
                     patientList.remove(i);
                     System.out.println("Patient Data Deleted!");
+                    //Remove patient from queue
+                    findRegisterPatient(patient);
                     break;
                 }
             }
-            QueueInterface<WaitingQueue> queue = new ArrayQueue<WaitingQueue>();
-            while (!checkPatient) {
-                queue.enqueue(waitingQueuePatient.getFront());
-                waitingQueuePatient.dequeue();
-                if (waitingQueuePatient.getSize() == loopSize) {
-                    checkPatient = true;
-                    waitingQueuePatient = queue;
-                    System.out.println("Patient data removed from queue!");
-                    Driver.pressAnyKeyToContinueWithPrompt();
-                    Driver.counterMenu();
-                } else if (waitingQueuePatient.getFront() == null) {
-                    checkPatient = true;
-                    waitingQueuePatient = queue;
-                    Driver.pressAnyKeyToContinueWithPrompt();
-                    Driver.counterMenu();
-                } else {
-                    loopSize++;
-                    if (!(Objects.equals(waitingQueuePatient.getFront().getPatient().getIcNo(), new Patient(patientIC).getIcNo()))) {
-                        queue.enqueue(waitingQueuePatient.getFront());
-                        waitingQueuePatient.dequeue();
+        } else{
+            System.out.println("The record not found");
+            Driver.pressAnyKeyToContinueWithPrompt();
+            Driver.counterMenu();
+        }
+    }
 
-                    } else {
-                        waitingQueuePatient.dequeue();
-                    }
-                }
-            }
-        } else {
-            System.out.println("Record not found! Want to add patient?");
-            y = input.next().toUpperCase();
-            if (Objects.equals(y, "Y")) {
-                addPatient();
-            } else {
-                Driver.counterMenu();
+    public static void findRegisterPatient(Patient patient) {
+        //Find patient
+        Patient targetPatient = null;
+        Iterator room1Iterator = room1Queue.getIterator();
+        Iterator room2Iterator = room2Queue.getIterator();
+        Iterator room3Iterator = room3Queue.getIterator();
+
+        //Search for patient in room1
+        while (room1Iterator.hasNext()){
+            WaitingQueue target = (WaitingQueue) room1Iterator.next();
+            if(Objects.equals(target.getPatient().getIcNo(), patient.getIcNo())){
+                System.out.println("The patient found in the room 1");
+                targetPatient = target.getPatient();
+                removeRegisterPatient(targetPatient,room1Queue);
+                break;
             }
         }
+        //Search for patient in room2
+        while (room2Iterator.hasNext()){
+            WaitingQueue target = (WaitingQueue) room2Iterator.next();
+            if(Objects.equals(target.getPatient().getIcNo(), patient.getIcNo())){
+                System.out.println("The patient found in the room 2");
+                targetPatient = target.getPatient();
+                removeRegisterPatient(targetPatient,room2Queue);
+                break;
+            }
+        }
+        //Search for patient in room3
+        while (room3Iterator.hasNext()){
+            WaitingQueue target = (WaitingQueue) room3Iterator.next();
+            if(Objects.equals(target.getPatient().getIcNo(), patient.getIcNo())){
+                System.out.println("The patient found in the room 3");
+                targetPatient = target.getPatient();
+                removeRegisterPatient(targetPatient,room3Queue);
+                break;
+            }
+        }
+    }
+
+    public static void removeRegisterPatient(Patient patient,QueueInterface<WaitingQueue> waitingQueuePatient){
+        ListInterface<WaitingQueue> tempList = new ArrayList<>(20);
+
+        //Add original queue into list
+        while(!(waitingQueuePatient.isEmpty())){
+            tempList.add(waitingQueuePatient.dequeue());
+        }
+
+        //Remove the queue from tempList
+        for(int i = 1;i <= tempList.getNumberOfEntries();i++){
+            if(Objects.equals(patient.getIcNo(), tempList.getEntry(i).getPatient().getIcNo())) {
+                System.out.println("Patient data removed from queue!");
+                tempList.remove(i);
+                break;
+            }
+        }
+
+        //Add the list into queue
+        for(int i = 1;i <= tempList.getNumberOfEntries();i++){
+            waitingQueuePatient.enqueue(tempList.getEntry(i));
+        }
+        Driver.pressAnyKeyToContinueWithPrompt();
+        Driver.counterMenu();
     }
 
     public static void registerPatient(Patient patient) {
@@ -366,10 +404,6 @@ public class CounterManager {
 
     public static ListInterface<Patient> getPatientList() {
         return patientList;
-    }
-
-    public static QueueInterface<WaitingQueue> getWaitingQueuePatient() {
-        return waitingQueuePatient;
     }
 
     public static QueueInterface<WaitingQueue> getRoom1Queue() {
