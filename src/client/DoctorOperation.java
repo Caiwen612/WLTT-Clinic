@@ -436,7 +436,6 @@ public class DoctorOperation {
             case 2:
                 //Get the target medicine
                 int medicineNo = validOption("Enter the no you wish to edit: ", 1, medicineCart.getNumberOfEntries());
-                System.out.println("Medicine = " + medicineCart.getEntry(medicineNo));
                 int newQuantity = validQuantity("Enter new quantity: ", 100);
                 medicineCart.getEntry(medicineNo).getDosage().getEntry(1).setDosageQuantity(newQuantity);
                 Driver.clearScreen();

@@ -18,50 +18,60 @@ public class PaymentManager {
     private static StackInterface<Transaction> transactionHistory = new ArrayStack<>();
     private static StackInterface<Transaction> tempStack = new ArrayStack<>();
 
-    public PaymentManager(){
+    public PaymentManager(ListInterface<Medicine> medicineStock){
 
-        ListInterface<Medicine> medicineStock = null;
+        //ListInterface<Medicine> medicineStock = null;
 
         //FIRST - Loperamide (Oral tablet)
-        Medicine testMedicine1 = PharmacistOperation.getMedicineStock().getEntry(3);
-        Dosage testDosage1 = PharmacistOperation.getMedicineStock().getEntry(3).getDosage().getEntry(2);
-        ListInterface<Medicine> tempList1 = new ArrayList<>();
-        testMedicine1.getDosage().clear();
-        testDosage1.setDosageQuantity(1);
-        testMedicine1.getDosage().add(testDosage1);
-        tempList1.add(testMedicine1);
+        Medicine patientMedicine = null;
+        Dosage patientDosage = null;
+        ListInterface<Dosage> patientListDosage = new ArrayList<>();
+        ListInterface<Medicine> patientListMedicine = new ArrayList<>();
+        Medicine testMedicine1 = medicineStock.getEntry(3);
+        patientMedicine = testMedicine1.clone();
+        patientDosage = medicineStock.getEntry(3).getDosage().getEntry(2).clone();
+        patientDosage.setDosageQuantity(1);
+        patientListDosage.add(patientDosage);
+        patientMedicine.setDosage(patientListDosage);
+        patientListMedicine.add(patientMedicine);
+//        Dosage testDosage1 = PharmacistOperation.getMedicineStock().getEntry(3).getDosage().getEntry(2);
+//        ListInterface<Medicine> tempList1 = new ArrayList<>();
+//        testMedicine1.getDosage().clear();
+//        testDosage1.setDosageQuantity(1);
+//        testMedicine1.getDosage().add(testDosage1);
+//        tempList1.add(testMedicine1);
         Patient patient1 = new Patient("Patient1", "111111111111", "1111111111", "010101", "010101");
-        Invoice invoice1 = new Invoice(tempList1, patient1, 20, 21.2);
+        Invoice invoice1 = new Invoice(patientListMedicine, patient1, 20, 21.2);
         Payment payer1 = new Payment("Payer1", 21.2);
         transactionHistory.push(new Transaction("01-01-2022", "10:20:59", invoice1, payer1, "Cash"));
 
         //SECOND - Atorvastatin (Oral tablet)
-        Medicine testMedicine2 = PharmacistOperation.getMedicineStock().getEntry(4);
-        Dosage testDosage2 = PharmacistOperation.getMedicineStock().getEntry(4).getDosage().getEntry(1);
-        ListInterface<Medicine> tempList2 = new ArrayList<>();
-        testMedicine2.getDosage().clear();
-        testDosage2.setDosageQuantity(2);
-        testMedicine2.getDosage().add(testDosage2);
-        tempList2.add(testMedicine2);
-        Patient patient2 = new Patient("Patient2", "222222222222", "2222222222", "020202", "030303");
-        Invoice invoice2 = new Invoice(tempList2, patient2,30,31.8);
-        Payment payer2 = new Payment("Payer2", 31.8);
-        transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
-        
-        //THIRD - Lisinopril (Oral tablet)
-        Medicine testMedicine3 = PharmacistOperation.getMedicineStock().getEntry(5);
-        Dosage testDosage3 = PharmacistOperation.getMedicineStock().getEntry(5).getDosage().getEntry(2);
-        ListInterface<Medicine> tempList3 = new ArrayList<>();
-        testMedicine3.getDosage().clear();
-        testDosage3.setDosageQuantity(3);
-        testMedicine3.getDosage().add(testDosage3);
-        tempList3.add(testMedicine3);
-        Patient patient3 = new Patient("Patient3", "333333333333", "3333333333", "030303", "030303");
-        Invoice invoice3 = new Invoice(tempList3, patient3, 75, 4.5);
-        Payment payer3 = new Payment("Payer3", 79.5);
-        transactionHistory.push(new Transaction("21-06-2022", "14:59:11", invoice3, payer3, "Credit Card"));
+//        Medicine testMedicine2 = PharmacistOperation.getMedicineStock().getEntry(4);
+//        Dosage testDosage2 = PharmacistOperation.getMedicineStock().getEntry(4).getDosage().getEntry(1);
+//        ListInterface<Medicine> tempList2 = new ArrayList<>();
+//        testMedicine2.getDosage().clear();
+//        testDosage2.setDosageQuantity(2);
+//        testMedicine2.getDosage().add(testDosage2);
+//        tempList2.add(testMedicine2);
+//        Patient patient2 = new Patient("Patient2", "222222222222", "2222222222", "020202", "030303");
+//        Invoice invoice2 = new Invoice(tempList2, patient2,30,31.8);
+//        Payment payer2 = new Payment("Payer2", 31.8);
+//        transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
+//
+//        //THIRD - Lisinopril (Oral tablet)
+//        Medicine testMedicine3 = PharmacistOperation.getMedicineStock().getEntry(5);
+//        Dosage testDosage3 = PharmacistOperation.getMedicineStock().getEntry(5).getDosage().getEntry(2);
+//        ListInterface<Medicine> tempList3 = new ArrayList<>();
+//        testMedicine3.getDosage().clear();
+//        testDosage3.setDosageQuantity(3);
+//        testMedicine3.getDosage().add(testDosage3);
+//        tempList3.add(testMedicine3);
+//        Patient patient3 = new Patient("Patient3", "333333333333", "3333333333", "030303", "030303");
+//        Invoice invoice3 = new Invoice(tempList3, patient3, 75, 4.5);
+//        Payment payer3 = new Payment("Payer3", 79.5);
+        //transactionHistory.push(new Transaction("21-06-2022", "14:59:11", invoice3, payer3, "Credit Card"));
     }
-    
+
     //Bill List - Patient
     public static void printInvoice(Patient patient){
         Invoice invoice = patient.getTempInvoice();
@@ -158,16 +168,16 @@ public class PaymentManager {
             name = patient.getPatientName(); //Not 1, but should have customerNo
         } else {
             System.out.print("Enter name: ");
-            name = input.next();
+            name = input.nextLine();
 
             System.out.print("Enter card number: ");
-            cardNumber = input.next();
+            cardNumber = input.nextLine();
 
             System.out.print("Enter expiry date: ");
-            expDate = input.next();
+            expDate = input.nextLine();
 
             System.out.print("Enter CVV: ");
-            cvv = input.next();
+            cvv = input.nextLine();
         }
 
         double amountPay = patient.getTempInvoice().getTotal();

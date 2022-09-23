@@ -16,6 +16,8 @@ public class Dosage implements Comparable, Cloneable {
         this.dosageQuantity = dosageQuantity;
         this.dosageCost = dosageCost;
         this.dosagePrice = dosagePrice;
+        this.getRecord().setAllocateQuantity(0);
+        this.getRecord().setRestockQuantity(0);
     }
 
     public Dosage(String dosageForm, String dose, int dosageQuantity, double dosageCost, double dosagePrice, MedicineDosageRecord record) {

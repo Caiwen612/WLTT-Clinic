@@ -56,15 +56,16 @@ public class CounterManager {
         WaitingQueue w4 = new WaitingQueue(p4, 1);
         WaitingQueue w5 = new WaitingQueue(p5, 1);
         //Default data manual add in, Code will do auto
-        room1Queue.enqueue(w1);
-        room2Queue.enqueue(w2);
-        room3Queue.enqueue(w3);
-        room1Queue.enqueue(w4);
-        room1Queue.enqueue(w5);
+//        room1Queue.enqueue(w1);
+//        room2Queue.enqueue(w2);
+//        room3Queue.enqueue(w3);
+//        room1Queue.enqueue(w4);
+//        room1Queue.enqueue(w5);
 
     }
 
     public static void searchPatient() throws InterruptedException {
+        //input.nextLine();
         boolean validICNO = true;
         String patientIC = " ";
         do {
@@ -136,13 +137,14 @@ public class CounterManager {
         boolean validICNO = true;
         String patientIC = "";
         System.out.println("Enter Patient Details ");
+        input.nextLine();
         System.out.print("Name: ");
-        String patientName = input.next();
+        String patientName = input.nextLine();
 
         do {
             try {
                 System.out.print("IC Number(Number only without space): ");
-                patientIC = input.next();
+                patientIC = input.nextLine();
                 Validation.validIC(patientIC);
                 validICNO = false;
             } catch (ValidationException e) {
@@ -151,11 +153,11 @@ public class CounterManager {
         } while (validICNO);
 
         System.out.print("Phone Number: ");
-        String patientPhoneNo = input.next();
+        String patientPhoneNo = input.nextLine();
         System.out.print("Address: ");
-        String patientAddress = input.next();
+        String patientAddress = input.nextLine();
         System.out.print("Date of Birth: ");
-        String patientDOB = input.next();
+        String patientDOB = input.nextLine();
 
 
         if (patientList.toString().contains(new Patient(patientIC).getIcNo())) {
@@ -216,25 +218,26 @@ public class CounterManager {
                 System.out.println("Enter your option: ");
 
                 int detailsNo = input.nextInt();
+                input.nextLine();
                 switch (detailsNo) {
                     case 1:
                         System.out.println("Name: ");
-                        String nameEdit = input.next();
+                        String nameEdit = input.nextLine();
                         patientList.getEntry(i).setPatientName(nameEdit);
                         break;
                     case 2:
                         System.out.println("Phone Number: ");
-                        String phoneNoEdit = input.next();
+                        String phoneNoEdit = input.nextLine();
                         patientList.getEntry(i).setPhoneNo(phoneNoEdit);
                         break;
                     case 3:
                         System.out.println("Address: ");
-                        String addressNoEdit = input.next();
+                        String addressNoEdit = input.nextLine();
                         patientList.getEntry(i).setAddress(addressNoEdit);
                         break;
                     case 4:
                         System.out.println("DOB: ");
-                        String dobNoEdit = input.next();
+                        String dobNoEdit = input.nextLine();
                         patientList.getEntry(i).setDOB(dobNoEdit);
                         break;
 
@@ -278,9 +281,9 @@ public class CounterManager {
             for (int i = 1; i < patientList.getNumberOfEntries() + 1; i++) {
                 if (Objects.equals(new Patient(patientIC).getIcNo(), patientList.getEntry(i).getIcNo())) {
                     patientList.remove(i);
+                    System.out.println("Patient Data Deleted!");
+                    break;
                 }
-                System.out.println("Patient Data Deleted!");
-
             }
             QueueInterface<WaitingQueue> queue = new ArrayQueue<WaitingQueue>();
             while (!checkPatient) {
@@ -337,9 +340,23 @@ public class CounterManager {
     }
 
     public static void showQueue() {
-        System.out.println("Room 1: " + room1Queue.getFront());//1001
-        System.out.println("Room 2: " + room2Queue.getFront());//1002
-        System.out.println("Room 3: " + room3Queue.getFront());//1003
+        if(room1Queue.isEmpty()){
+            System.out.println("Room 1: " + "-");
+        } else{
+            System.out.println("Room 1: " + room1Queue.getFront());
+        }
+
+        if(room2Queue.isEmpty()){
+            System.out.println("Room 2: " + "-");
+        } else{
+            System.out.println("Room 2: " + room2Queue.getFront());
+        }
+
+        if(room3Queue.isEmpty()){
+            System.out.println("Room 3: " + "-");
+        } else{
+            System.out.println("Room 3: " + room3Queue.getFront());
+        }
     }
 
     public static ListInterface<Patient> getPatientList() {

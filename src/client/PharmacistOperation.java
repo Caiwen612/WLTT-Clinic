@@ -89,6 +89,7 @@ public class PharmacistOperation {
 
     public void searchMedicineStock() {
         Driver.clearScreen();
+        input.nextLine();
         String keywords;
         System.out.print("Enter the keywords: ");
         keywords = input.nextLine();
@@ -509,6 +510,9 @@ public class PharmacistOperation {
                     ArrayList.bubbleSort(medicineStock.getEntry(index).getDosage(), medicineStock.getEntry(index).getDosage().getNumberOfEntries(), 5);
                 }
                 viewSummaryReport();
+            }
+            case 0 -> {
+                Driver.pharmacistMenu();
             }
             default -> Driver.pharmacistMenu();
         }

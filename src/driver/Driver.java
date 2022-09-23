@@ -9,9 +9,9 @@ import client.PaymentManager;
 import client.PharmacistOperation;
 import entity.*;
 import utility.Font;
-import utility.ValidationException;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Scanner;
 
 /** Driver - combine each of the module become 1 system
@@ -26,7 +26,7 @@ public class Driver {
     private static CounterManager c = new CounterManager();
     private static PharmacistOperation pharmacistOperation = new PharmacistOperation();
     private static DoctorOperation d = new DoctorOperation();
-    private static PaymentManager p = new PaymentManager();
+    private static PaymentManager p = new PaymentManager(pharmacistOperation.getMedicineStock());
 
     //Queue for room
     private static QueueInterface<WaitingQueue> room1 = c.getRoom1Queue();
@@ -45,7 +45,7 @@ public class Driver {
 
     //Queue
 
-    public static void main(String[] args) throws ValidationException {
+    public static void main(String[] args){
         //welcome();
         menu();
     }
@@ -193,7 +193,8 @@ public class Driver {
                 break;
         }
         WaitingQueue currentPatient = null;
-        if(currentQueue.getFront() != null){
+
+        if(Objects.requireNonNull(currentQueue).getFront() != null){
             currentPatient = currentQueue.getFront();
             if(currentPatient != null){
                 System.out.println(Font.useFont(Font.BOLD_BLUE, "Current patient: " + currentPatient.getPatientName()));
@@ -210,6 +211,7 @@ public class Driver {
             System.out.println("[5] Appointment Management");
             System.out.println("[7] Back");
         }
+
         //Display current patient
 
 
@@ -218,16 +220,16 @@ public class Driver {
         ListInterface<Medicine> medicineStock = PharmacistOperation.getMedicineStock();
         switch (optionDoctor){
             case 1:
-                d.checkPatientRecord(currentPatient.getPatient());
+                d.checkPatientRecord(Objects.requireNonNull(currentPatient).getPatient());
                 break;
             case 2:
-                d.addPatientRecord(currentPatient.getPatient(),medicineStock);
+                d.addPatientRecord(Objects.requireNonNull(currentPatient).getPatient(),medicineStock);
                 break;
             case 3:
-                d.editPatientRecord(currentPatient.getPatient(),medicineStock);
+                d.editPatientRecord(Objects.requireNonNull(currentPatient).getPatient(),medicineStock);
                 break;
             case 4:
-                d.addAppointment(currentPatient.getPatient(),currentDoctor);
+                d.addAppointment(Objects.requireNonNull(currentPatient).getPatient(),currentDoctor);
                 break;
             case 5:
                 d.appointmentManagement(currentDoctor);
@@ -404,6 +406,9 @@ public class Driver {
             case 4:
                 updatePaymentBoard();
                 break;
+            case 0:
+                menu();
+                break;
         }
         paymentMenu();
     }
@@ -411,9 +416,23 @@ public class Driver {
     //TODO: END PAYMENT
 
     private static void board(){
-        System.out.println("Room 1: " + room1.getFront());//1001
-        System.out.println("Room 2: " + room2.getFront());//1002
-        System.out.println("Room 3: " + room3.getFront());//1003
+        if(room1.isEmpty()){
+            System.out.println("Room 1: " + "-");
+        } else{
+            System.out.println("Room 1: " + room1.getFront());
+        }
+
+        if(room2.isEmpty()){
+            System.out.println("Room 2: " + "-");
+        } else{
+            System.out.println("Room 2: " + room2.getFront());
+        }
+
+        if(room3.isEmpty()){
+            System.out.println("Room 3: " + "-");
+        } else{
+            System.out.println("Room 3: " + room3.getFront());
+        }
     }
 
     private static void updateBoard(int roomNumber){
