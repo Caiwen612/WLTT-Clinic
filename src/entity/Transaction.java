@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
+ * @Author: Lee Chun Kai
+ * @Group: RSF2S1G1
+ * */
+
 public class Transaction{
 
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");

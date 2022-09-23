@@ -1,5 +1,8 @@
 package entity;
-
+/*
+ * @Author: Lan Ke En
+ * @Group: RSF2S1G1
+ * */
 
 public class WaitingQueue {
     private Patient patient;

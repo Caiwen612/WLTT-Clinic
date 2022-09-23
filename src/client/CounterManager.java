@@ -14,6 +14,11 @@ import utility.ValidationException;
 import java.util.Objects;
 import java.util.Scanner;
 
+/*
+ * @Author: Lan Ke En
+ * @Group: RSF2S1G1
+ * */
+
 public class CounterManager {
     private static ListInterface<Patient> patientList = new ArrayList<>(100);
     private static QueueInterface<WaitingQueue> waitingQueuePatient = new ArrayQueue<>(100);

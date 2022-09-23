@@ -316,6 +316,7 @@ public class Driver {
             System.out.print("Enter your option: ");
             option = input.nextInt();
 
+            input.nextLine();
             switch (option) {
                 case 1:
                     pharmacistOperation.searchMedicineStock();
@@ -344,6 +345,7 @@ public class Driver {
             System.out.print("Enter your option: ");
             option = input.nextInt();
 
+            input.nextLine();
             switch (option) {
                 case 1:
                     pharmacistOperation.addNewMedicine();

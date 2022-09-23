@@ -1,5 +1,10 @@
 package entity;
 
+/*
+ * @Author: Wilson Yau Kai Chun
+ * @Group: RSF2S1G1
+ * */
+
 public class Pharmacist  {
     private String ID;
     private String name;

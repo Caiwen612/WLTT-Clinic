@@ -1,4 +1,8 @@
 package entity;
+/*
+ * @Author: Lee Chun Kai
+ * @Group: RSF2S1G1
+ * */
 
 public class Payment  {
 

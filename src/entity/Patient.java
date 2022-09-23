@@ -3,6 +3,11 @@ package entity;
 import adt.ArrayList;
 import adt.ListInterface;
 
+/*
+ * @Author: Lan Ke En
+ * @Group: RSF2S1G1
+ * */
+
 public class Patient implements Comparable {
     private String patientName;
     private String icNo;

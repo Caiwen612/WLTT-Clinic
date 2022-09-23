@@ -7,8 +7,14 @@ import entity.*;
 import utility.Font;
 import utility.Validation;
 
+import javax.swing.text.Utilities;
 import java.util.Iterator;
 import java.util.Scanner;
+
+/*
+ * @Author: Wilson Yau Kai Chun
+ * @Group: RSF2S1G1
+ * */
 
 public class PharmacistOperation {
     private static ListInterface<Medicine> medicineStock = new ArrayList<>(10);
@@ -89,7 +95,6 @@ public class PharmacistOperation {
 
     public void searchMedicineStock() {
         Driver.clearScreen();
-        input.nextLine();
         String keywords;
         System.out.print("Enter the keywords: ");
         keywords = input.nextLine();
@@ -156,7 +161,7 @@ public class PharmacistOperation {
             quantity = input.nextInt();
         }
 
-        System.out.println("Are you sure you want to restock the medicine with " +
+        System.out.print("Are you sure you want to restock the medicine with " +
                 quantity + " quantity" +
                 "? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
@@ -178,10 +183,8 @@ public class PharmacistOperation {
         } else {
             System.out.println("You have cancelled the restock medicine process");
         }
-
-        System.out.println("Press Enter key to exit to medicine menu...");
-        input.nextLine();
-        input.nextLine();
+        //input.nextLine();
+        Driver.pressAnyKeyToContinueWithPrompt();
         Driver.medicineStockManagement();
 
     }
@@ -236,7 +239,6 @@ public class PharmacistOperation {
                 Driver.medicineManagement();
             }
         }
-
         System.out.print("Enter the function of the medicine: ");
         mediFunc = input.nextLine();
 
@@ -247,7 +249,6 @@ public class PharmacistOperation {
             System.out.println("You are not allowed to enter negative or zero value. Please try again: ");
             doseFormQuantity = input.nextInt();
         }
-
 
         double[] doseCost = new double[doseFormQuantity], dosePrice = new double[doseFormQuantity];
         int[] dosageType = new int[doseFormQuantity], doseQuantity = new int[doseFormQuantity];
@@ -304,9 +305,8 @@ public class PharmacistOperation {
         } else {
             System.out.println("You have cancelled the add new medicine process");
         }
-        input.nextLine();
-        System.out.println("Press Enter key to go back to medicine management menu...");
-        input.nextLine();
+        Driver.pressAnyKeyToContinueWithPrompt();
+        Driver.medicineManagement();
     }
 
     public void updateCurrentMedicine() {
@@ -353,7 +353,7 @@ public class PharmacistOperation {
             }
         }
 
-        System.out.println("Are you sure you want to update the medicine details? ('Y' for yes/'N' for no): ");
+        System.out.print("Are you sure you want to update the medicine details? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
         try {
             Validation.validCharYN(option);
@@ -373,8 +373,8 @@ public class PharmacistOperation {
             System.out.println("You have cancelled the update medicine details process");
         }
         input.nextLine();
-        System.out.println("Press Enter key to go back to medicine management menu...");
-        input.nextLine();
+        Driver.pressAnyKeyToContinueWithPrompt();
+        Driver.medicineManagement();
     }
 
     public void deleteMedicine() {
@@ -419,7 +419,7 @@ public class PharmacistOperation {
             System.out.println(ex.getMessage());
         }
 
-        if (Character.toUpperCase(option) == 'Y') {
+        if (Character.toUpperCase(confirm) == 'Y') {
             switch (option) {
                 case 1:
                     medicineStock.remove(medicineNo);
@@ -436,11 +436,11 @@ public class PharmacistOperation {
             }
             System.out.println("Delete medicine successfully!!!");
         } else {
-            System.out.println("You have cancelled the update medicine details process");
+            System.out.println("You have cancelled the delete medicine process");
         }
         input.nextLine();
-        System.out.println("Press Enter key to go back to medicine management menu...");
-        input.nextLine();
+        Driver.pressAnyKeyToContinueWithPrompt();
+        Driver.medicineManagement();
     }
 
     public void viewSummaryReport() {
@@ -522,7 +522,7 @@ public class PharmacistOperation {
         DoctorOperation.displayPatientRecord(patient, record);
         System.out.println("Press y if u want allocate the medicine: ");
         Character inputCharacter = Character.toUpperCase(input.next().charAt(0));
-        if (inputCharacter == 'Y') {
+        if (inputCharacter == 'Y'|| inputCharacter == 'y') {
             reduceMedicineStock(patient, record);
         }
 

@@ -9,6 +9,11 @@ import entity.*;
 
 import java.util.Scanner;
 
+/*
+ * @Author: Lee Chun Kai
+ * @Group: RSF2S1G1
+ * */
+
 public class PaymentManager {
     private static Scanner input = new Scanner(System.in);
     private static Transaction[] transactionsArray = new Transaction[100];

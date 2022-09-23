@@ -1,5 +1,10 @@
 package entity;
 
+/*
+ * @Author: Wilson Yau Kai Chun
+ * @Group: RSF2S1G1
+ * */
+
 public class Dosage implements Comparable, Cloneable {
     private String dosageForm;
     private String dose;
@@ -16,8 +21,7 @@ public class Dosage implements Comparable, Cloneable {
         this.dosageQuantity = dosageQuantity;
         this.dosageCost = dosageCost;
         this.dosagePrice = dosagePrice;
-        this.getRecord().setAllocateQuantity(0);
-        this.getRecord().setRestockQuantity(0);
+        this.record = new MedicineDosageRecord(0,0);
     }
 
     public Dosage(String dosageForm, String dose, int dosageQuantity, double dosageCost, double dosagePrice, MedicineDosageRecord record) {

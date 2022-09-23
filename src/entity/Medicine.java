@@ -2,6 +2,10 @@ package entity;
 
 import adt.ListInterface;
 
+/*
+ * @Author: Wilson Yau Kai Chun
+ * @Group: RSF2S1G1
+ * */
 
 public class Medicine implements Cloneable, Comparable  {
     private String id;
