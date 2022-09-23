@@ -66,7 +66,7 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     //Method of Entity
-    public String generateAppointmentID(){
+    private String generateAppointmentID(){
         return "A" + count;
     }
 

@@ -38,19 +38,19 @@ public class DoctorOperation {
 
         try {
             //Run at Empty
-            Appointment a1 = new Appointment(new Patient(), sdf.parse("04-12-2020 11:30"), "a1");//12:00
+            Appointment a1 = new Appointment(new Patient(), sdf.parse("04-12-2022 11:30"), "a1");//12:00
             //Run at Beginning
-            Appointment a2 = new Appointment(new Patient(), sdf.parse("04-12-2020 11:00"), "a2");
+            Appointment a2 = new Appointment(new Patient(), sdf.parse("04-12-2022 11:00"), "a2");
             Appointment a3 = new Appointment(new Patient(), sdf.parse("04-12-2020 10:00"), "a3");
             //Run at Behind
-            Appointment a4 = new Appointment(new Patient(), sdf.parse("05-12-2020 15:00"), "a4");
-            Appointment a5 = new Appointment(new Patient(), sdf.parse("05-12-2020 16:00"), "a5");
+            Appointment a4 = new Appointment(new Patient(), sdf.parse("05-12-2022 15:00"), "a4");
+            Appointment a5 = new Appointment(new Patient(), sdf.parse("05-12-2022 16:00"), "a5");
             //Run at Center
-            Appointment a6 = new Appointment(new Patient(), sdf.parse("05-12-2020 13:00"), "a6");
-            Appointment a7 = new Appointment(new Patient(), sdf.parse("05-12-2020 14:00"), "a7");
-            Appointment a8 = new Appointment(new Patient(), sdf.parse("05-12-2020 12:30"), "a8");
-            Appointment a9 = new Appointment(new Patient(), sdf.parse("05-12-2020 14:30"), "a9");
-            Appointment a10 = new Appointment(new Patient(), sdf.parse("05-12-2020 10:30"), "a10");
+            Appointment a6 = new Appointment(new Patient(), sdf.parse("05-12-2022 13:00"), "a6");
+            Appointment a7 = new Appointment(new Patient(), sdf.parse("05-12-2022 14:00"), "a7");
+            Appointment a8 = new Appointment(new Patient(), sdf.parse("05-12-2022 12:30"), "a8");
+            Appointment a9 = new Appointment(new Patient(), sdf.parse("05-12-2022 14:30"), "a9");
+            Appointment a10 = new Appointment(new Patient(), sdf.parse("05-12-2022 10:30"), "a10");
             doctor1.getAppointmentList().add(a1);
             doctor1.getAppointmentList().add(a1);
             doctor1.getAppointmentList().add(a2);

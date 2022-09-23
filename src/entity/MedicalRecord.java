@@ -14,7 +14,7 @@ public class MedicalRecord  {
     private String medicalSymptoms;
     private String medicalDiagnosis;
     private ListInterface<Medicine> medicineCart;
-    private final Date date;
+    private Date date;
 
     //Constructor
     public MedicalRecord(){
