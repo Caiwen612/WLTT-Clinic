@@ -1,8 +1,6 @@
 package entity;
 
-import java.io.Serializable;
-
-public class MedicineDosageRecord implements Serializable {
+public class MedicineDosageRecord  {
     private int restockQuantity;
     private int allocateQuantity;
 

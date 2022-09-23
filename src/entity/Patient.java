@@ -3,9 +3,7 @@ package entity;
 import adt.ArrayList;
 import adt.ListInterface;
 
-import java.io.Serializable;
-
-public class Patient implements Comparable, Serializable {
+public class Patient implements Comparable {
     private String patientName;
     private String icNo;
     private String phoneNo;

@@ -1,9 +1,7 @@
 package entity;
 
 
-import java.io.Serializable;
-
-public class WaitingQueue implements Serializable {
+public class WaitingQueue {
     private Patient patient;
     private int roomNo;
     private String waitingNo;

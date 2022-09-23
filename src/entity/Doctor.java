@@ -3,14 +3,13 @@ package entity;
 import adt.SortedDoublyLinkList;
 import adt.SortedListInterface;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /** Appointment - An entity class of doctor.
  *  @author Tay Chai Boon
  */
 
-public class Doctor implements Serializable {
+public class Doctor {
     //Data member
     private String ID;
     private String name;

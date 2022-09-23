@@ -78,14 +78,7 @@ public class Driver {
                 paymentMenu();
                 break;
             case 5:
-                c.storeData();
-                pharmacistOperation.storeData();
-                d.storeData();
-                p.storeData();
-                System.out.print(Font.TEXT_YELLOW);
-                System.out.println("Your progress has been store in database.");
                 endProgram();
-                System.exit(0);
                 break;
         }
     }
@@ -309,8 +302,6 @@ public class Driver {
         }
             pharmacistMenu();
     }
-
-
 
     public static void medicineStockManagement() {
         int option = 1;

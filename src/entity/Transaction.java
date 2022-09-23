@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Transaction implements Serializable {
+public class Transaction{
 
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");

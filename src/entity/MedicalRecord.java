@@ -3,14 +3,13 @@ package entity;
 import adt.ArrayList;
 import adt.ListInterface;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /** Appointment - An entity class of medical record.
  *  @author Tay Chai Boon
  */
 
-public class MedicalRecord implements Serializable {
+public class MedicalRecord  {
     private String medicalProblems;
     private String medicalSymptoms;
     private String medicalDiagnosis;

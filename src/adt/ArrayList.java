@@ -229,10 +229,13 @@ public class ArrayList<T> implements ListInterface<T>, Serializable{
 
     //Double the array list
     public void doubleArrayList(){
-        int length = getNumberOfEntries() * 2;
-        ArrayList<T> temp = new ArrayList<>(length);
-        for (int index = 1; index <= this.getNumberOfEntries(); index++) {
-            temp.add(this.getEntry(index));
+        T[] oldList = array;
+        int oldSize = oldList.length;
+
+        array = (T[]) new Object[2 * oldSize];
+
+        for (int i = 0; i < oldSize; i++) {
+            array[i] = oldList[i];
         }
     }
 

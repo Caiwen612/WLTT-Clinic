@@ -2,10 +2,8 @@ package entity;
 
 import adt.ListInterface;
 
-import java.io.Serializable;
 
-
-public class Medicine implements Serializable,Cloneable, Comparable  {
+public class Medicine implements Cloneable, Comparable  {
     private String id;
     private String name;
     private ListInterface<Dosage> dosage;

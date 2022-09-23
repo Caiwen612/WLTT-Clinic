@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Invoice implements Serializable {
+public class Invoice {
 
     //Formatting
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");

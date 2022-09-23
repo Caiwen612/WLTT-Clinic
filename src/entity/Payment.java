@@ -1,8 +1,6 @@
 package entity;
 
-import java.io.Serializable;
-
-public class Payment implements Serializable {
+public class Payment  {
 
     private String payerName;
     private String cardID;

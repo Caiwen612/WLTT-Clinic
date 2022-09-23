@@ -7,7 +7,6 @@ import entity.*;
 import utility.Font;
 import utility.Validation;
 
-import java.io.*;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -15,111 +14,48 @@ public class PharmacistOperation {
     private static ListInterface<Medicine> medicineStock = new ArrayList<>(10);
     private static Scanner input = new Scanner(System.in);
 
-    public PharmacistOperation(){
-        databaseInit();
-        loadData();
-        if (medicineStock.getNumberOfEntries() == 0) {
-            medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<>() {
-                {
-                    add(new Dosage("Oral capsule", "325mg", 40, 5, 20, new MedicineDosageRecord(20, 10)));
-                    add(new Dosage("Oral liquid", "160mg/5mL", 30, 3, 15, new MedicineDosageRecord(20, 40)));
-                    add(new Dosage("Oral tablet", "500mg", 15, 8, 25, new MedicineDosageRecord(50, 45)));
-                }
-            }, "A pain reliever and fever reducer"));
+    public PharmacistOperation() {
 
-            medicineStock.add(new Medicine("M002", "Oseltamivir", new ArrayList<>() {
-                {
-                    add(new Dosage("Oral capsule", "300mg", 20, 5, 15, new MedicineDosageRecord(24, 50)));
-                    add(new Dosage("Oral capsule", "450mg", 40, 8, 20, new MedicineDosageRecord(10, 30)));
-                    add(new Dosage("Oral capsule", "600mg", 34, 10, 25, new MedicineDosageRecord(5, 0)));
-                }
-            }, "An antiviral medication that blocks the actions of influenza virus types A and B in the body"));
-
-            medicineStock.add(new Medicine("M003", "Loperamide", new ArrayList<>() {
-                {
-                    add(new Dosage("Oral capsule", "300mg", 28, 4, 15, new MedicineDosageRecord(15, 30)));
-                    add(new Dosage("Oral tablet", "450mg", 15, 8, 20, new MedicineDosageRecord(20, 30)));
-                }
-            }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileostomy"));
-
-            medicineStock.add(new Medicine("M004", "Atorvastatin", new ArrayList<>() {
-                {
-                    add(new Dosage("Oral tablet", "10mg", 60, 5, 15, new MedicineDosageRecord(45, 32)));
-                    add(new Dosage("Oral tablet", "20mg", 54, 8, 25, new MedicineDosageRecord(30, 23)));
-                }
-            }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
-
-            medicineStock.add(new Medicine("M005", "Lisinopril", new ArrayList<>() {
-                {
-                    add(new Dosage("Oral tablet", "10mg", 50, 5, 12, new MedicineDosageRecord(45, 40)));
-                    add(new Dosage("Oral tablet", "25mg", 74, 10, 25, new MedicineDosageRecord(50, 30)));
-                }
-            }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
-
-        }
-    }
-
-    //Create database
-    private static void databaseInit(){
-        try {
-            File file = new File("database/medicine.txt");
-            if (!file.exists()) {
-                file.createNewFile();
+        medicineStock.add(new Medicine("M001", "Acetaminophen", new ArrayList<>() {
+            {
+                add(new Dosage("Oral capsule", "325mg", 40, 5, 20, new MedicineDosageRecord(20, 10)));
+                add(new Dosage("Oral liquid", "160mg/5mL", 30, 3, 15, new MedicineDosageRecord(20, 40)));
+                add(new Dosage("Oral tablet", "500mg", 15, 8, 25, new MedicineDosageRecord(50, 45)));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+        }, "A pain reliever and fever reducer"));
 
-    //Load data from files
-    private static void loadData() {
-        File[] files = new File("database").listFiles();
-        for (File file : files) {
-            System.out.println(file.getName());
-            if (file.exists()) { //If the files exists, load all data into driver program
-                try {
-                    FileInputStream fis = new FileInputStream("database/" + file.getName());
-                    ObjectInputStream ois = new ObjectInputStream(fis);
-
-                    switch (file.getName()) {
-                        case "medicine.txt" -> medicineStock = (ArrayList<Medicine>) ois.readObject();
-                    }
-                    ois.close();
-                    System.out.print(Font.TEXT_YELLOW);
-                    System.out.println("The progress of the programs is loaded from the database.");
-                    System.out.print(Font.RESET);
-                }  catch (EOFException e){
-                    //First time use this systems
-                    System.out.print(Font.TEXT_YELLOW);
-                    System.out.println("The database is empty");
-                    System.out.println("Your progress will store in database.");
-                    System.out.print(Font.RESET);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        medicineStock.add(new Medicine("M002", "Oseltamivir", new ArrayList<>() {
+            {
+                add(new Dosage("Oral capsule", "300mg", 20, 5, 15, new MedicineDosageRecord(24, 50)));
+                add(new Dosage("Oral capsule", "450mg", 40, 8, 20, new MedicineDosageRecord(10, 30)));
+                add(new Dosage("Oral capsule", "600mg", 34, 10, 25, new MedicineDosageRecord(5, 0)));
             }
-        }
-    }
+        }, "An antiviral medication that blocks the actions of influenza virus types A and B in the body"));
 
-    //Store data
-    public void storeData() {
-        File[] files = new File("database").listFiles();
-
-        for (File file : files) {
-            if (file.exists()) { //If the files exists, load all data into driver program
-                try {
-                    FileOutputStream fileOutput = new FileOutputStream("database/" + file.getName());
-                    ObjectOutputStream objOutput = new ObjectOutputStream(fileOutput);
-                    switch (file.getName()) {
-                        case "medicine.txt" -> objOutput.writeObject(medicineStock);
-                    }
-                    objOutput.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        medicineStock.add(new Medicine("M003", "Loperamide", new ArrayList<>() {
+            {
+                add(new Dosage("Oral capsule", "300mg", 28, 4, 15, new MedicineDosageRecord(15, 30)));
+                add(new Dosage("Oral tablet", "450mg", 15, 8, 20, new MedicineDosageRecord(20, 30)));
             }
-        }
+        }, "Used to treat diarrhea or to reduce the amount of stool(poop) in people who have an ileostomy"));
+
+        medicineStock.add(new Medicine("M004", "Atorvastatin", new ArrayList<>() {
+            {
+                add(new Dosage("Oral tablet", "10mg", 60, 5, 15, new MedicineDosageRecord(45, 32)));
+                add(new Dosage("Oral tablet", "20mg", 54, 8, 25, new MedicineDosageRecord(30, 23)));
+            }
+        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+
+        medicineStock.add(new Medicine("M005", "Lisinopril", new ArrayList<>() {
+            {
+                add(new Dosage("Oral tablet", "10mg", 50, 5, 12, new MedicineDosageRecord(45, 40)));
+                add(new Dosage("Oral tablet", "25mg", 74, 10, 25, new MedicineDosageRecord(50, 30)));
+            }
+        }, "Used to improve cholesterol levels in people with different types of cholesterol problems"));
+
+
     }
+
 
     public void printMedicineStock() {
         Driver.clearScreen();
@@ -178,10 +114,10 @@ public class PharmacistOperation {
         }
     }
 
-    public  void sortMedicineStock() {
+    public void sortMedicineStock() {
         ListInterface<Medicine> temp = new ArrayList<>();
         Iterator<Medicine> medicineIterator = medicineStock.getIterator();
-        while (medicineIterator.hasNext()){
+        while (medicineIterator.hasNext()) {
             temp.add(medicineIterator.next().clone());
         }
         for (int index = 1; index <= temp.getNumberOfEntries(); index++) {
@@ -190,7 +126,7 @@ public class PharmacistOperation {
         Driver.medicineStockManagement();
     }
 
-    public void addMedicineStock()  {
+    public void addMedicineStock() {
         int num, quantity;
         char option;
         printMedicineStock();
@@ -214,7 +150,7 @@ public class PharmacistOperation {
 
         quantity = input.nextInt();
 
-        while (quantity <= 0){
+        while (quantity <= 0) {
             System.out.println("You are not allowed to enter negative or zero value. Please try again: ");
             quantity = input.nextInt();
         }
@@ -224,23 +160,21 @@ public class PharmacistOperation {
                 "? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
 
-        try{
+        try {
             Validation.validCharYN(option);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
 
-
-        if (Character.toUpperCase(option) == 'Y'){
+        if (Character.toUpperCase(option) == 'Y') {
             medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosageQuantity(quantity +
                     medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getDosageQuantity());
 
             medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getRecord().setRestockQuantity(
                     medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).getRecord().getRestockQuantity() + quantity);
             System.out.println("Restock successfully.");
-        }
-        else{
+        } else {
             System.out.println("You have cancelled the restock medicine process");
         }
 
@@ -284,7 +218,7 @@ public class PharmacistOperation {
 
     }
 
-    public void addNewMedicine()  {
+    public void addNewMedicine() {
         char option;
         String mediName, mediFunc;
         int doseFormQuantity;
@@ -294,7 +228,7 @@ public class PharmacistOperation {
         mediName = input.nextLine();
 
         for (int index = 1; index <= medicineStock.getNumberOfEntries(); index++) {
-            if (medicineStock.getEntry(index).getName().trim().toLowerCase().equals(mediName)){
+            if (medicineStock.getEntry(index).getName().trim().toLowerCase().equals(mediName)) {
                 System.out.println("The medicine already exits.");
                 System.out.println("Press enter to go back to medicine menu...");
                 input.nextLine();
@@ -308,7 +242,7 @@ public class PharmacistOperation {
         System.out.print("Enter the number of dosage form: ");
         doseFormQuantity = input.nextInt();
 
-        while (doseFormQuantity <= 0){
+        while (doseFormQuantity <= 0) {
             System.out.println("You are not allowed to enter negative or zero value. Please try again: ");
             doseFormQuantity = input.nextInt();
         }
@@ -320,7 +254,7 @@ public class PharmacistOperation {
 
         System.out.println("--------------------------------------------");
         for (int i = 0; i < doseFormQuantity; i++) {
-            System.out.println("Dosage form " + (i+1));
+            System.out.println("Dosage form " + (i + 1));
             System.out.println("[1] Oral capsule");
             System.out.println("[2] Oral tablet");
             System.out.println("[3] Oral liquid");
@@ -328,10 +262,9 @@ public class PharmacistOperation {
             dosageType[i] = input.nextInt();
 
             input.nextLine();
-            if (dosageType[i] == 1 ||  dosageType[i] == 2){
+            if (dosageType[i] == 1 || dosageType[i] == 2) {
                 System.out.print("Enter the dose(e.g. 500mg): ");
-            }
-            else{
+            } else {
                 System.out.print("Enter the dose(e.g. 150mg/mL): ");
             }
             dosageForm[i] = input.nextLine();
@@ -349,26 +282,25 @@ public class PharmacistOperation {
         }
 
         input.nextLine();
-        System.out.print("Are you sure you want to add new medicine? ('Y' for yes/'N' for no): " );
+        System.out.print("Are you sure you want to add new medicine? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
-        try{
+        try {
             Validation.validCharYN(option);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
         String[] dosageFormArray = new String[]{"Oral capsule", "Oral tablet", "Oral liquid"};
-        if (Character.toUpperCase(option) == 'Y'){
+        if (Character.toUpperCase(option) == 'Y') {
             ArrayList<Dosage> tempDosage = new ArrayList<>();
             for (int i = 0; i < doseFormQuantity; i++) {
                 tempDosage.add(new Dosage(dosageFormArray[dosageType[i]], dosageForm[i], doseQuantity[i], doseCost[i], dosePrice[i]));
             }
-            String id = "M" + String.format("%03d", medicineStock.getNumberOfEntries()+1);
-            medicineStock.add(new Medicine(id ,mediName, tempDosage, mediFunc));
+            String id = "M" + String.format("%03d", medicineStock.getNumberOfEntries() + 1);
+            medicineStock.add(new Medicine(id, mediName, tempDosage, mediFunc));
 
             System.out.println("Add new medicine successfully!!!");
-        }
-        else {
+        } else {
             System.out.println("You have cancelled the add new medicine process");
         }
         input.nextLine();
@@ -422,13 +354,13 @@ public class PharmacistOperation {
 
         System.out.println("Are you sure you want to update the medicine details? ('Y' for yes/'N' for no): ");
         option = input.next().charAt(0);
-        try{
+        try {
             Validation.validCharYN(option);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
-        if (Character.toUpperCase(option) == 'Y'){
+        if (Character.toUpperCase(option) == 'Y') {
             switch (num) {
                 case 1 -> medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosageCost(tempCost);
                 case 2 -> medicineStock.getEntry(medicineNo).getDosage().getEntry(dosageNo).setDosagePrice(tempPrice);
@@ -436,8 +368,7 @@ public class PharmacistOperation {
                 }
             }
             System.out.println("Update medicine details successfully!!!");
-        }
-        else {
+        } else {
             System.out.println("You have cancelled the update medicine details process");
         }
         input.nextLine();
@@ -445,7 +376,7 @@ public class PharmacistOperation {
         input.nextLine();
     }
 
-    public void deleteMedicine()  {
+    public void deleteMedicine() {
         int num, option;
         char confirm;
         printMedicineList();
@@ -481,22 +412,21 @@ public class PharmacistOperation {
         }
 
         confirm = input.next().charAt(0);
-        try{
+        try {
             Validation.validCharYN(confirm);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
-        if (Character.toUpperCase(option) == 'Y'){
-            switch (option){
+        if (Character.toUpperCase(option) == 'Y') {
+            switch (option) {
                 case 1:
                     medicineStock.remove(medicineNo);
                     break;
                 case 2:
-                    if (medicineStock.getEntry(medicineNo).getDosage().getNumberOfEntries() == 1){
+                    if (medicineStock.getEntry(medicineNo).getDosage().getNumberOfEntries() == 1) {
                         medicineStock.remove(medicineNo);
-                    }
-                    else{
+                    } else {
                         medicineStock.getEntry(medicineNo).getDosage().remove(dosageNo);
                     }
                     break;
@@ -504,8 +434,7 @@ public class PharmacistOperation {
                     break;
             }
             System.out.println("Delete medicine successfully!!!");
-        }
-        else {
+        } else {
             System.out.println("You have cancelled the update medicine details process");
         }
         input.nextLine();
@@ -513,13 +442,13 @@ public class PharmacistOperation {
         input.nextLine();
     }
 
-    public void viewSummaryReport()  {
+    public void viewSummaryReport() {
         double totalProfit = 0;
         System.out.println("=".repeat(118));
         System.out.printf("%70s\n", "Medicine Summary Report");
         System.out.println("=".repeat(118));
         System.out.printf("%58s %13s %9s\n", "On Hand", "Allocated", "Restock");
-        System.out.printf("%-5s %-15s %-15s %10s %10s %11s %11s %10s %10s %11s\n", "ID", "Name", "Dosage Form", "Dose", "Quantity", "Quantity", "Quantity","Cost(RM）", "Price(RM)", "Profit(RM)");
+        System.out.printf("%-5s %-15s %-15s %10s %10s %11s %11s %10s %10s %11s\n", "ID", "Name", "Dosage Form", "Dose", "Quantity", "Quantity", "Quantity", "Cost(RM）", "Price(RM)", "Profit(RM)");
         System.out.println("-".repeat(118));
         for (int j = 1; j <= medicineStock.getNumberOfEntries(); j++) {
             for (int k = 1; k <= medicineStock.getEntry(j).getDosage().getNumberOfEntries(); k++) {
@@ -585,31 +514,31 @@ public class PharmacistOperation {
         }
     }
 
-    public static void allocateMedicine(Patient patient, MedicalRecord record){
+    public static void allocateMedicine(Patient patient, MedicalRecord record) {
         DoctorOperation.displayPatientRecord(patient, record);
         System.out.println("Press y if u want allocate the medicine: ");
         Character inputCharacter = Character.toUpperCase(input.next().charAt(0));
-        if(inputCharacter == 'Y'){
-            reduceMedicineStock(patient,record);
+        if (inputCharacter == 'Y') {
+            reduceMedicineStock(patient, record);
         }
 
     }
 
-    public static void reduceMedicineStock(Patient patient,MedicalRecord record){
+    public static void reduceMedicineStock(Patient patient, MedicalRecord record) {
         ListInterface<Medicine> medicineStock = PharmacistOperation.getMedicineStock();
         ListInterface<Medicine> patientStock = record.getMedicineCart();
-        for(int i = 1;i <= patientStock.getNumberOfEntries();i++){
+        for (int i = 1; i <= patientStock.getNumberOfEntries(); i++) {
             Medicine medicinePatient = patientStock.getEntry(i);
-            for (int j = 1;i <= medicineStock.getNumberOfEntries();j++){
+            for (int j = 1; i <= medicineStock.getNumberOfEntries(); j++) {
                 Medicine medicineClinic = medicineStock.getEntry(j);
                 //Check same name of medicine
-                if(medicinePatient.getName().equals(medicineClinic.getName())){
+                if (medicinePatient.getName().equals(medicineClinic.getName())) {
                     Dosage dosagePatient = medicinePatient.getDosage().getEntry(1);
                     ListInterface<Dosage> dosageClinicList = medicineStock.getEntry(j).getDosage();
                     //Check Same name of dosage
-                    for (int k = 1;k <= dosageClinicList.getNumberOfEntries();k++){
+                    for (int k = 1; k <= dosageClinicList.getNumberOfEntries(); k++) {
                         Dosage dosageClinic = dosageClinicList.getEntry(k);
-                        if(dosagePatient.getDosageForm().equals(dosageClinic.getDosageForm()) && dosagePatient.getDose().equals(dosageClinic.getDose())){
+                        if (dosagePatient.getDosageForm().equals(dosageClinic.getDosageForm()) && dosagePatient.getDose().equals(dosageClinic.getDose())) {
                             dosageClinic.reduceStock(dosagePatient.getDosageQuantity());
                             break;
                         }
