@@ -26,7 +26,6 @@ public class PaymentManager {
         databaseInit();
         loadData();
 
-
         //FIRST - Loperamide (Oral tablet)
         Medicine testMedicine1 = PharmacistOperation.getMedicineStock().getEntry(3);
         Dosage testDosage1 = PharmacistOperation.getMedicineStock().getEntry(3).getDosage().getEntry(2);
@@ -52,8 +51,7 @@ public class PaymentManager {
         Invoice invoice2 = new Invoice(tempList2, patient2,30,31.8);
         Payment payer2 = new Payment("Payer2", 31.8);
         transactionHistory.push(new Transaction("03-04-2022", "09:00:00", invoice2, payer2, "Cash"));
-
-
+        
         //THIRD - Lisinopril (Oral tablet)
         Medicine testMedicine3 = PharmacistOperation.getMedicineStock().getEntry(5);
         Dosage testDosage3 = PharmacistOperation.getMedicineStock().getEntry(5).getDosage().getEntry(2);
