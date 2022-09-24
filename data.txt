@@ -1,0 +1,8 @@
+The dummy data that can use in the program.
+ Patient IC: 020612101661           Patient Name: Tay Chai Boon
+ Patient IC: 020323104567           Patient Name: Lan Ke En
+ Patient IC: 020907018912           Patient Name: Lee Chun Kai
+ Patient IC: 020218011661           Patient Name: Wilson Yau Kai Chun
+ Patient IC: 021205101234           Patient Name: Low Zhi Yi
+
+ Other dummy data all is in each constructor of client program and all the data is for display purpose.

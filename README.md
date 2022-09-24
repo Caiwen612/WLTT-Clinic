@@ -2,23 +2,27 @@
 # WLTT Clinic
 This is a simple clinic system for BACS2063 Data Structures and Algorithm.
 
-#Developer
+#Developer </br>
 TAY CHAI BOON [@Caiwen612](https://github.com/Caiwen612) <br/>
+Task: [SortedListDoublyLinkList](./src/adt/SortedDoublyLinkList.java) and [Doctor Module](./src/client/DoctorOperation.java) <br/>
 LAN KE EN [@LanKeEn-TARC](https://github.com/LanKeEn-TARC) <br/>
+Task: [ArrayQueue](./src/adt/ArrayQueue.java) and [Counter Module](./src/client/CounterManager.java)  <br/>
 LEE CHUN KAI [@BananaKing123](https://github.com/BananaKing123) <br/>
-WILSON YAU KAI CHUN [@wilsonyau02](https://github.com/wilsonyau02) <br/> 
+Task: [ArrayStack](./src/adt/ArrayStack.java) and [Payment Module](./src/client/PaymentManager.java) <br/>
+WILSON YAU KAI CHUN [@wilsonyau02](https://github.com/wilsonyau02) <br/>
+Task: [ArrayList](./src/adt/ArrayList.java) and [Pharmacy Module](./src/client/PharmacistOperation.java) <br/>
 ##System requirement
 Minimum: Java SDK17 <br/>
 IDE: IntelliJ IDEA 
 
-##Package Description
+##Package Description </br>
 [adt](./src/adt/) = Abstract data type specification and implementation <br/>
 [client](./src/client/) = Client program that handle the module<br/>
 [driver](./src/driver/) = Combine whole client program become a system<br/>
 [entity](./src/entity/) = Entity of each object <br/>
 [utility](./src/utility/) = validation feature and font color feature<br/>
 
-##ADT that use in this program
+##ADT that use in this program </br>
 Instructions: Read the java interface files for understand the method to manipulate each adt<br/>
 [ArrayList](./src/adt/ArrayList.java) = [ListInterface](./src/adt/ListInterface.java) <br/> 
 [ArrayQueue](./src/adt/ArrayQueue.java) = [QueueInterface.java](./src/adt/QueueInterface.java)<br/>
@@ -26,7 +30,8 @@ Instructions: Read the java interface files for understand the method to manipul
 [SortedListDoublyLinkList](./src/adt/SortedDoublyLinkList.java) = [SortedListInterface.java](./src/adt/SortedListInterface.java) <br/>
 
 
-##How to use our program
+##How to use our program </br>
+Note: you can use [Dummy Data](./data.txt) to play on our program. 
 ##[Main Menu](./src/driver/Driver.java) <br/>
 ![image](./img/mainMenu.png) <br/>
 Note: If the room is empty, you can go counter module to add patient <br/>
