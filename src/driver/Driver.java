@@ -46,7 +46,7 @@ public class Driver {
     //Queue
 
     public static void main(String[] args){
-        //welcome();
+        welcome();
         menu();
     }
 
@@ -476,8 +476,8 @@ public class Driver {
         System.out.printf("%75s %s%n", "", "+=====================+");
         System.out.printf("%75s %s%n", "", "|Application Developer|");
         System.out.printf("%75s %s%n", "", "+=====================+");
-        System.out.printf("%80s %s%n", "", "Tay Chai Boon");
-        System.out.printf("%78s %s%n", "", "Lan Ke En");
+        System.out.printf("%77s %s%n", "", "Tay Chai Boon");
+        System.out.printf("%77s %s%n", "", "Lan Ke En");
         System.out.printf("%77s %s%n", "", "Lee Chun Kai");
         System.out.printf("%77s %s%n", "", "Wilson Yau Kai Chun");
 
@@ -488,7 +488,7 @@ public class Driver {
         System.out.printf("%75s%s%n", "", new Date());
 
         System.out.printf("%75s", "");
-        pressAnyKeyToContinue();
+        pressAnyKeyToContinueWithPrompt();
     }
 
     private static void logo(){
