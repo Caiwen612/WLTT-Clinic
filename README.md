@@ -28,7 +28,7 @@ Instructions: Read the java interface files for understand the method to manipul
 
 ##How to use our program
 ##[Main Menu](./src/driver/Driver.java) <br/>
-![image](.\img\mainMenu.png) <br/>
+![image](./img/mainMenu.png) <br/>
 Note: If the room is empty, you can go counter module to add patient <br/>
 Press 1 for Counter Module <br/>
 Press 2 for Doctor Module <br/>
@@ -36,7 +36,7 @@ Press 3 for Pharmacy Module <br/>
 Press 4 for Payment Module <br/>
 Press 5 for End program <br/>
 ##[Counter Module](./src/client/CounterManager.java)  <br/>
-![image](.\img\counterMenu.png) <br/>
+![image](./img/counterMenu.png) <br/>
 Press 1 for Search the previous patient and choose whether need to add into the room queue<br/>
 Press 2 for Add new patient and choose whether need to add into the room queue<br/>
 Press 3 for Edit the patient details by input the ic number<br/>
@@ -45,7 +45,7 @@ Press 5 for Display queue status of clinic <br/>
 Press 6 for go back previous menu which is main menu <br/>
  
 ##[Doctor Module](./src/client/DoctorOperation.java)  <br/>
-![image](.\img\doctorMenu.png) <br/>
+![image](./img/doctorMenu.png) <br/>
 Note: If the queue did not have patient, the current patient will be empty and only show certain menu <br/>
 Press 1 for Check patient history<br/>
 Press 2 for Add new Patient record and medical cart<br/>
@@ -55,7 +55,7 @@ Press 5 for Appointment Management <br/>
 Press 6 for Release the patient from doctor room and the patient will automatically add into pharmacy queue and call next patient if exist<br/>
 Press 7 for go back previous menu <br/>
 ##[Doctor Module(Appointment Management)](./src/client/DoctorOperation.java)  <br/>
-![image](.\img\appointmentMenu.png) <br/>
+![image](./img/appointmentMenu.png) <br/>
 Press 1 for Search the appointment at certain date<br/>
 Press 2 for Display all the appointment<br/>
 Press 3 for Update the appointment<br/>
@@ -64,7 +64,7 @@ Press 5 for go back previous menu <br/>
 
 
 ##[Pharmacy Module](./src/client/PharmacistOperation.java) <br/>
-![image](.\img\pharmacyMenu.png) <br/>
+![image](./img/pharmacyMenu.png) <br/>
 Note: If the queue did not have patient, the current patient will be empty.<br/>
 Press 1 for Allocate the medicine to patient and reduce the stock of pharmacy<br/>
 Press 2 for Release the patient from pharmacy slide and the patient will automatically add into payment queue and handle next patient if exist<br/>
@@ -74,7 +74,7 @@ Press 5 for View Summary report of medicine <br/>
 Press 6 for go back previous menu<br/>
 
 ##[Pharmacy Module(Medicine Stock Management)](./src/client/PharmacistOperation.java) <br/>
-![image](img\medicineStockMenu.png) <br/>
+![image](./img/medicineStockMenu.png) <br/>
 Press 1 for Search the medicine<br/>
 Press 2 for Sort the medicine based on dosage quantity <br/>
 Press 3 for Add the stock for medicine<br/>
@@ -82,7 +82,7 @@ Press 4 for pharmacy menu<br/>
 
 
 ##[Pharmacy Module(Medicine Menu Management)](./src/client/PharmacistOperation.java) <br/>
-![image](img\medicineMenu.png) <br/>
+![image](./img/medicineMenu.png) <br/>
 Press 1 for Add new medicine <br/>
 Press 2 for Update the cost and price of medicine<br/>
 Press 3 for Delete the medicine<br/>
@@ -90,7 +90,7 @@ Press 4 for pharmacy menu<br/>
 
 
 ##[Payment Module](./src/client/PaymentManager.java)  <br/>
-![image](.\img\paymentMenu.png) <br/>
+![image](./img/paymentMenu.png) <br/>
 Note: If the queue did not have patient, the current patient will be empty <br/>
 Press 1 for Print invoice for patient<br/>
 Press 2 for Transaction menu<br/>
@@ -99,7 +99,7 @@ Press 4 for Release the patient from payment queue and call next patient if exis
 Press 0 for go back previous menu <br/>
 
 ##[Payment Module(Transaction Menu)](./src/client/PaymentManager.java)  <br/>
-![image](.\img\transactionmenu.png) <br/>
+![image](./img/transactionMenu.png) <br/>
 Note: If the queue did not have patient, the current patient will be empty <br/>
 Press 1 for Check the latest transaction<br/>
 Press 2 for Search the transaction<br/>
