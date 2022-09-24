@@ -74,7 +74,7 @@ Press 5 for View Summary report of medicine <br/>
 Press 6 for go back previous menu<br/>
 
 ##[Pharmacy Module(Medicine Stock Management)](./src/client/PharmacistOperation.java) <br/>
-![image](.\img\medicineStockMenu.png) <br/>
+![image](img\medicineStockMenu.png) <br/>
 Press 1 for Search the medicine<br/>
 Press 2 for Sort the medicine based on dosage quantity <br/>
 Press 3 for Add the stock for medicine<br/>
@@ -82,7 +82,7 @@ Press 4 for pharmacy menu<br/>
 
 
 ##[Pharmacy Module(Medicine Menu Management)](./src/client/PharmacistOperation.java) <br/>
-![image](.\img\medicineMenu.png) <br/>
+![image](img\medicineMenu.png) <br/>
 Press 1 for Add new medicine <br/>
 Press 2 for Update the cost and price of medicine<br/>
 Press 3 for Delete the medicine<br/>
