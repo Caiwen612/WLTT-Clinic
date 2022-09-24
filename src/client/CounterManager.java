@@ -37,7 +37,7 @@ public class CounterManager {
 
 
         //Default data
-        Patient p1 = new Patient("Low Zhi Yi", "021205011234", "011-88578857", "KL", "05-12-2002");
+        Patient p1 = new Patient("Low Zhi Yi", "021205101234", "011-88578857", "KL", "05-12-2002");
         Patient p2 = new Patient("Tay Chai Boon", "020612101661", "011-28227757", "KL", "12-06-2002");
         Patient p3 = new Patient("Lan Ke En", "020323104567", "011-21913130", "KL", "23-03-2002");
         Patient p4 = new Patient("Lee Chun Kai", "020907018912", "011-1071 5933", "JB", "07-09-2002");
@@ -49,24 +49,13 @@ public class CounterManager {
         patientList.add(p5);
 
 
-        MedicalRecord mR1 = new MedicalRecord("A", "AA", "AAA");
+        MedicalRecord mR1 = new MedicalRecord("", "AA", "AAA");
         MedicalRecord mR2 = new MedicalRecord("B", "BB", "BBB");
         MedicalRecord mR3 = new MedicalRecord("C", "CC", "CCC");
         p1.getHistory().add(mR1);
         p1.getHistory().add(mR2);
         p1.getHistory().add(mR3);
 
-        WaitingQueue w1 = new WaitingQueue(p1, 1);
-        WaitingQueue w2 = new WaitingQueue(p2, 2);
-        WaitingQueue w3 = new WaitingQueue(p3, 3);
-        WaitingQueue w4 = new WaitingQueue(p4, 1);
-        WaitingQueue w5 = new WaitingQueue(p5, 1);
-        //Default data manual add in, Code will do auto
-        room1Queue.enqueue(w1);
-        room2Queue.enqueue(w2);
-        room3Queue.enqueue(w3);
-        room1Queue.enqueue(w4);
-        room1Queue.enqueue(w5);
 
     }
 
@@ -386,19 +375,19 @@ public class CounterManager {
         if(room1Queue.isEmpty()){
             System.out.println("Room 1: " + "-");
         } else{
-            System.out.println("Room 1: " + room1Queue.getFront());
+            System.out.println("Room 1: " + room1Queue.getFront().getWaitingNo() + "\tName: " + room1Queue.getFront().getPatientName());
         }
 
         if(room2Queue.isEmpty()){
             System.out.println("Room 2: " + "-");
         } else{
-            System.out.println("Room 2: " + room2Queue.getFront());
+            System.out.println("Room 2: " + room2Queue.getFront().getWaitingNo() + "\tName: " + room1Queue.getFront().getPatientName());
         }
 
         if(room3Queue.isEmpty()){
             System.out.println("Room 3: " + "-");
         } else{
-            System.out.println("Room 3: " + room3Queue.getFront());
+            System.out.println("Room 3: " + room3Queue.getFront().getWaitingNo() + "\tName: " + room1Queue.getFront().getPatientName());
         }
     }
 

@@ -421,19 +421,19 @@ public class Driver {
         if(room1.isEmpty()){
             System.out.println("Room 1: " + "-");
         } else{
-            System.out.println("Room 1: " + room1.getFront());
+            System.out.println("Room 1: " + room1.getFront().getWaitingNo());
         }
 
         if(room2.isEmpty()){
             System.out.println("Room 2: " + "-");
         } else{
-            System.out.println("Room 2: " + room2.getFront());
+            System.out.println("Room 2: " + room2.getFront().getWaitingNo());
         }
 
         if(room3.isEmpty()){
             System.out.println("Room 3: " + "-");
         } else{
-            System.out.println("Room 3: " + room3.getFront());
+            System.out.println("Room 3: " + room3.getFront().getWaitingNo());
         }
     }
 
