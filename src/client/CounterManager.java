@@ -381,13 +381,13 @@ public class CounterManager {
         if(room2Queue.isEmpty()){
             System.out.println("Room 2: " + "-");
         } else{
-            System.out.println("Room 2: " + room2Queue.getFront().getWaitingNo() + "\tName: " + room1Queue.getFront().getPatientName());
+            System.out.println("Room 2: " + room2Queue.getFront().getWaitingNo() + "\tName: " + room2Queue.getFront().getPatientName());
         }
 
         if(room3Queue.isEmpty()){
             System.out.println("Room 3: " + "-");
         } else{
-            System.out.println("Room 3: " + room3Queue.getFront().getWaitingNo() + "\tName: " + room1Queue.getFront().getPatientName());
+            System.out.println("Room 3: " + room3Queue.getFront().getWaitingNo() + "\tName: " + room3Queue.getFront().getPatientName());
         }
     }
 
